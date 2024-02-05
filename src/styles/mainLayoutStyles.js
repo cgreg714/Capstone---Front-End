@@ -27,7 +27,7 @@ const getRandomColor = () => {
 export const StyledAppBar = styled(AppBar)({
 	position: 'sticky',
 	zIndex: 999,
-	backgroundColor: '#B10021',
+	backgroundColor: '#9E1b32',
 });
 
 //* Dashboard Drawer
@@ -35,7 +35,7 @@ export const StyledDrawer = styled(Drawer)({
 	'& .MuiDrawer-paper': {
 		width: drawerWidth,
 		boxSizing: 'border-box',
-		backgroundColor: '#B10021',
+		backgroundColor: '#9E1b32',
 		color: '#00000',
 		flexShrink: 0,
 	},
