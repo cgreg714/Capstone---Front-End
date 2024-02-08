@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button } from '@mui/material';
 import { logout } from '../../api/loginAPI';
+import { UserContext } from '../../contexts/UserContext';
 
 const LogoutButton = () => {
+    const { setUser } = useContext(UserContext);
+
     const handleLogout = async () => {
         try {
-            const response = await logout();
-            console.log(response);
+            await logout(() => {
+                setUser(null);
+                localStorage.removeItem('username');
+            });
         } catch (error) {
             console.error(error);
         }
