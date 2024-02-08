@@ -5,10 +5,13 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 
 import MainLayout from '../pages/MainLayout';
+
 import { ErrorContext } from '../contexts/ErrorContext';
 import { ThemeContext } from '../contexts/ThemeContext';
 import { UserContext } from '../contexts/UserContext';
 import { ProfileContext } from '../contexts/ProfileContext';
+import { DrugProvider } from '../contexts/DrugContext';
+
 import { lightTheme, darkTheme } from '../theme/theme';
 
 function App() {
@@ -22,22 +25,24 @@ function App() {
 	};
 
 	return (
-		<UserContext.Provider value={{ user, setUser }}>
-			<ProfileContext.Provider value={{ profile, setProfile }}>
+		<ThemeProvider theme={theme === 'dark' ? lightTheme : darkTheme}>
+			<CssBaseline />
+			<ErrorContext.Provider value={{ error, setError }}>
 				<ThemeContext.Provider value={{ theme, toggleTheme }}>
-					<ErrorContext.Provider value={{ error, setError }}>
-						<ThemeProvider theme={theme === 'dark' ? lightTheme : darkTheme}>
-							<CssBaseline />
-							<LocalizationProvider dateAdapter={AdapterDateFns}>
-								<Router>
-									<MainLayout />
-								</Router>
-							</LocalizationProvider>
-						</ThemeProvider>
-					</ErrorContext.Provider>
+					<UserContext.Provider value={{ user, setUser }}>
+						<DrugProvider>
+							<ProfileContext.Provider value={{ profile, setProfile }}>
+								<LocalizationProvider dateAdapter={AdapterDateFns}>
+									<Router>
+										<MainLayout />
+									</Router>
+								</LocalizationProvider>
+							</ProfileContext.Provider>
+						</DrugProvider>
+					</UserContext.Provider>
 				</ThemeContext.Provider>
-			</ProfileContext.Provider>
-		</UserContext.Provider>
+			</ErrorContext.Provider>
+		</ThemeProvider>
 	);
 }
 

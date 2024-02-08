@@ -13,9 +13,9 @@ export const getAllDrugs = async () => {
     }
 };
 
-export const getSpecificDrugInteractionByDrugbankId = async (drugId, interactionId) => {
+export const getInteractionBetweenTwoDrugs = async (drugId1, drugId2) => {
     try {
-        const response = await axios.get(`${API_URL}/drugs/${drugId}/interactions/${interactionId}`);
+        const response = await axios.get(`${API_URL}/drugs/${drugId1}/interactions/${drugId2}`);
         return response.data;
     } catch (error) {
         throw error;
@@ -40,11 +40,20 @@ export const getDrugByUnii = async (unii) => {
     }
 };
 
-export const searchDrugs = async (searchParams) => {
+export const searchDrugsByName = async (drugName) => {
     try {
-        const response = await axios.get(`${API_URL}/drugs/search-drugs`, { params: searchParams });
+        const response = await axios.get(`${API_URL}/drugs/searchDrugsByName`, { params: { q: drugName } });
         return response.data;
     } catch (error) {
         throw error;
     }
 };
+
+export const searchDrugsByProductName = async (productName) => {
+    try {
+        const response = await axios.get(`${API_URL}/drugs/searchByProductName`, { params: { q: productName } });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}; 

@@ -3,6 +3,8 @@ import { Box } from '@mui/material';
 import SearchAppBar from './dashboard/appBar/appBar';
 import { PermanentDrawerLeft } from './dashboard/drawer/Drawer';
 import Dashboard from './Dashboard';
+import Medications from './Medications';
+
 function MainLayout() {
 	const drawerWidth = 240;
 	const [selectedMenu, setSelectedMenu] = useState('Dashboard');
@@ -11,6 +13,8 @@ function MainLayout() {
 		switch (selectedMenu) {
 			case 'Dashboard':
 				return <Dashboard />;
+			case 'Medications':
+				return <Medications />;
 			default:
 				return null;
 		}

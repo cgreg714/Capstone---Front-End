@@ -8,7 +8,7 @@ import { getAllIntakes, createIntake, getIntake, updateIntake, deleteIntake } fr
 
 export const ProfileContext = createContext();
 
-export const ProfileProvider = ({ children }) => {
+export const ProfileProvider = ({ children, userId }) => {
     const [profiles, setProfiles] = useState([]);
     const [medications, setMedications] = useState([]);
     const [aBuddies, setABuddies] = useState([]);
@@ -16,20 +16,38 @@ export const ProfileProvider = ({ children }) => {
     const [drugs, setDrugs] = useState([]);
     const [intakes, setIntakes] = useState([]);
 
-    const [theme, setTheme] = useState(localStorage.getItem('profileTheme') || 'light');
-
     useEffect(() => {
-        if (profiles.length > 0) {
-            profiles.forEach(profile => {
-                localStorage.setItem(`profileTheme${profile.id}`, theme);
-            });
+        const fetchProfiles = async () => {
+            if (userId) {
+                try {
+                    const data = await getAllProfiles(userId);
+                    setProfiles(data);
+                } catch (error) {
+                    console.error('Failed to fetch profiles:', error);
+                }
+            }
+        };
+
+        fetchProfiles();
+    }, [userId]);
+
+    // Do the same for medications, aBuddies, doctors, drugs, and intakes
+
+    const addProfile = async (profile) => {
+        if (userId) {
+            try {
+                const newProfile = await createProfile(userId, profile);
+                setProfiles(prevProfiles => [...prevProfiles, newProfile]);
+            } catch (error) {
+                console.error('Failed to create profile:', error);
+            }
         }
-    }, [profiles, theme]);
+    };
 
-
+    // Do the same for updating and deleting profiles
 
     return (
-        <ProfileContext.Provider value={{ theme, setTheme, profiles, setProfiles, medications, setMedications, aBuddies, setABuddies, doctors, setDoctors, drugs, setDrugs, intakes, setIntakes }}>
+        <ProfileContext.Provider value={{profiles, setProfiles, addProfile, medications, setMedications, aBuddies, setABuddies, doctors, setDoctors, drugs, setDrugs, intakes, setIntakes }}>
             {children}
         </ProfileContext.Provider>
     );
