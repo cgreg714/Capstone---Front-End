@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import DrugAutocomplete from '../components/Drugs/DrugAutocomplete';
 import DrugInteractionChecker from '../components/Drugs/DrugInteractionChecker';
+import MedicationTable from '../components/Medications/MedicationHistory';
 
 function Medications() {
 
@@ -12,6 +13,9 @@ function Medications() {
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<DrugInteractionChecker />
+			</Grid>
+			<Grid item xs={12} md={6}>
+				<MedicationTable />
 			</Grid>
 		</Grid>
 	);

@@ -8,8 +8,8 @@ import MainLayout from '../pages/MainLayout';
 
 import { ErrorContext } from '../contexts/ErrorContext';
 import { ThemeContext } from '../contexts/ThemeContext';
-import { UserContext } from '../contexts/UserContext';
-import { ProfileContext } from '../contexts/ProfileContext';
+import { UserProvider } from '../contexts/UserContext';
+import { ProfileProvider } from '../contexts/ProfileContext';
 import { DrugProvider } from '../contexts/DrugContext';
 
 import { lightTheme, darkTheme } from '../theme/theme';
@@ -17,8 +17,6 @@ import { lightTheme, darkTheme } from '../theme/theme';
 function App() {
 	const [error, setError] = useState(null);
 	const [theme, setTheme] = useState('light');
-	const [user, setUser] = useState(null);
-	const [profile, setProfile] = useState(null);
 
 	const toggleTheme = () => {
 		setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
@@ -29,17 +27,17 @@ function App() {
 			<CssBaseline />
 			<ErrorContext.Provider value={{ error, setError }}>
 				<ThemeContext.Provider value={{ theme, toggleTheme }}>
-					<UserContext.Provider value={{ user, setUser }}>
-						<DrugProvider>
-							<ProfileContext.Provider value={{ profile, setProfile }}>
+					<DrugProvider>
+						<UserProvider>
+							<ProfileProvider>
 								<LocalizationProvider dateAdapter={AdapterDateFns}>
 									<Router>
 										<MainLayout />
 									</Router>
 								</LocalizationProvider>
-							</ProfileContext.Provider>
-						</DrugProvider>
-					</UserContext.Provider>
+							</ProfileProvider>
+						</UserProvider>
+					</DrugProvider>
 				</ThemeContext.Provider>
 			</ErrorContext.Provider>
 		</ThemeProvider>

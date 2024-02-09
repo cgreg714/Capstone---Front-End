@@ -10,7 +10,7 @@ const LogoutButton = () => {
         try {
             await logout(() => {
                 setUser(null);
-                localStorage.removeItem('username');
+                localStorage.removeItem('userId');
             });
         } catch (error) {
             console.error(error);

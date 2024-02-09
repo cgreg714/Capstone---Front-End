@@ -51,7 +51,7 @@ export const searchDrugsByName = async (drugName) => {
 
 export const searchDrugsByProductName = async (productName) => {
     try {
-        const response = await axios.get(`${API_URL}/drugs/searchByProductName`, { params: { q: productName } });
+        const response = await axios.get(`${API_URL}/drugs/searchDrugsByProductName`, { params: { q: productName } });
         return response.data;
     } catch (error) {
         throw error;

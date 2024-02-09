@@ -10,9 +10,7 @@ import { ProfileContext } from '../../../contexts/ProfileContext';
 function SearchAppBar() {
 	const { theme, toggleTheme } = useContext(ThemeContext);
 	const { user } = useContext(UserContext);
-    console.log("🚀 ~ file: appBar.js:13 ~ SearchAppBar ~ user:", user)
     const { profile } = useContext(ProfileContext);
-    console.log("🚀 ~ file: appBar.js:15 ~ SearchAppBar ~ profile:", profile)
 
 	return (
 		<StyledAppBar>
@@ -27,10 +25,6 @@ function SearchAppBar() {
 							inputProps={{ 'aria-label': 'search' }}
 						/>
 					</Box>
-					<div>
-                        <span>User: {user ? user.username : 'Loading...'}</span>
-                        <span>Profile: {profile ? profile.name : 'Loading...'}</span>
-                    </div>
 				</Box>
 				<Box sx={{ display: 'flex', alignItems: 'center' }}>
 					<IconButton color="inherit" component={Link} to="/notifications" sx={{ mr: 2 }}>

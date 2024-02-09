@@ -1,12 +1,14 @@
 import axios from 'axios';
+import api from './index';
 
 const IP = process.env.REACT_APP_IP;
 const PORT = process.env.REACT_APP_BACKEND_PORT;
 const API_URL = `${IP}:${PORT}`;
 
+
 export const getAllDoctors = async (userId, profileId) => {
     try {
-        const response = await axios.get(`${API_URL}/user/${userId}/profile/${profileId}/doctors`);
+        const response = await api.get(`/user/${userId}/profile/${profileId}/doctors`);
         return response.data;
     } catch (error) {
         throw error;

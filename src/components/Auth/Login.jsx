@@ -14,9 +14,9 @@ const LoginComponent = () => {
                 identifier: identifierRef.current.value,
                 password: passwordRef.current.value,
             });
-            setUser(response.user);
-            localStorage.setItem('username', response.user.username); // save username in local storage
-            console.log(response);
+            console.log("🚀 ~ file: Login.jsx:22 ~ handleLogin ~ response.userId:", response.userId)
+            setUser(response.userId);
+            localStorage.setItem('userId', response.userId);
         } catch (error) {
             console.error(error);
         }
