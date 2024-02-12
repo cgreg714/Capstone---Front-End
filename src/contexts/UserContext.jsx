@@ -14,8 +14,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
 	const initialToken = localStorage.getItem('token');
-	const initialUserId = localStorage.getItem('userId');
-	const [userId, setUserId] = useState(initialUserId || null);
+	const [userId, setUserId] = useState(initialToken ? jwtDecode(initialToken)._id : null);
 	const [user, setUser] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	
@@ -24,13 +23,12 @@ export const UserProvider = ({ children }) => {
 		const fetchUserData = async () => {
 			if (initialToken) {
 				const decodedToken = jwtDecode(initialToken);
-				console.log("🚀 ~ file: UserContext.jsx:27 ~ fetchUserData ~ decodedToken:", decodedToken)
 				if (decodedToken.exp * 1000 < Date.now()) {
 					localStorage.removeItem('token');
 				} else {
-					const userData = await fetchUser(decodedToken.userId);
+					const userData = await fetchUser(decodedToken._id);
 					if (userData) {
-						setUserId(decodedToken.userId);
+						setUserId(decodedToken._id);
 						setUser(userData);
 					}
 				}
@@ -46,6 +44,7 @@ export const UserProvider = ({ children }) => {
 			await logout();
 			setUserId(null);
 			setUser(null);
+			localStorage.removeItem('token');
 		} catch (error) {
 			console.error('Failed to log out:', error);
 		}

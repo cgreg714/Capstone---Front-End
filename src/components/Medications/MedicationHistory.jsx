@@ -6,6 +6,8 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 function MedicationTable() {
     const [medications, setMedications] = useState([]);
     const { userId, profileId } = useContext(ProfileContext);
+    console.log("🚀 ~ file: MedicationHistory.jsx:9 ~ MedicationTable ~ profileId:", profileId)
+    console.log("🚀 ~ file: MedicationHistory.jsx:9 ~ MedicationTable ~ userId:", userId)
 
     useEffect(() => {
         getAllMedications(userId, profileId)

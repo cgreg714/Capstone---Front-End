@@ -12,7 +12,7 @@ const LogoutButton = () => {
         try {
             await logout(() => {
                 setUser(null);
-
+                localStorage.removeItem('token');
                 navigate('/login');
             });
         } catch (error) {
