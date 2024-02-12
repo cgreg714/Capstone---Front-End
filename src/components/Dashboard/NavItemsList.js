@@ -1,17 +1,18 @@
 import * as React from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { AiOutlineDashboard } from 'react-icons/ai';
-import { MdMedication } from "react-icons/md";
+import { BiSolidDashboard } from 'react-icons/bi';
+import { MdMedication, MdSettings } from "react-icons/md";
 import { FiSettings } from 'react-icons/fi';
-import { StyledListSubheader, StyledListItemIcon } from '../../../styles/mainLayoutStyles';
+import { PiPillDuotone } from 'react-icons/pi';
+import { StyledListSubheader, StyledListItemIcon } from '../../styles/mainLayoutStyles';
 
 export const MainListItems = ({ setSelectedMenu }) => (
 	<React.Fragment>
 		<StyledListSubheader component="div">Dashboard</StyledListSubheader>
 		<ListItemButton onClick={() => setSelectedMenu('Dashboard')}>
 			<StyledListItemIcon>
-				<AiOutlineDashboard />
+				<BiSolidDashboard />
 			</StyledListItemIcon>
 			<ListItemText primary="Dashboard" />
 		</ListItemButton>
@@ -21,9 +22,15 @@ export const MainListItems = ({ setSelectedMenu }) => (
 			</StyledListItemIcon>
 			<ListItemText primary="Medications" />
 		</ListItemButton>
+		<ListItemButton onClick={() => setSelectedMenu('Drug Checker')}>
+			<StyledListItemIcon>
+				<PiPillDuotone />
+			</StyledListItemIcon>
+			<ListItemText primary="Drug Checker" />
+		</ListItemButton>
 		<ListItemButton onClick={() => setSelectedMenu('Settings')}>
 			<StyledListItemIcon>
-				<FiSettings />
+				<MdSettings />
 			</StyledListItemIcon>
 			<ListItemText primary="Settings" />
 		</ListItemButton>

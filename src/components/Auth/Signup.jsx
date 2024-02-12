@@ -1,11 +1,14 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { signup } from '../../api/loginAPI';
 
 const Signup = () => {
 	const usernameRef = useRef();
 	const passwordRef = useRef();
 	const emailRef = useRef();
+	const navigate = useNavigate();
 
 	const handleSignup = async () => {
 		try {
@@ -15,6 +18,8 @@ const Signup = () => {
 				password: passwordRef.current.value,
 			});
 			console.log(response);
+
+			navigate('/login');
 		} catch (error) {
 			console.error(error);
 		}
@@ -27,6 +32,9 @@ const Signup = () => {
 			<TextField type="password" placeholder="Password" inputRef={passwordRef} />
 			<Button variant="contained" onClick={handleSignup}>
 				Sign Up
+			</Button>
+			<Button component={Link} to="/login">
+				Go to Login
 			</Button>
 		</div>
 	);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
-import SearchAppBar from './dashboard/appBar/appBar';
-import { PermanentDrawerLeft } from './dashboard/drawer/Drawer';
+import SearchAppBar from '../components/Dashboard/AppBar';
+import { PermanentDrawerLeft } from '../components/Dashboard/Drawer';
 import Dashboard from './Dashboard';
 import Medications from './Medications';
 

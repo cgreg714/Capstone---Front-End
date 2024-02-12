@@ -1,8 +1,8 @@
 import React from 'react';
 import { MainListItems } from './NavItemsList';
 import { Box, ListItem } from '@mui/material';
-import medicine from '../../../assets/medicine.png';
-import { StyledDrawer, drawerWidth, StyledDrawerAvatar } from '../../../styles/mainLayoutStyles';
+import medicine from '../../assets/medicine.png';
+import { StyledDrawer, drawerWidth, StyledDrawerAvatar } from '../../styles/mainLayoutStyles';
 
 export function PermanentDrawerLeft({ setSelectedMenu }) {
     return (

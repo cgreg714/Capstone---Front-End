@@ -21,7 +21,6 @@ import { getAllIntakes, createIntake, getIntake, updateIntake, deleteIntake } fr
 export const ProfileContext = createContext();
 
 export const ProfileProvider = ({ children, userId }) => {
-	console.log("🚀 ~ file: ProfileContext.jsx:24 ~ ProfileProvider ~ userId:", userId)
 	const [profiles, setProfiles] = useState([]);
 	const [medications, setMedications] = useState([]);
 	const [aBuddies, setABuddies] = useState([]);
@@ -35,7 +34,7 @@ export const ProfileProvider = ({ children, userId }) => {
 		if (!userId) {
 			return; // Don't run the effect if userId is undefined
 		}
-
+		console.log('🚀 ~ file: ProfileContext.jsx:53 ~ ProfileProvider ~ userId:', userId);
 		const fetchProfiles = async () => {
 			try {
 				const data = await getAllProfiles(userId);
