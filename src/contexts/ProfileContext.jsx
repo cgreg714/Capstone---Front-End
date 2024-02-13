@@ -34,7 +34,7 @@ export const ProfileProvider = ({ children, userId }) => {
 
 	useEffect(() => {
 		if (!userId) {
-			return; // Don't run if userId is undefined
+			return;
 		}
 		console.log('🚀 ~ file: ProfileContext.jsx:53 ~ ProfileProvider ~ userId:', userId);
 		const fetchProfiles = async () => {

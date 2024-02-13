@@ -10,7 +10,7 @@ export const MedicationProvider = ({ children, userId, profileId }) => {
 
     useEffect(() => {
         if (!userId || !profileId) {
-            return; // Don't run if userId or profileId is undefined
+            return;
         }
 
         const fetchMedications = async () => {
@@ -43,7 +43,6 @@ export const MedicationProvider = ({ children, userId, profileId }) => {
             value={{
                 medications,
                 addMedication,
-                // Include any other functions you need here
             }}
         >
             {children}
