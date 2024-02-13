@@ -4,14 +4,14 @@ import { Notifications as NotificationsIcon, Settings as SettingsIcon, Search as
 import { Link } from 'react-router-dom';
 import { StyledAppBar } from '../../styles/mainLayoutStyles';
 import { ThemeContext } from '../../contexts/ThemeContext';
-import { UserContext } from '../../contexts/UserContext';
-import { ProfileContext } from '../../contexts/ProfileContext';
+// import { UserContext } from '../../contexts/UserContext';
+// import { ProfileContext } from '../../contexts/ProfileContext';
 import LogoutButton from '../Auth/Logout';
 
 function SearchAppBar() {
 	const { theme, toggleTheme } = useContext(ThemeContext);
-	const { user } = useContext(UserContext);
-    const { profile } = useContext(ProfileContext);
+	// const { user } = useContext(UserContext);
+    // const { profile } = useContext(ProfileContext);
 
 	return (
 		<StyledAppBar>

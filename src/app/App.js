@@ -11,7 +11,7 @@ import SignupPage from '../pages/Signup';
 import { ErrorContext } from '../contexts/ErrorContext';
 import { ThemeContext } from '../contexts/ThemeContext';
 import { UserContext, UserProvider } from '../contexts/UserContext';
-import { ProfileProvider } from '../contexts/ProfileContext';
+import { ProfileContext, ProfileProvider } from '../contexts/ProfileContext';
 import { DrugProvider } from '../contexts/DrugContext';
 
 import { lightTheme, darkTheme } from '../theme/theme';
@@ -19,13 +19,16 @@ import { lightTheme, darkTheme } from '../theme/theme';
 const ProtectedRoute = ({ children }) => {
 	const navigate = useNavigate();
 	const { userId, isLoading, logout } = useContext(UserContext);
+	const { profileId } = useContext(ProfileContext);
 
 	useEffect(() => {
 		if (!isLoading && !userId) {
 			logout();
 			navigate('/login');
+		} else if (!profileId) {
+			navigate('/profile');
 		}
-	}, [userId, navigate, isLoading, logout]);
+	}, [userId, navigate, isLoading, logout, profileId]);
 
 	if (isLoading || !userId) {
 		return null;

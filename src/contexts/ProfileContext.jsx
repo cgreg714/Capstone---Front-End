@@ -1,22 +1,24 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getAllProfiles, createProfile, getProfile, updateProfile, deleteProfile } from '../api/profileAPI';
-import {
-	getAllMedications,
-	createMedication,
-	getMedicationById,
-	updateMedication,
-	deleteMedication,
-} from '../api/medicationAPI';
-import { getAllABuddies, createABuddy, getOneABuddy, updateABuddy, deleteABuddy } from '../api/aBuddyAPI';
-import { getAllDoctors, createDoctor, getOneDoctor, updateDoctor, deleteDoctor } from '../api/doctorAPI';
-import {
-	getAllDrugs,
-	getSpecificDrugInteractionByDrugbankId,
-	getDrugByDrugbankId,
-	getDrugByUnii,
-	searchDrugs,
-} from '../api/drugAPI';
-import { getAllIntakes, createIntake, getIntake, updateIntake, deleteIntake } from '../api/medicationIntakeAPI';
+import { MedicationProvider } from './MedicationContext';
+import { getAllProfiles, createProfile } from '../api/profileAPI';
+// import { getAllProfiles, createProfile, getProfile, updateProfile, deleteProfile } from '../api/profileAPI';
+// import {
+// 	getAllMedications,
+// 	createMedication,
+// 	getMedicationById,
+// 	updateMedication,
+// 	deleteMedication,
+// } from '../api/medicationAPI';
+// import { getAllABuddies, createABuddy, getOneABuddy, updateABuddy, deleteABuddy } from '../api/aBuddyAPI';
+// import { getAllDoctors, createDoctor, getOneDoctor, updateDoctor, deleteDoctor } from '../api/doctorAPI';
+// import {
+// 	getAllDrugs,
+// 	getSpecificDrugInteractionByDrugbankId,
+// 	getDrugByDrugbankId,
+// 	getDrugByUnii,
+// 	searchDrugs,
+// } from '../api/drugAPI';
+// import { getAllIntakes, createIntake, getIntake, updateIntake, deleteIntake } from '../api/medicationIntakeAPI';
 
 export const ProfileContext = createContext();
 
@@ -32,7 +34,7 @@ export const ProfileProvider = ({ children, userId }) => {
 
 	useEffect(() => {
 		if (!userId) {
-			return; // Don't run the effect if userId is undefined
+			return; // Don't run if userId is undefined
 		}
 		console.log('🚀 ~ file: ProfileContext.jsx:53 ~ ProfileProvider ~ userId:', userId);
 		const fetchProfiles = async () => {
@@ -83,7 +85,9 @@ export const ProfileProvider = ({ children, userId }) => {
 				setIntakes,
 			}}
 		>
-			{children}
+			<MedicationProvider userId={userId} profileId={profileId}>
+				{children}
+			</MedicationProvider>
 		</ProfileContext.Provider>
 	);
 };

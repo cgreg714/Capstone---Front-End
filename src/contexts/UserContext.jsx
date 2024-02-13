@@ -61,7 +61,6 @@ export const UserProvider = ({ children }) => {
 	const fetchUser = async (userId) => {
 		try {
 			const userData = await getOneUser(userId);
-			console.log('🚀 ~ file: UserContext.jsx:42 ~ fetchUser ~ userData:', userData);
 			if (!userData) {
 				throw new Error('User data is undefined');
 			}

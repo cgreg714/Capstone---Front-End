@@ -28,7 +28,7 @@ const LoginComponent = () => {
 					console.error(error);
 				});
 		}
-	}, []);
+	}, [fetchUser, navigate, setUserId]);
 
 	const handleLogin = async () => {
 		try {
@@ -36,13 +36,12 @@ const LoginComponent = () => {
 				identifier: identifierRef.current.value,
 				password: passwordRef.current.value,
 			});
-			console.log('🚀 ~ file: Login.jsx:22 ~ handleLogin ~ response:', response);
 
 			const decodedToken = jwtDecode(response.token);
 			const userId = decodedToken._id;
 
-			localStorage.setItem('userId', userId);
 			localStorage.setItem('token', response.token);
+			localStorage.setItem('userId', userId);
 
 			setUserId(userId);
 

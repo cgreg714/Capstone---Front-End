@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { searchDrugsByName, searchDrugsByProductName } from '../../api/drugAPI';
@@ -7,19 +7,24 @@ function DrugAutocomplete() {
 	const [options, setOptions] = useState([]);
 	const [inputValue, setInputValue] = useState('');
 
-    const fetchDrugs = async (query) => {
-        try {
-            const [drugsByName, drugsByProductName] = await Promise.all([
-                searchDrugsByName(query),
-                searchDrugsByProductName(query)
-            ]);
-            const combinedDrugs = [...drugsByName, ...drugsByProductName];
-            const uniqueDrugs = Array.from(new Set(combinedDrugs.map(drug => JSON.stringify(drug)))).map(drug => JSON.parse(drug));
-            setOptions(uniqueDrugs);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+	useEffect(() => {
+		if (inputValue) {
+			const fetchDrugs = async () => {
+				try {
+					const [drugsByName, drugsByProductName] = await Promise.all([
+						searchDrugsByName(inputValue),
+						searchDrugsByProductName(inputValue)
+					]);
+					const combinedDrugs = [...drugsByName, ...drugsByProductName];
+					const uniqueDrugs = Array.from(new Set(combinedDrugs.map(drug => JSON.stringify(drug)))).map(drug => JSON.parse(drug));
+					setOptions(uniqueDrugs);
+				} catch (error) {
+					console.error(error);
+				}
+			};
+			fetchDrugs();
+		}
+	}, [inputValue]);
 
 	return (
 		<Autocomplete
@@ -34,7 +39,6 @@ function DrugAutocomplete() {
 			style={{ width: 300 }}
 			onInputChange={(event, newInputValue) => {
 				setInputValue(newInputValue);
-				fetchDrugs(newInputValue);
 			}}
 			renderInput={(params) => <TextField {...params} label="Drug or Product" variant="outlined" />}
 			autoHighlight
