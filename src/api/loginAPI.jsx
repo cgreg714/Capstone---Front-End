@@ -1,12 +1,8 @@
-import axios from 'axios';
-
-const IP = process.env.REACT_APP_IP;
-const PORT = process.env.REACT_APP_BACKEND_PORT;
-const API_URL = `http://${IP}:${PORT}`;
+import api from './';
 
 export const signup = async (user) => {
     try {
-        const response = await axios.post(`${API_URL}/signup`, user);
+        const response = await api.post('/signup', user);
         return response.data;
     } catch (error) {
         throw error;
@@ -15,16 +11,21 @@ export const signup = async (user) => {
 
 export const login = async (user) => {
     try {
-        const response = await axios.post(`${API_URL}/login`, user);
+        const response = await api.post('/login', user);
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-export const logout = async () => {
+export const logout = async (callback) => {
     try {
-        const response = await axios.get(`${API_URL}/logout`);
+        const response = await api.get('/logout');
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        if (typeof callback === 'function') {
+            callback();
+        }
         return response.data;
     } catch (error) {
         throw error;

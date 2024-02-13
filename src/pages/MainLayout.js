@@ -1,24 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
-import SearchAppBar from './dashboard/appBar/appBar';
-import { PermanentDrawerLeft } from './dashboard/drawer/Drawer';
+import SearchAppBar from '../components/Dashboard/AppBar';
+import { PermanentDrawerLeft } from '../components/Dashboard/Drawer';
 import Dashboard from './Dashboard';
+import Medications from './Medications';
+import Profile from './Profile';
+import { Routes, Route } from 'react-router-dom';
+
 function MainLayout() {
 	const drawerWidth = 240;
-	const [selectedMenu, setSelectedMenu] = useState('Dashboard');
-
-	const renderSelectedComponent = () => {
-		switch (selectedMenu) {
-			case 'Dashboard':
-				return <Dashboard />;
-			default:
-				return null;
-		}
-	};
 
 	return (
 		<Box sx={{ display: 'flex', width: '100%' }}>
-			<PermanentDrawerLeft setSelectedMenu={setSelectedMenu} />
+			<PermanentDrawerLeft />
 			<Box
 				sx={{
 					display: 'flex',
@@ -29,7 +23,13 @@ function MainLayout() {
 			>
 				<SearchAppBar />
 				<Box component="main" sx={{ p: { xs: 2, sm: 3 } }}>
-					{renderSelectedComponent()}
+					<Routes>
+						<Route path="/dashboard" element={<Dashboard />} />
+						<Route path="/medications" element={<Medications />} />
+						<Route path="/drugs" element={<Medications />} />
+						<Route path="/profile" element={<Profile />} />
+						<Route path="/settings" element={<Medications />} />
+					</Routes>
 				</Box>
 			</Box>
 		</Box>

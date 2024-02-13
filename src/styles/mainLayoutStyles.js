@@ -4,24 +4,10 @@ import {
 	ListSubheader,
 	ListItemIcon,
 	Drawer,
-	TextField,
-	FormControl,
-	Box,
-	Card,
-	Grid,
 } from '@mui/material';
 import { styled } from '@mui/system';
 
 export const drawerWidth = 240;
-
-const getRandomColor = () => {
-	const letters = '0123456789ABCDEF';
-	let color = '#';
-	for (let i = 0; i < 6; i++) {
-		color += letters[Math.floor(Math.random() * 16)];
-	}
-	return color;
-};
 
 //* App Bar
 export const StyledAppBar = styled(AppBar)({
@@ -56,40 +42,4 @@ export const StyledListItemIcon = styled(ListItemIcon)({
 	marginRight: '1.5rem',
 	fontSize: '1.5rem',
 	textAlign: 'center',
-});
-
-//* General Styles
-
-export const StyledCard = styled(Card)({
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'center',
-	padding: 2,
-	border: '2px solid black',
-	boxShadow: `10px 10px 0px 0px ${getRandomColor()}`,
-	borderRadius: '15px',
-	overflow: 'hidden',
-	height: 380,
-});
-
-export const StyledBox = styled(Box)({
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'center',
-	padding: '20px',
-});
-
-export const StyledTextField = styled(TextField)({
-	margin: 3,
-	size: "small",
-});
-
-export const StyledFormControl = styled(FormControl)({
-	margin: 3,
-});
-
-export const StyledGridItem = styled(Grid)({
-	display: 'flex',
-	flexWrap: 'wrap',
-	alignItems: 'flex-start',
 });

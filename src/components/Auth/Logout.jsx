@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { logout } from '../../api/loginAPI';
+import { UserContext } from '../../contexts/UserContext';
 
 const LogoutButton = () => {
+    const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
+
     const handleLogout = async () => {
         try {
-            const response = await logout();
-            console.log(response);
+            await logout(() => {
+                setUser(null);
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId');
+                navigate('/login');
+            });
         } catch (error) {
             console.error(error);
         }
