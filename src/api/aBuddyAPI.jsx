@@ -22,7 +22,7 @@ export const getAllABuddies = async (userId, profileId) => {
     }
 };
 
-export const getOneABuddy = async (userId, profileId, aBuddyId) => {
+export const getABuddy = async (userId, profileId, aBuddyId) => {
     try {
         const response = await axios.get(`${API_URL}/user/${userId}/profile/${profileId}/aBuddy/${aBuddyId}`);
         return response.data;

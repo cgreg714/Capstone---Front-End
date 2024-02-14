@@ -1,36 +1,31 @@
-import { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import {
-	getAllMedications as getAllMedicationsAPI,
-	createMedication as createMedicationAPI,
-	getMedication as getMedicationAPI,
-	updateMedication as updateMedicationAPI,
-	deleteMedication as deleteMedicationAPI,
-	toggleField as toggleFieldAPI,
-	addDrugToMedication as addDrugAPI,
-	removeDrugFromMedication as removeDrugAPI,
+    getAllMedications as getAllMedicationsAPI,
+    createMedication as createMedicationAPI,
+    deleteAllMedications as deleteAllMedicationsAPI,
+    getMedicationById as getMedicationByIdAPI,
+    updateMedication as updateMedicationAPI,
+    deleteMedication as deleteMedicationAPI,
+    getByPrescriber as getByPrescriberAPI,
+    getByName as getByNameAPI,
+    getByDate as getByDateAPI,
+    addDrugToMedication as addDrugToMedicationAPI,
+    removeDrugFromMedication as removeDrugFromMedicationAPI,
+    toggleField as toggleFieldAPI,
 } from '../api/medicationAPI';
-import {
-	getAllIntakes as getAllIntakesAPI,
-	deleteAllIntakes as deleteAllIntakesAPI,
-	createIntake as createIntakeAPI,
-	getIntake as getIntakeAPI,
-	updateIntake as updateIntakeAPI,
-	deleteIntake as deleteIntakeAPI,
-} from '../api/medicationIntakeAPI';
 
 export const MedicationContext = createContext();
 
-export const MedicationProvider = ({ children, userId, profileId }) => {
-	console.log("🚀 ~ file: MedicationContext.jsx:24 ~ MedicationProvider ~ profileId:", profileId)
-	console.log("🚀 ~ file: MedicationContext.jsx:24 ~ MedicationProvider ~ userId:", userId)
+export const MedicationProvider = React.memo(({ children, userId, profileId }) => {
 	const [medications, setMedications] = useState([]);
+	console.log("🚀 ~ file: MedicationContext.jsx:23 ~ MedicationProvider ~ medications:", medications)
 
 	useEffect(() => {
 		if (!userId || !profileId) {
 			return;
 		}
 
-		const getAllMedications = async () => {
+		const fetchMedications = async () => {
 			try {
 				const data = await getAllMedicationsAPI(userId, profileId);
 				setMedications(data);
@@ -39,10 +34,10 @@ export const MedicationProvider = ({ children, userId, profileId }) => {
 			}
 		};
 
-		getAllMedications();
+		fetchMedications();
 	}, [userId, profileId]);
 
-	const createMedication = async (medication) => {
+	const addMedication = async (medication) => {
 		if (userId && profileId) {
 			try {
 				const newMedication = await createMedicationAPI(userId, profileId, medication);
@@ -53,11 +48,24 @@ export const MedicationProvider = ({ children, userId, profileId }) => {
 		}
 	};
 
-	const getMedication = async (medId) => {
+	const deleteAllMedications = async () => {
 		if (userId && profileId) {
 			try {
-				const medication = await getMedicationAPI(userId, profileId, medId);
-				return medication;
+				await deleteAllMedicationsAPI(userId, profileId);
+				setMedications([]);
+			} catch (error) {
+				console.error('Failed to delete all medications:', error);
+			}
+		}
+	};
+
+	const getMedicationById = async (medId) => {
+		if (userId && profileId) {
+			try {
+				const medicationData = await getMedicationByIdAPI(userId, profileId, medId);
+				setMedications((prevMedications) =>
+					prevMedications.map((medication) => (medication._id === medId ? medicationData : medication))
+				);
 			} catch (error) {
 				console.error('Failed to fetch medication:', error);
 			}
@@ -67,9 +75,9 @@ export const MedicationProvider = ({ children, userId, profileId }) => {
 	const updateMedication = async (medId, updatedMedication) => {
 		if (userId && profileId) {
 			try {
-				const updatedMed = await updateMedicationAPI(userId, profileId, medId, updatedMedication);
+				const updatedMedicationData = await updateMedicationAPI(userId, profileId, medId, updatedMedication);
 				setMedications((prevMedications) =>
-					prevMedications.map((med) => (med.id === medId ? updatedMed : med))
+					prevMedications.map((medication) => (medication._id === medId ? updatedMedicationData : medication))
 				);
 			} catch (error) {
 				console.error('Failed to update medication:', error);
@@ -81,140 +89,97 @@ export const MedicationProvider = ({ children, userId, profileId }) => {
 		if (userId && profileId) {
 			try {
 				await deleteMedicationAPI(userId, profileId, medId);
-				setMedications((prevMedications) => prevMedications.filter((med) => med.id !== medId));
+				setMedications((prevMedications) => prevMedications.filter((medication) => medication._id !== medId));
 			} catch (error) {
 				console.error('Failed to delete medication:', error);
 			}
 		}
 	};
 
-	const toggleField = async (medId, field) => {
-		if (userId && profileId) {
-			try {
-				const updatedMedication = await toggleFieldAPI(userId, profileId, medId, field);
-				setMedications((prevMedications) =>
-					prevMedications.map((med) => (med.id === medId ? updatedMedication : med))
-				);
-			} catch (error) {
-				console.error('Failed to toggle field:', error);
-			}
-		}
-	};
+    const getByPrescriber = async (prescriber) => {
+        if (userId && profileId) {
+            try {
+                const data = await getByPrescriberAPI(userId, profileId, prescriber);
+                setMedications(data);
+            } catch (error) {
+                console.error('Failed to fetch medications by prescriber:', error);
+            }
+        }
+    };
 
-	const addDrugToMedication = async (medId, drugId) => {
-		if (userId && profileId) {
-			try {
-				const updatedMedication = await addDrugAPI(userId, profileId, medId, drugId);
-				setMedications((prevMedications) =>
-					prevMedications.map((med) => (med.id === medId ? updatedMedication : med))
-				);
-			} catch (error) {
-				console.error('Failed to add drug:', error);
-			}
-		}
-	};
+    const getByName = async (name) => {
+        if (userId && profileId) {
+            try {
+                const data = await getByNameAPI(userId, profileId, name);
+                setMedications(data);
+            } catch (error) {
+                console.error('Failed to fetch medications by name:', error);
+            }
+        }
+    };
 
-	const removeDrugFromMedication = async (medId, drugId) => {
-		if (userId && profileId) {
-			try {
-				const updatedMedication = await removeDrugAPI(userId, profileId, medId, drugId);
-				setMedications((prevMedications) =>
-					prevMedications.map((med) => (med.id === medId ? updatedMedication : med))
-				);
-			} catch (error) {
-				console.error('Failed to remove drug:', error);
-			}
-		}
-	};
+    const getByDate = async (dateAdded) => {
+        if (userId && profileId) {
+            try {
+                const data = await getByDateAPI(userId, profileId, dateAdded);
+                setMedications(data);
+            } catch (error) {
+                console.error('Failed to fetch medications by date:', error);
+            }
+        }
+    };
 
-	// Medication Intakes
-	const [intakes, setIntakes] = useState([]);
+    const addDrugToMedication = async (medId, drugId) => {
+        if (userId && profileId) {
+            try {
+                const updatedMedication = await addDrugToMedicationAPI(userId, profileId, medId, drugId);
+                setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
+            } catch (error) {
+                console.error('Failed to add drug to medication:', error);
+            }
+        }
+    };
 
-	const getAllIntakes = async (medId) => {
-		if (userId && profileId) {
-			try {
-				const intakes = await getAllIntakesAPI(userId, profileId, medId);
-				return intakes;
-			} catch (error) {
-				console.error('Failed to fetch intakes:', error);
-			}
-		}
-	};
+    const removeDrugFromMedication = async (medId, drugId) => {
+        if (userId && profileId) {
+            try {
+                const updatedMedication = await removeDrugFromMedicationAPI(userId, profileId, medId, drugId);
+                setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
+            } catch (error) {
+                console.error('Failed to remove drug from medication:', error);
+            }
+        }
+    };
 
-	const deleteAllIntakes = async (medId) => {
-		if (userId && profileId) {
-			try {
-				await deleteAllIntakesAPI(userId, profileId, medId);
-			} catch (error) {
-				console.error('Failed to delete all intakes:', error);
-			}
-		}
-	};
-
-	const createIntake = async (medId, intake) => {
-		if (userId && profileId) {
-			try {
-				const newIntake = await createIntakeAPI(userId, profileId, medId, intake);
-				return newIntake;
-			} catch (error) {
-				console.error('Failed to create intake:', error);
-			}
-		}
-	};
-
-	const getIntake = async (medId, intakeId) => {
-		if (userId && profileId) {
-			try {
-				const intake = await getIntakeAPI(userId, profileId, medId, intakeId);
-				return intake;
-			} catch (error) {
-				console.error('Failed to fetch intake:', error);
-			}
-		}
-	};
-
-	const updateIntake = async (medId, intakeId, updatedIntake) => {
-		if (userId && profileId) {
-			try {
-				const updated = await updateIntakeAPI(userId, profileId, medId, intakeId, updatedIntake);
-				return updated;
-			} catch (error) {
-				console.error('Failed to update intake:', error);
-			}
-		}
-	};
-
-	const deleteIntake = async (medId, intakeId) => {
-		if (userId && profileId) {
-			try {
-				await deleteIntakeAPI(userId, profileId, medId, intakeId);
-			} catch (error) {
-				console.error('Failed to delete intake:', error);
-			}
-		}
-	};
+    const toggleField = async (medId, field) => {
+        if (userId && profileId) {
+            try {
+                const updatedMedication = await toggleFieldAPI(userId, profileId, medId, field);
+                setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
+            } catch (error) {
+                console.error('Failed to toggle field:', error);
+            }
+        }
+    };
 
 	return (
 		<MedicationContext.Provider
 			value={{
 				medications,
-				createMedication,
-				getMedication,
+				addMedication,
+				deleteAllMedications,
+				getMedicationById,
 				updateMedication,
 				deleteMedication,
-				toggleField,
-				addDrugToMedication,
-				removeDrugFromMedication,
-				intakes,
-				getAllIntakes,
-				deleteAllIntakes,
-				createIntake,
-				getIntake,
-				updateIntake,
-				deleteIntake,
+                getByPrescriber,
+                getByName,
+                getByDate,
+                addDrugToMedication,
+                removeDrugFromMedication,
+                toggleField,
 			}}
 		>
 			{children}
 		</MedicationContext.Provider>
 	);
-};
+});

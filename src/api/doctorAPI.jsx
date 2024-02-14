@@ -24,7 +24,7 @@ export const createDoctor = async (userId, profileId, doctor) => {
     }
 };
 
-export const getOneDoctor = async (userId, profileId, doctorId) => {
+export const getDoctor = async (userId, profileId, doctorId) => {
     try {
         const response = await axios.get(`${API_URL}/user/${userId}/profile/${profileId}/doctors/${doctorId}`);
         return response.data;
