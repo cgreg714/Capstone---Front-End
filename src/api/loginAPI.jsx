@@ -21,8 +21,6 @@ export const login = async (user) => {
 export const logout = async (callback) => {
     try {
         const response = await api.get('/logout');
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
         if (typeof callback === 'function') {
             callback();
         }

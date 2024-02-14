@@ -31,7 +31,7 @@ export const deleteAllMedications = async (userId, profileId) => {
     }
 };
 
-export const getMedicationById = async (userId, profileId, medId) => {
+export const getMedication = async (userId, profileId, medId) => {
     try {
         const response = await axios.get(`${API_URL}/user/${userId}/profile/${profileId}/medications/${medId}`);
         return response.data;

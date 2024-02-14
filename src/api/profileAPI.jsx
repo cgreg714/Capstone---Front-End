@@ -1,12 +1,8 @@
-import axios from 'axios';
-
-const IP = process.env.REACT_APP_IP;
-const PORT = process.env.REACT_APP_BACKEND_PORT;
-const API_URL = `${IP}:${PORT}`;
+import api from './';
 
 export const getAllProfiles = async (userId) => {
     try {
-        const response = await axios.get(`${API_URL}/user/${userId}/profile`);
+        const response = await api.get(`/user/${userId}/profile`);
         return response.data;
     } catch (error) {
         throw error;
@@ -14,8 +10,10 @@ export const getAllProfiles = async (userId) => {
 };
 
 export const createProfile = async (userId, profile) => {
+    console.log("🚀 ~ file: profileAPI.jsx:17 ~ createProfile ~ profile:", profile)
+    console.log("🚀 ~ file: profileAPI.jsx:17 ~ createProfile ~ userId:", userId)
     try {
-        const response = await axios.post(`${API_URL}/user/${userId}/profile`, profile);
+        const response = await api.post(`/user/${userId}/profile`, profile);
         return response.data;
     } catch (error) {
         throw error;
@@ -24,7 +22,7 @@ export const createProfile = async (userId, profile) => {
 
 export const getProfile = async (userId, profileId) => {
     try {
-        const response = await axios.get(`${API_URL}/user/${userId}/profile/${profileId}`);
+        const response = await api.get(`/user/${userId}/profile/${profileId}`);
         return response.data;
     } catch (error) {
         throw error;
@@ -33,7 +31,7 @@ export const getProfile = async (userId, profileId) => {
 
 export const updateProfile = async (userId, profileId, updatedProfile) => {
     try {
-        const response = await axios.patch(`${API_URL}/user/${userId}/profile/${profileId}`, updatedProfile);
+        const response = await api.patch(`/user/${userId}/profile/${profileId}`, updatedProfile);
         return response.data;
     } catch (error) {
         throw error;
@@ -42,7 +40,7 @@ export const updateProfile = async (userId, profileId, updatedProfile) => {
 
 export const deleteProfile = async (userId, profileId) => {
     try {
-        const response = await axios.delete(`${API_URL}/user/${userId}/profile/${profileId}`);
+        const response = await api.delete(`/user/${userId}/profile/${profileId}`);
         return response.data;
     } catch (error) {
         throw error;

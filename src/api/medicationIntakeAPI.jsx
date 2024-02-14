@@ -13,15 +13,6 @@ export const getAllIntakes = async (userId, profileId, medId) => {
     }
 };
 
-export const createIntake = async (userId, profileId, medId, intake) => {
-    try {
-        const response = await axios.post(`${API_URL}/user/${userId}/profile/${profileId}/medications/${medId}/intake`, intake);
-        return response.data;
-    } catch (error) {
-        throw error;
-    }
-};
-
 export const deleteAllIntakes = async (userId, profileId, medId) => {
     try {
         const response = await axios.delete(`${API_URL}/user/${userId}/profile/${profileId}/medications/${medId}/intake`);
@@ -31,6 +22,14 @@ export const deleteAllIntakes = async (userId, profileId, medId) => {
     }
 };
 
+export const createIntake = async (userId, profileId, medId, intake) => {
+    try {
+        const response = await axios.post(`${API_URL}/user/${userId}/profile/${profileId}/medications/${medId}/intake`, intake);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
 export const getIntake = async (userId, profileId, medId, intakeId) => {
     try {
         const response = await axios.get(`${API_URL}/user/${userId}/profile/${profileId}/medications/${medId}/intake/${intakeId}`);
@@ -48,6 +47,7 @@ export const updateIntake = async (userId, profileId, medId, intakeId, updatedIn
         throw error;
     }
 };
+
 
 export const deleteIntake = async (userId, profileId, medId, intakeId) => {
     try {

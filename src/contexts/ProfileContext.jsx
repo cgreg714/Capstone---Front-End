@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { MedicationProvider } from './MedicationContext';
-import { getAllProfiles, createProfile } from '../api/profileAPI';
+import { getAllProfiles, createProfile as createProfileAPI } from '../api/profileAPI';
 // import { getAllProfiles, createProfile, getProfile, updateProfile, deleteProfile } from '../api/profileAPI';
 // import {
 // 	getAllMedications,
@@ -24,19 +24,17 @@ export const ProfileContext = createContext();
 
 export const ProfileProvider = ({ children, userId }) => {
 	const [profiles, setProfiles] = useState([]);
-	const [medications, setMedications] = useState([]);
 	const [aBuddies, setABuddies] = useState([]);
 	const [doctors, setDoctors] = useState([]);
 	const [drugs, setDrugs] = useState([]);
-	const [intakes, setIntakes] = useState([]);
 
 	const [profileId, setProfileId] = useState(null);
 
 	useEffect(() => {
+		console.log('🚀 ~ file: ProfileContext.jsx:34 ~ userId changed:', userId);
 		if (!userId) {
 			return;
 		}
-		console.log('🚀 ~ file: ProfileContext.jsx:53 ~ ProfileProvider ~ userId:', userId);
 		const fetchProfiles = async () => {
 			try {
 				const data = await getAllProfiles(userId);
@@ -51,10 +49,16 @@ export const ProfileProvider = ({ children, userId }) => {
 
 	// Do the same for medications, aBuddies, doctors, drugs, and intakes
 
-	const addProfile = async (profile) => {
+	const createProfile = async (profile) => {
+		console.log('🚀 ~ file: ProfileContext.jsx:53 ~ createProfile ~ profile:', profile);
+		console.log('🚀 ~ file: ProfileContext.jsx:55 ~ createProfile ~ userId:', userId);
+		if (!userId) {
+			console.error('Cannot create profile: userId is undefined');
+			return;
+		}
 		if (userId) {
 			try {
-				const newProfile = await createProfile(userId, profile);
+				const newProfile = await createProfileAPI(userId, profile);
 				setProfiles((prevProfiles) => [...prevProfiles, newProfile]);
 			} catch (error) {
 				console.error('Failed to create profile:', error);
@@ -72,17 +76,13 @@ export const ProfileProvider = ({ children, userId }) => {
 				setProfileId,
 				profiles,
 				setProfiles,
-				addProfile,
-				medications,
-				setMedications,
+				createProfile,
 				aBuddies,
 				setABuddies,
 				doctors,
 				setDoctors,
 				drugs,
 				setDrugs,
-				intakes,
-				setIntakes,
 			}}
 		>
 			<MedicationProvider userId={userId} profileId={profileId}>
