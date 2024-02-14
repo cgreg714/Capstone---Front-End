@@ -33,11 +33,11 @@ const LoginComponent = () => {
 			setUserId(userId);
 			fetchUser(userId)
 				.then((user) => {
-					if (user.profiles.length === 0) {
-						navigate('/profile');
-					} else {
+					// if (user.profiles.length === 0) {
+						// navigate('/profile');
+					// } else {
 						navigate('/dashboard');
-					}
+					// }
 				})
 				.catch((error) => {
 					console.error(error);
@@ -60,11 +60,11 @@ const LoginComponent = () => {
 			setUserId(userId);
 
 			const user = await fetchUser(userId);
-			if (user.profiles.length === 0) {
-				navigate('/profile');
-			} else {
+			// if (user.profiles.length === 0) {
+			// 	navigate('/profile');
+			// } else {
 				navigate('/dashboard');
-			}
+			// }
 		} catch (error) {
 			console.error(error);
 		}

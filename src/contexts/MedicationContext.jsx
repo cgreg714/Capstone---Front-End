@@ -3,7 +3,7 @@ import {
     getAllMedications as getAllMedicationsAPI,
     createMedication as createMedicationAPI,
     deleteAllMedications as deleteAllMedicationsAPI,
-    getMedicationById as getMedicationByIdAPI,
+    getMedication as getMedicationAPI,
     updateMedication as updateMedicationAPI,
     deleteMedication as deleteMedicationAPI,
     getByPrescriber as getByPrescriberAPI,
@@ -25,7 +25,7 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 			return;
 		}
 
-		const fetchMedications = async () => {
+		const getAllMedications = async () => {
 			try {
 				const data = await getAllMedicationsAPI(userId, profileId);
 				setMedications(data);
@@ -34,7 +34,7 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 			}
 		};
 
-		fetchMedications();
+		getAllMedications();
 	}, [userId, profileId]);
 
 	const addMedication = async (medication) => {
@@ -59,10 +59,10 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 		}
 	};
 
-	const getMedicationById = async (medId) => {
+	const getMedication = async (medId) => {
 		if (userId && profileId) {
 			try {
-				const medicationData = await getMedicationByIdAPI(userId, profileId, medId);
+				const medicationData = await getMedicationAPI(userId, profileId, medId);
 				setMedications((prevMedications) =>
 					prevMedications.map((medication) => (medication._id === medId ? medicationData : medication))
 				);
@@ -168,7 +168,7 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 				medications,
 				addMedication,
 				deleteAllMedications,
-				getMedicationById,
+				getMedication,
 				updateMedication,
 				deleteMedication,
                 getByPrescriber,

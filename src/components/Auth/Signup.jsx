@@ -17,13 +17,11 @@ const Signup = () => {
 
     const handleSignup = async () => {
         try {
-            const response = await signup({
+            await signup({
                 email: emailRef.current.value,
                 username: usernameRef.current.value,
                 password: passwordRef.current.value,
             });
-            console.log(response);
-
             navigate('/login');
         } catch (error) {
             console.error(error);

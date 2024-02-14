@@ -25,8 +25,8 @@ const ProtectedRoute = ({ children }) => {
 		if (!isLoading && !userId) {
 			logout();
 			navigate('/login');
-		} else if (!profileId) {
-			navigate('/profile');
+		// } else if (!profileId) {
+		// 	navigate('/profile');
 		}
 	}, [userId, navigate, isLoading, logout, profileId]);
 

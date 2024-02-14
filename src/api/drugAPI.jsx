@@ -1,12 +1,8 @@
-import axios from 'axios';
-
-const IP = process.env.REACT_APP_IP;
-const PORT = process.env.REACT_APP_BACKEND_PORT;
-const API_URL = `${IP}:${PORT}`;
+import api from './';
 
 export const getAllDrugs = async () => {
     try {
-        const response = await axios.get(`${API_URL}/drugs`);
+        const response = await api.get(`/drugs`);
         return response.data;
     } catch (error) {
         throw error;
@@ -15,7 +11,7 @@ export const getAllDrugs = async () => {
 
 export const getInteractionBetweenTwoDrugs = async (drugId1, drugId2) => {
     try {
-        const response = await axios.get(`${API_URL}/drugs/${drugId1}/interactions/${drugId2}`);
+        const response = await api.get(`/drugs/${drugId1}/interactions/${drugId2}`);
         return response.data;
     } catch (error) {
         throw error;
@@ -24,7 +20,7 @@ export const getInteractionBetweenTwoDrugs = async (drugId1, drugId2) => {
 
 export const getDrugByDrugbankId = async (id) => {
     try {
-        const response = await axios.get(`${API_URL}/drugs/drugbank-id/${id}`);
+        const response = await api.get(`/drugs/drugbank-id/${id}`);
         return response.data;
     } catch (error) {
         throw error;
@@ -33,7 +29,7 @@ export const getDrugByDrugbankId = async (id) => {
 
 export const getDrugByUnii = async (unii) => {
     try {
-        const response = await axios.get(`${API_URL}/drugs/unii/${unii}`);
+        const response = await api.get(`/drugs/unii/${unii}`);
         return response.data;
     } catch (error) {
         throw error;
@@ -42,7 +38,7 @@ export const getDrugByUnii = async (unii) => {
 
 export const searchDrugsByName = async (drugName) => {
     try {
-        const response = await axios.get(`${API_URL}/drugs/searchDrugsByName`, { params: { q: drugName } });
+        const response = await api.get(`/drugs/searchDrugsByName`, { params: { q: drugName } });
         return response.data;
     } catch (error) {
         throw error;
@@ -51,7 +47,7 @@ export const searchDrugsByName = async (drugName) => {
 
 export const searchDrugsByProductName = async (productName) => {
     try {
-        const response = await axios.get(`${API_URL}/drugs/searchDrugsByProductName`, { params: { q: productName } });
+        const response = await api.get(`/drugs/searchDrugsByProductName`, { params: { q: productName } });
         return response.data;
     } catch (error) {
         throw error;
