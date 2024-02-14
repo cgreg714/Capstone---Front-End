@@ -1,45 +1,54 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { MedicationProvider } from './MedicationContext';
-import { getAllProfiles, createProfile } from '../api/profileAPI';
-// import { getAllProfiles, createProfile, getProfile, updateProfile, deleteProfile } from '../api/profileAPI';
-// import {
-// 	getAllMedications,
-// 	createMedication,
-// 	getMedicationById,
-// 	updateMedication,
-// 	deleteMedication,
-// } from '../api/medicationAPI';
-// import { getAllABuddies, createABuddy, getOneABuddy, updateABuddy, deleteABuddy } from '../api/aBuddyAPI';
-// import { getAllDoctors, createDoctor, getOneDoctor, updateDoctor, deleteDoctor } from '../api/doctorAPI';
-// import {
-// 	getAllDrugs,
-// 	getSpecificDrugInteractionByDrugbankId,
-// 	getDrugByDrugbankId,
-// 	getDrugByUnii,
-// 	searchDrugs,
-// } from '../api/drugAPI';
-// import { getAllIntakes, createIntake, getIntake, updateIntake, deleteIntake } from '../api/medicationIntakeAPI';
+import {
+	getAllProfiles as getAllProfilesAPI,
+	createProfile as createProfileAPI,
+	getProfile as getProfileAPI,
+	updateProfile as updateProfileAPI,
+	deleteProfile as deleteProfileAPI,
+} from '../api/profileAPI';
+import {
+	getAllDoctors as getAllDoctorsAPI,
+	createDoctor as createDoctorAPI,
+	getDoctor as getDoctorAPI,
+	updateDoctor as updateDoctorAPI,
+	deleteDoctor as deleteDoctorAPI,
+} from '../api/doctorAPI';
+import {
+	getAllABuddies as getAllABuddiesAPI,
+	createABuddy as createABuddyAPI,
+	getABuddy as getABuddyAPI,
+	updateABuddy as updateABuddyAPI,
+	deleteABuddy as deleteABuddyAPI,
+} from '../api/aBuddyAPI';
 
 export const ProfileContext = createContext();
 
-export const ProfileProvider = ({ children, userId }) => {
+export const ProfileProvider = React.memo(({ children, userId }) => {
+	console.log('🚀 ~ file: ProfileContext.jsx:28 ~ ProfileProvider ~ userId:', userId);
 	const [profiles, setProfiles] = useState([]);
-	const [medications, setMedications] = useState([]);
-	const [aBuddies, setABuddies] = useState([]);
-	const [doctors, setDoctors] = useState([]);
-	const [drugs, setDrugs] = useState([]);
-	const [intakes, setIntakes] = useState([]);
-
 	const [profileId, setProfileId] = useState(null);
 
+	const [doctors, setDoctors] = useState([]);
+	const [abuddies, setABuddies] = useState([]);
+
 	useEffect(() => {
+		console.log('ProfileProvider mounted with userId:', userId);
+
+		return () => {
+			console.log('ProfileProvider is going to unmount');
+		};
+	}, []);
+
+	useEffect(() => {
+		console.log('🚀 ~ file: ProfileContext.jsx:34 ~ userId changed:', userId);
 		if (!userId) {
 			return;
 		}
-		console.log('🚀 ~ file: ProfileContext.jsx:53 ~ ProfileProvider ~ userId:', userId);
+
 		const fetchProfiles = async () => {
 			try {
-				const data = await getAllProfiles(userId);
+				const data = await getAllProfilesAPI(userId);
 				setProfiles(data);
 			} catch (error) {
 				console.error('Failed to fetch profiles:', error);
@@ -47,14 +56,37 @@ export const ProfileProvider = ({ children, userId }) => {
 		};
 
 		fetchProfiles();
-	}, [userId]);
 
-	// Do the same for medications, aBuddies, doctors, drugs, and intakes
+		if (!profileId) {
+			return;
+		}
 
-	const addProfile = async (profile) => {
+		const fetchDoctors = async () => {
+			try {
+				const data = await getAllDoctorsAPI(userId, profileId);
+				setDoctors(data);
+			} catch (error) {
+				console.error('Failed to fetch doctors:', error);
+			}
+		};
+
+		const fetchABuddies = async () => {
+			try {
+				const data = await getAllABuddiesAPI(userId, profileId);
+				setABuddies(data);
+			} catch (error) {
+				console.error('Failed to fetch abuddies:', error);
+			}
+		};
+
+		fetchABuddies();
+		fetchDoctors();
+	}, [userId, profileId]);
+
+	const createProfile = async (profile) => {
 		if (userId) {
 			try {
-				const newProfile = await createProfile(userId, profile);
+				const newProfile = await createProfileAPI(userId, profile);
 				setProfiles((prevProfiles) => [...prevProfiles, newProfile]);
 			} catch (error) {
 				console.error('Failed to create profile:', error);
@@ -62,7 +94,136 @@ export const ProfileProvider = ({ children, userId }) => {
 		}
 	};
 
-	// Do the same for updating and deleting profiles
+	const getProfile = async (profileId) => {
+		if (userId) {
+			try {
+				const profileData = await getProfileAPI(userId, profileId);
+				setProfileId(profileData._id);
+			} catch (error) {
+				console.error('Failed to fetch profile:', error);
+			}
+		}
+	};
+
+	const updateProfile = async (profileId, updatedProfile) => {
+		if (userId) {
+			try {
+				const updatedProfileData = await updateProfileAPI(userId, profileId, updatedProfile);
+				setProfiles((prevProfiles) =>
+					prevProfiles.map((profile) => (profile._id === profileId ? updatedProfileData : profile))
+				);
+			} catch (error) {
+				console.error('Failed to update profile:', error);
+			}
+		}
+	};
+
+	const deleteProfile = async (profileId) => {
+		if (userId) {
+			try {
+				await deleteProfileAPI(userId, profileId);
+				setProfiles((prevProfiles) => prevProfiles.filter((profile) => profile._id !== profileId));
+			} catch (error) {
+				console.error('Failed to delete profile:', error);
+			}
+		}
+	};
+
+	const createDoctor = async (doctor) => {
+		if (userId && profileId) {
+			try {
+				const newDoctor = await createDoctorAPI(userId, profileId, doctor);
+				setDoctors((prevDoctors) => [...prevDoctors, newDoctor]);
+			} catch (error) {
+				console.error('Failed to create doctor:', error);
+			}
+		}
+	};
+
+	const getDoctor = async (doctorId) => {
+		if (userId && profileId) {
+			try {
+				const doctorData = await getDoctorAPI(userId, profileId, doctorId);
+				setDoctors((prevDoctors) =>
+					prevDoctors.map((doctor) => (doctor._id === doctorId ? doctorData : doctor))
+				);
+			} catch (error) {
+				console.error('Failed to fetch doctor:', error);
+			}
+		}
+	};
+
+	const updateDoctor = async (doctorId, updatedDoctor) => {
+		if (userId && profileId) {
+			try {
+				const updatedDoctorData = await updateDoctorAPI(userId, profileId, doctorId, updatedDoctor);
+				setDoctors((prevDoctors) =>
+					prevDoctors.map((doctor) => (doctor._id === doctorId ? updatedDoctorData : doctor))
+				);
+			} catch (error) {
+				console.error('Failed to update doctor:', error);
+			}
+		}
+	};
+
+	const deleteDoctor = async (doctorId) => {
+		if (userId && profileId) {
+			try {
+				await deleteDoctorAPI(userId, profileId, doctorId);
+				setDoctors((prevDoctors) => prevDoctors.filter((doctor) => doctor._id !== doctorId));
+			} catch (error) {
+				console.error('Failed to delete doctor:', error);
+			}
+		}
+	};
+
+	const createABuddy = async (aBuddy) => {
+		if (userId && profileId) {
+			try {
+				const newABuddy = await createABuddyAPI(userId, profileId, aBuddy);
+				setABuddies((prevABuddies) => [...prevABuddies, newABuddy]);
+			} catch (error) {
+				console.error('Failed to create aBuddy:', error);
+			}
+		}
+	};
+
+	const getABuddy = async (aBuddyId) => {
+		if (userId && profileId) {
+			try {
+				const aBuddyData = await getABuddyAPI(userId, profileId, aBuddyId);
+				setABuddies((prevABuddies) =>
+					prevABuddies.map((aBuddy) => (aBuddy._id === aBuddyId ? aBuddyData : aBuddy))
+				);
+			} catch (error) {
+				console.error('Failed to fetch aBuddy:', error);
+			}
+		}
+	};
+
+	const updateABuddy = async (aBuddyId, updatedABuddy) => {
+		if (userId && profileId) {
+			try {
+				const updatedABuddyData = await updateABuddyAPI(userId, profileId, aBuddyId, updatedABuddy);
+				setABuddies((prevABuddies) =>
+					prevABuddies.map((aBuddy) => (aBuddy._id === aBuddyId ? updatedABuddyData : aBuddy))
+				);
+			} catch (error) {
+				console.error('Failed to update aBuddy:', error);
+			}
+		}
+	};
+
+	const deleteABuddy = async (aBuddyId) => {
+		if (userId && profileId) {
+			try {
+				await deleteABuddyAPI(userId, profileId, aBuddyId);
+				setABuddies((prevABuddies) => prevABuddies.filter((aBuddy) => aBuddy._id !== aBuddyId));
+			} catch (error) {
+				console.error('Failed to delete aBuddy:', error);
+			}
+		}
+	};
 
 	return (
 		<ProfileContext.Provider
@@ -72,17 +233,20 @@ export const ProfileProvider = ({ children, userId }) => {
 				setProfileId,
 				profiles,
 				setProfiles,
-				addProfile,
-				medications,
-				setMedications,
-				aBuddies,
-				setABuddies,
+				getProfile,
+				updateProfile,
+				deleteProfile,
+				createProfile,
 				doctors,
-				setDoctors,
-				drugs,
-				setDrugs,
-				intakes,
-				setIntakes,
+				createDoctor,
+				getDoctor,
+				updateDoctor,
+				deleteDoctor,
+				abuddies,
+				createABuddy,
+				getABuddy,
+				updateABuddy,
+				deleteABuddy,
 			}}
 		>
 			<MedicationProvider userId={userId} profileId={profileId}>
@@ -90,4 +254,4 @@ export const ProfileProvider = ({ children, userId }) => {
 			</MedicationProvider>
 		</ProfileContext.Provider>
 	);
-};
+});

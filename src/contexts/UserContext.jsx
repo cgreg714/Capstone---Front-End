@@ -18,7 +18,6 @@ export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	
-	console.log("🚀 ~ file: UserContext.jsx:19 ~ UserProvider ~ userId:", userId)
 	useEffect(() => {
 		const fetchUserData = async () => {
 			if (initialToken) {
