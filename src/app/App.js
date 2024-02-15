@@ -11,7 +11,7 @@ import SignupPage from '../pages/Signup';
 import { ErrorContext } from '../contexts/ErrorContext';
 import { ThemeContext } from '../contexts/ThemeContext';
 import { UserContext, UserProvider } from '../contexts/UserContext';
-import { ProfileContext, ProfileProvider } from '../contexts/ProfileContext';
+import { ProfileContext } from '../contexts/ProfileContext';
 import { DrugProvider } from '../contexts/DrugContext';
 
 import { lightTheme, darkTheme } from '../theme/theme';
@@ -52,7 +52,6 @@ function App() {
 				<ThemeContext.Provider value={{ theme, toggleTheme }}>
 					<DrugProvider>
 						<UserProvider>
-							<ProfileProvider>
 								<LocalizationProvider dateAdapter={AdapterDateFns}>
 									<Router>
 										<Routes>
@@ -69,7 +68,6 @@ function App() {
 										</Routes>
 									</Router>
 								</LocalizationProvider>
-							</ProfileProvider>
 						</UserProvider>
 					</DrugProvider>
 				</ThemeContext.Provider>
