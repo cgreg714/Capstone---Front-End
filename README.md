@@ -19,3 +19,4 @@ Features include:
 7. **Buddy Profile:** Set up contacts to be notified in case of an emergency.
 
 Stay healthy with DoseMinder! 🌟
+
