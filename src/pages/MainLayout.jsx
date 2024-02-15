@@ -4,6 +4,7 @@ import SearchAppBar from '../components/Dashboard/AppBar';
 import { PermanentDrawerLeft } from '../components/Dashboard/Drawer';
 import Dashboard from './Dashboard';
 import Medications from './Medications';
+import Drugs from './Drugs';
 import Profile from './Profile';
 import { Routes, Route } from 'react-router-dom';
 
@@ -26,7 +27,7 @@ function MainLayout() {
 					<Routes>
 						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path="/medications" element={<Medications />} />
-						<Route path="/drugs" element={<Medications />} />
+						<Route path="/drugs" element={<Drugs />} />
 						<Route path="/profile" element={<Profile />} />
 						<Route path="/settings" element={<Medications />} />
 					</Routes>

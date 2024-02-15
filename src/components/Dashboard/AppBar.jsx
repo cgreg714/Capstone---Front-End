@@ -7,6 +7,7 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 // import { UserContext } from '../../contexts/UserContext';
 // import { ProfileContext } from '../../contexts/ProfileContext';
 import LogoutButton from '../Auth/Logout';
+import ProfileSelector from '../Profile/SwitchProfileButton';
 
 function SearchAppBar() {
 	const { theme, toggleTheme } = useContext(ThemeContext);
@@ -31,6 +32,9 @@ function SearchAppBar() {
 					<LogoutButton />
 				</Box>
 				<Box sx={{ display: 'flex', alignItems: 'center' }}>
+				<Box>
+				<ProfileSelector />
+				</Box>
 					<IconButton color="inherit" component={Link} to="/notifications" sx={{ mr: 2 }}>
 						<Badge badgeContent={4} color="error">
 							<NotificationsIcon />

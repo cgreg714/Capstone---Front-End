@@ -3,7 +3,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { searchDrugsByName, searchDrugsByProductName } from '../../api/drugAPI';
 
-function DrugAutocomplete() {
+function DrugAutocomplete({ setSelectedDrugId }) {
 	const [options, setOptions] = useState([]);
 	const [inputValue, setInputValue] = useState('');
 
@@ -40,6 +40,9 @@ function DrugAutocomplete() {
 			onInputChange={(event, newInputValue) => {
 				setInputValue(newInputValue);
 			}}
+			onChange={(event, newValue) => {
+                setSelectedDrugId(newValue._id);
+            }}
 			renderInput={(params) => <TextField {...params} label="Drug or Product" variant="outlined" />}
 			autoHighlight
 			autoSelect

@@ -37,7 +37,7 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 		getAllMedications();
 	}, [userId, profileId]);
 
-	const addMedication = async (medication) => {
+	const createMedication = async (medication) => {
 		if (userId && profileId) {
 			try {
 				const newMedication = await createMedicationAPI(userId, profileId, medication);
@@ -166,7 +166,7 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 		<MedicationContext.Provider
 			value={{
 				medications,
-				addMedication,
+				createMedication,
 				deleteAllMedications,
 				getMedication,
 				updateMedication,

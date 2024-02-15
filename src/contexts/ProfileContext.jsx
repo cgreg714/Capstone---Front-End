@@ -26,9 +26,11 @@ import { addProfileToUser } from '../api/userAPI';
 export const ProfileContext = createContext();
 
 export const ProfileProvider = React.memo(({ children, userId }) => {
+	const initialProfileId = localStorage.getItem('profileId');
+
 	console.log('🚀 ~ file: ProfileContext.jsx:28 ~ ProfileProvider ~ userId:', userId);
 	const [profiles, setProfiles] = useState([]);
-	const [profileId, setProfileId] = useState(null);
+	const [profileId, setProfileId] = useState(initialProfileId || null);
 
 	const [doctors, setDoctors] = useState([]);
 	const [abuddies, setABuddies] = useState([]);
@@ -89,8 +91,8 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			try {
 				const newProfile = await createProfileAPI(userId, profile);
 				setProfiles((prevProfiles) => [...prevProfiles, newProfile]);
-				
 				setProfileId(newProfile._id);
+				localStorage.setItem('profileId', newProfile._id);
 
 			} catch (error) {
 				console.error('Failed to create profile:', error);

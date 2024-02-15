@@ -1,21 +1,17 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import DrugAutocomplete from '../components/Drugs/DrugAutocomplete';
-import DrugInteractionChecker from '../components/Drugs/DrugInteractionChecker';
-import MedicationTable from '../components/Medications/MedicationHistory';
+import MedDisplay from '../components/Medications/meddisplay/MedDisplay';
+import AddMedicationForm from '../components/Medications/AddMedicationForm';
 
 function Medications() {
 
 	return (
 		<Grid container rowSpacing={3} columnSpacing={3} pt={8}>
 			<Grid item xs={12} md={6}>
-				<DrugAutocomplete />
+				<AddMedicationForm />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<DrugInteractionChecker />
-			</Grid>
-			<Grid item xs={12} md={6}>
-				<MedicationTable />
+				<MedDisplay />
 			</Grid>
 		</Grid>
 	);
