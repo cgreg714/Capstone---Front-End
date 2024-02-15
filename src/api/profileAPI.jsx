@@ -10,8 +10,6 @@ export const getAllProfiles = async (userId) => {
 };
 
 export const createProfile = async (userId, profile) => {
-    console.log("🚀 ~ file: profileAPI.jsx:17 ~ createProfile ~ profile:", profile)
-    console.log("🚀 ~ file: profileAPI.jsx:17 ~ createProfile ~ userId:", userId)
     try {
         const response = await api.post(`/user/${userId}/profile`, profile);
         return response.data;

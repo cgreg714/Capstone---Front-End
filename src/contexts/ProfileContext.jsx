@@ -21,6 +21,7 @@ import {
 	updateABuddy as updateABuddyAPI,
 	deleteABuddy as deleteABuddyAPI,
 } from '../api/aBuddyAPI';
+import { addProfileToUser } from '../api/userAPI';
 
 export const ProfileContext = createContext();
 
@@ -41,7 +42,6 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 	}, []);
 
 	useEffect(() => {
-		console.log('🚀 ~ file: ProfileContext.jsx:34 ~ userId changed:', userId);
 		if (!userId) {
 			return;
 		}
@@ -84,10 +84,14 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 	}, [userId, profileId]);
 
 	const createProfile = async (profile) => {
+		console.log("🚀 ~ file: ProfileContext.jsx:88 ~ createProfile ~ userId:", userId)
 		if (userId) {
 			try {
 				const newProfile = await createProfileAPI(userId, profile);
 				setProfiles((prevProfiles) => [...prevProfiles, newProfile]);
+				
+				setProfileId(newProfile._id);
+
 			} catch (error) {
 				console.error('Failed to create profile:', error);
 			}
