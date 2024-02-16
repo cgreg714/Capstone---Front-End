@@ -31,17 +31,12 @@ const LoginComponent = () => {
 
 		if (userId) {
 			setUserId(userId);
-			fetchUser(userId)
-				.then((user) => {
-					// if (user.profiles.length === 0) {
-						// navigate('/profile');
-					// } else {
-						navigate('/dashboard');
-					// }
-				})
-				.catch((error) => {
-					console.error(error);
-				});
+			try {
+				fetchUser(userId);
+				navigate('/dashboard');
+			} catch (error) {
+				console.error(error);
+			}
 		}
 	}, [fetchUser, navigate, setUserId]);
 
@@ -60,11 +55,11 @@ const LoginComponent = () => {
 			setUserId(userId);
 
 			const user = await fetchUser(userId);
-			// if (user.profiles.length === 0) {
-			// 	navigate('/profile');
-			// } else {
+			if (user.profiles.length === 0) {
+				navigate('/profile');
+			} else {
 				navigate('/dashboard');
-			// }
+			}
 		} catch (error) {
 			console.error(error);
 		}
@@ -92,9 +87,7 @@ const LoginComponent = () => {
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position="end">
-									<IconButton
-										onClick={handleClickShowPassword}
-									>
+									<IconButton onClick={handleClickShowPassword}>
 										{showPassword ? <VisibilityOff /> : <Visibility />}
 									</IconButton>
 								</InputAdornment>

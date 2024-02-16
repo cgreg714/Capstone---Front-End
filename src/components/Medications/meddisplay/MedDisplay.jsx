@@ -12,7 +12,7 @@ function MedDisplay(props) {
             margin: "0 auto"
         },
         containerTitle: {
-            color: '#FFF'
+            color: '#000'
         }
     }
 

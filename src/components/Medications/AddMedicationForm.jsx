@@ -15,10 +15,11 @@ import {
     MenuItem
 } from '@mui/material';
 import { MedicationContext } from '../../contexts/MedicationContext';
-import DrugAutocomplete from '../Drugs/DrugAutocomplete';
+import AddDrugAutocomplete from './AddDrugAutocomplete';
 
 const AddMedicationForm = () => {
 	const { createMedication } = useContext(MedicationContext);
+
 	const [selectedDrugId, setSelectedDrugId] = useState(null);
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
@@ -45,6 +46,7 @@ const AddMedicationForm = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+
 		createMedication({
 			name,
 			description,
@@ -155,7 +157,7 @@ const AddMedicationForm = () => {
 					value={prescriber}
 					onChange={(e) => setPrescriber(e.target.value)}
 				/>
-				<DrugAutocomplete setSelectedDrugId={setSelectedDrugId} />
+				<AddDrugAutocomplete setSelectedDrugId={setSelectedDrugId} />
 				<FormControl component="fieldset" sx={{ mt: 3 }}>
 					<FormLabel component="legend">Time of Day</FormLabel>
 					<FormGroup>

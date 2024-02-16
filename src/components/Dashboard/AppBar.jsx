@@ -17,17 +17,6 @@ function SearchAppBar() {
 	return (
 		<StyledAppBar>
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-				<Box sx={{ display: 'flex', alignItems: 'center' }}>
-					<Box sx={{ mr: 2 }}>
-						<IconButton color="inherit">
-							<SearchIcon />
-						</IconButton>
-						<InputBase
-							placeholder="Search…"
-							inputProps={{ 'aria-label': 'search' }}
-						/>
-					</Box>
-				</Box>
 				<Box>
 					<LogoutButton />
 				</Box>

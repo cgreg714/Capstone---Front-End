@@ -6,7 +6,9 @@ import Dashboard from './Dashboard';
 import Medications from './Medications';
 import Drugs from './Drugs';
 import Profile from './Profile';
+import Settings from './Settings';
 import { Routes, Route } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 function MainLayout() {
 	const drawerWidth = 240;
@@ -29,9 +31,10 @@ function MainLayout() {
 						<Route path="/medications" element={<Medications />} />
 						<Route path="/drugs" element={<Drugs />} />
 						<Route path="/profile" element={<Profile />} />
-						<Route path="/settings" element={<Medications />} />
+						<Route path="/settings" element={<Settings />} />
 					</Routes>
 				</Box>
+				<Footer />
 			</Box>
 		</Box>
 	);

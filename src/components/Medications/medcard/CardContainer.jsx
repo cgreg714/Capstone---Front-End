@@ -6,7 +6,7 @@ import { Container } from 'react-bootstrap'
 function CardContainer() {
   return (
     <React.Fragment>
-      <Container style={{backgroundColor: "#fff", padding: "10px", margin:"10px auto"}}>
+      <Container style={{backgroundColor: "#000", padding: "10px", margin:"10px auto"}}>
       <MedCard medications={medicationsTestArray} />
       </Container>
     </React.Fragment>
