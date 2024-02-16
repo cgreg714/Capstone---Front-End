@@ -2,6 +2,9 @@
 import React, { useRef } from 'react'
 import { Button, Col, Container, Form, FormGroup, Input, InputGroup, Label, Row } from 'reactstrap'
 
+//toDo form feedback for when required fields are left blank
+//toDo integer values in form should not go to negative numbers
+
 function MedCreate() {
 
     //? global variables

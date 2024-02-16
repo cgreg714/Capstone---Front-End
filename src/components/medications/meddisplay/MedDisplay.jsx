@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container } from 'react-bootstrap';
-import CardContainer from '../medcard/CardContainer';
-import MedNav from '../mednav/MedNav';
+import DisplayNav from './DisplayNav';
+import CardContainer from './medcard/CardContainer';
 
 function MedDisplay(props) {
 
@@ -19,8 +19,8 @@ function MedDisplay(props) {
   return (
     <React.Fragment>
     <Container style={styles.medContainer}>
-        <h2 style={styles.containerTitle}>Medications</h2>
-        <MedNav />
+        <h1 style={styles.containerTitle}>Medications</h1>
+        <DisplayNav />
         <CardContainer />
     </Container>
     </React.Fragment>
