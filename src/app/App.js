@@ -13,6 +13,7 @@ import { ThemeContext } from '../contexts/ThemeContext';
 import { UserContext, UserProvider } from '../contexts/UserContext';
 import { ProfileContext } from '../contexts/ProfileContext';
 import { DrugProvider } from '../contexts/DrugContext';
+import { SnackbarProvider } from '../contexts/SnackbarContext';
 
 import { lightTheme, darkTheme } from '../theme/theme';
 
@@ -22,12 +23,14 @@ const ProtectedRoute = ({ children }) => {
 	const { profileId } = useContext(ProfileContext);
 
 	useEffect(() => {
-		if (!isLoading && !userId) {
-			logout();
-			navigate('/login');
-		// } else if (!profileId) {
-		// 	navigate('/profile');
-		}
+		const checkToken = async () => {
+			if (!isLoading && !userId) {
+				logout();
+				navigate('/login');
+			}
+		};
+
+		checkToken();
 	}, [userId, navigate, isLoading, logout, profileId]);
 
 	if (isLoading || !userId) {
@@ -50,8 +53,9 @@ function App() {
 			<CssBaseline />
 			<ErrorContext.Provider value={{ error, setError }}>
 				<ThemeContext.Provider value={{ theme, toggleTheme }}>
-					<DrugProvider>
-						<UserProvider>
+					<SnackbarProvider>
+						<DrugProvider>
+							<UserProvider>
 								<LocalizationProvider dateAdapter={AdapterDateFns}>
 									<Router>
 										<Routes>
@@ -68,8 +72,9 @@ function App() {
 										</Routes>
 									</Router>
 								</LocalizationProvider>
-						</UserProvider>
-					</DrugProvider>
+							</UserProvider>
+						</DrugProvider>
+					</SnackbarProvider>
 				</ThemeContext.Provider>
 			</ErrorContext.Provider>
 		</ThemeProvider>

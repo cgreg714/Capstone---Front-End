@@ -14,18 +14,19 @@ function MainLayout() {
 	const drawerWidth = 240;
 
 	return (
-		<Box sx={{ display: 'flex', width: '100%' }}>
-			<PermanentDrawerLeft />
+		<Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+			<SearchAppBar sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} />
+			<PermanentDrawerLeft width={drawerWidth} />
 			<Box
+				component="main"
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
-					width: `${drawerWidth}px`,
 					flexGrow: 1,
+					marginLeft: `${drawerWidth}px`,
 				}}
 			>
-				<SearchAppBar />
-				<Box component="main" sx={{ p: { xs: 2, sm: 3 } }}>
+				<Box sx={{ p: { xs: 2, sm: 3 }, flexGrow: 1 }}>
 					<Routes>
 						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path="/medications" element={<Medications />} />

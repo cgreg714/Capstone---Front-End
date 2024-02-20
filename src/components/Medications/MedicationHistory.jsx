@@ -1,58 +1,31 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
-import { getAllMedications } from '../../api/medicationAPI';
-import { ProfileContext } from '../../contexts/ProfileContext';
+import React, { useContext } from 'react';
+import { MedicationContext } from '../../contexts/MedicationContext';
+import { Typography, Box, Card, CardContent, Divider } from '@mui/material';
 
-function MedicationTable() {
-    const [medications, setMedications] = useState([]);
-    const { userId, profileId } = useContext(ProfileContext);
-    console.log("🚀 ~ file: MedicationHistory.jsx:9 ~ MedicationTable ~ profileId:", profileId)
-    console.log("🚀 ~ file: MedicationHistory.jsx:9 ~ MedicationTable ~ userId:", userId)
-
-    useEffect(() => {
-        getAllMedications(userId, profileId)
-            .then(data => {
-                data.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-                setMedications(data);
-            })
-            .catch(error => console.error(error));
-    }, [userId, profileId]);
+const MedicationHistory = () => {
+    const { medications } = useContext(MedicationContext);
 
     return (
-        <TableContainer component={Paper}>
-            {medications.map((medication, index) => (
-                <Table key={index}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell colSpan={5}>
-                                <Typography variant="h6">{new Date(medication.dateAdded).toLocaleDateString()}</Typography>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Dose</TableCell>
-                            <TableCell>Frequency</TableCell>
-                            <TableCell>Quantity Left</TableCell>
-                            <TableCell>Intakes</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>{medication.name}</TableCell>
-                            <TableCell>{medication.dose}</TableCell>
-                            <TableCell>{medication.frequency.time}</TableCell>
-                            <TableCell>{medication.quantity}</TableCell>
-                            <TableCell>
-                                {medication.medicationIntakes.map((intake, intakeIndex) => (
-                                    <div key={intakeIndex}>{new Date(intake.takenAt).toLocaleString()}</div>
-                                ))}
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+        <Box>
+            {medications.map((medication) => (
+                <Card key={medication._id} sx={{ margin: 2 }}>
+                    <CardContent>
+                        <Typography variant="h4">Medication History</Typography>
+                        <Divider />
+                        <Typography variant="h5">{medication.name}</Typography>
+                        <Typography variant="body1">{medication.description}</Typography>
+                        <Typography variant="h4">Intake History</Typography>
+                        {medication.medicationIntakes.map((intake) => (
+                            <Box key={intake._id}>
+                                <Typography variant="body1">Quantity: {intake.quantity}</Typography>
+                                <Typography variant="body1">Taken At: {new Date(intake.takenAt).toLocaleString()}</Typography>
+                            </Box>
+                        ))}
+                    </CardContent>
+                </Card>
             ))}
-        </TableContainer>
+        </Box>
     );
-}
+};
 
-export default MedicationTable;
+export default MedicationHistory;

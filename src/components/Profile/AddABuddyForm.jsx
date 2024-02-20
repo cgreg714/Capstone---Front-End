@@ -1,5 +1,5 @@
 import React, { useRef, useContext } from 'react';
-import { Button, TextField, Box, Card, CardContent } from '@mui/material';
+import { Button, TextField, Box, Card, CardContent, Grid } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
 
 function AddABuddyForm() {
@@ -22,18 +22,40 @@ function AddABuddyForm() {
 		};
 
 		await createABuddy(aBuddy);
+
+		firstNameRef.current.value = '';
+		lastNameRef.current.value = '';
+		relationRef.current.value = '';
+		emailRef.current.value = '';
+		phoneNumberRef.current.value = '';
 	};
 
 	return (
 		<Card style={{ maxWidth: '600px' }}>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-					<TextField inputRef={firstNameRef} label="First Name" required />
-					<TextField inputRef={lastNameRef} label="Last Name" required />
-					<TextField inputRef={relationRef} label="Relation" required />
-					<TextField inputRef={emailRef} label="Email" required />
-					<TextField inputRef={phoneNumberRef} label="Phone Number" required />
-					<Button type="submit">Add ABuddy</Button>
+					<Grid container spacing={2}>
+						<Grid item xs={6}>
+							<TextField inputRef={firstNameRef} label="First Name" required fullWidth />
+						</Grid>
+						<Grid item xs={6}>
+							<TextField inputRef={lastNameRef} label="Last Name" required fullWidth />
+						</Grid>
+						<Grid item xs={12}>
+							<TextField inputRef={relationRef} label="Relation" required fullWidth />
+						</Grid>
+						<Grid item xs={6}>
+							<TextField inputRef={emailRef} label="Email" required fullWidth />
+						</Grid>
+						<Grid item xs={6}>
+							<TextField inputRef={phoneNumberRef} label="Phone Number" required fullWidth />
+						</Grid>
+						<Grid item xs={12}>
+							<Button type="submit" variant="contained" color="primary" fullWidth>
+								Add ABuddy
+							</Button>
+						</Grid>
+					</Grid>
 				</Box>
 			</CardContent>
 		</Card>

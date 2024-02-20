@@ -11,8 +11,8 @@ import {
 	Checkbox,
 	RadioGroup,
 	Radio,
-    Select,
-    MenuItem
+	Select,
+	MenuItem,
 } from '@mui/material';
 import { MedicationContext } from '../../contexts/MedicationContext';
 import AddDrugAutocomplete from './AddDrugAutocomplete';
@@ -42,6 +42,7 @@ const AddMedicationForm = () => {
 		friday: false,
 		saturday: false,
 	});
+	const [selectAllDays, setSelectAllDays] = useState(false);
 	const [frequency, setFrequency] = useState('');
 
 	const handleSubmit = (event) => {
@@ -73,6 +74,19 @@ const AddMedicationForm = () => {
 
 	const handleFrequencyChange = (event) => {
 		setFrequency((prevFrequency) => (prevFrequency === event.target.value ? '' : event.target.value));
+	};
+
+	const handleSelectAllDaysChange = (event) => {
+		setSelectAllDays(event.target.checked);
+		setDayOfTheWeek({
+			sunday: event.target.checked,
+			monday: event.target.checked,
+			tuesday: event.target.checked,
+			wednesday: event.target.checked,
+			thursday: event.target.checked,
+			friday: event.target.checked,
+			saturday: event.target.checked,
+		});
 	};
 
 	return (
@@ -175,6 +189,16 @@ const AddMedicationForm = () => {
 				<FormControl component="fieldset" sx={{ mt: 3 }}>
 					<FormLabel component="legend">Day of the Week</FormLabel>
 					<FormGroup>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={selectAllDays}
+									onChange={handleSelectAllDaysChange}
+									name="selectAllDays"
+								/>
+							}
+							label="Select All"
+						/>
 						{Object.keys(dayOfTheWeek).map((day) => (
 							<FormControlLabel
 								control={
@@ -193,6 +217,8 @@ const AddMedicationForm = () => {
 				<FormControl component="fieldset" sx={{ mt: 3 }}>
 					<FormLabel component="legend">Frequency</FormLabel>
 					<RadioGroup value={frequency} onChange={handleFrequencyChange}>
+						<FormControlLabel value="none" control={<Radio />} label="None" />
+						<FormControlLabel value="once" control={<Radio />} label="One Time" />
 						<FormControlLabel value="daily" control={<Radio />} label="Daily" />
 						<FormControlLabel value="weekly" control={<Radio />} label="Weekly" />
 						<FormControlLabel value="biWeekly" control={<Radio />} label="Bi-Weekly" />
