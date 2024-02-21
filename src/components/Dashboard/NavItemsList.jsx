@@ -5,6 +5,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { BiSolidDashboard } from 'react-icons/bi';
 import { MdMedication, MdSettings } from 'react-icons/md';
 import { PiPillDuotone } from 'react-icons/pi';
+import { CgProfile } from "react-icons/cg";
 import { StyledListSubheader, StyledListItemIcon } from '../../styles/mainLayoutStyles';
 
 export const MainListItems = () => (
@@ -27,6 +28,12 @@ export const MainListItems = () => (
 				<PiPillDuotone />
 			</StyledListItemIcon>
 			<ListItemText primary="Drug Checker" />
+		</ListItemButton>
+		<ListItemButton component={Link} to="/profile">
+			<StyledListItemIcon>
+				<CgProfile />
+			</StyledListItemIcon>
+			<ListItemText primary="Profile" />
 		</ListItemButton>
 		<ListItemButton component={Link} to="/settings">
 			<StyledListItemIcon>

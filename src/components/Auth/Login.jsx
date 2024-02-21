@@ -55,8 +55,8 @@ const LoginComponent = () => {
 			setUserId(userId);
 
 			const user = await fetchUser(userId);
-			if (user.profiles.length === 0) {
-				navigate('/profile');
+			if (user.profiles && user.profiles.length > 0) {
+				navigate('/profile-selection');
 			} else {
 				navigate('/dashboard');
 			}

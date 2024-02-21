@@ -57,7 +57,7 @@ const AddProfileForm = () => {
 							<Box
 								sx={{
 									overflow: 'auto',
-									maxHeight: '300px',
+									maxHeight: '225px',
 									display: 'grid',
 									gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))',
 									gap: 2,

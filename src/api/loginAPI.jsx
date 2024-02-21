@@ -29,3 +29,12 @@ export const logout = async (callback) => {
         throw error;
     }
 };
+
+export const checkToken = async () => {
+    try {
+        const response = await api.get('/check-token');
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

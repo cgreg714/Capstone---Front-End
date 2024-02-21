@@ -12,6 +12,7 @@ const Signup = () => {
     const passwordRef = useRef();
     const emailRef = useRef();
     const navigate = useNavigate();
+    
     const [passwordStrength, setPasswordStrength] = useState(0);
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);

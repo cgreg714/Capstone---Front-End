@@ -31,10 +31,9 @@ function AddDrugAutocomplete({ setSelectedDrugId }) {
 
 	return (
 		<Autocomplete
-			value={selectedValue?._id || ''}
-			options={options.map((option) => option._id)}
-			getOptionLabel={(optionId) => {
-				const option = options.find((option) => option._id === optionId);
+			value={selectedValue}
+			options={options}
+			getOptionLabel={(option) => {
 				if (!option) {
 					return '';
 				}
@@ -50,12 +49,10 @@ function AddDrugAutocomplete({ setSelectedDrugId }) {
 				setInputValue(newInputValue);
 			}}
 			onChange={(event, newValue) => {
+				setSelectedValue(newValue);
 				if (newValue) {
-					const selectedDrug = options.find((option) => option._id === newValue);
-					setSelectedValue(selectedDrug);
-					setSelectedDrugId(newValue);
+					setSelectedDrugId(newValue._id);
 				} else {
-					setSelectedValue(null);
 					setSelectedDrugId(null);
 				}
 			}}

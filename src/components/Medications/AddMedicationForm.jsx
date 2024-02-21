@@ -45,8 +45,20 @@ const AddMedicationForm = () => {
 	const [selectAllDays, setSelectAllDays] = useState(false);
 	const [frequency, setFrequency] = useState('');
 
+	const [time, setTime] = useState('');
+
+	const handleTimeChange = (event) => {
+		setTime(event.target.value);
+	};
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
+
+		let utcTime = '';
+		if (time) {
+			const date = new Date(`1970-01-01T${time}:00`);
+			utcTime = date.toLocaleTimeString('en-US', { hour12: false, timeZone: 'UTC' }).substr(0, 5);
+		}
 
 		createMedication({
 			name,
@@ -57,9 +69,10 @@ const AddMedicationForm = () => {
 			prescriber,
 			drug: selectedDrugId,
 			frequency: {
-				timeOfDay,
-				dayOfTheWeek,
 				[frequency]: true,
+				dayOfTheWeek,
+				timeOfDay,
+				time: utcTime,
 			},
 		});
 	};
@@ -173,18 +186,15 @@ const AddMedicationForm = () => {
 				/>
 				<AddDrugAutocomplete setSelectedDrugId={setSelectedDrugId} />
 				<FormControl component="fieldset" sx={{ mt: 3 }}>
-					<FormLabel component="legend">Time of Day</FormLabel>
-					<FormGroup>
-						{Object.keys(timeOfDay).map((time) => (
-							<FormControlLabel
-								control={
-									<Checkbox checked={timeOfDay[time]} onChange={handleTimeOfDayChange} name={time} />
-								}
-								label={time.charAt(0).toUpperCase() + time.slice(1)}
-								key={time}
-							/>
-						))}
-					</FormGroup>
+					<FormLabel component="legend">Frequency</FormLabel>
+					<RadioGroup value={frequency} onChange={handleFrequencyChange}>
+						<FormControlLabel value="none" control={<Radio />} label="None" />
+						<FormControlLabel value="once" control={<Radio />} label="One Time" />
+						<FormControlLabel value="daily" control={<Radio />} label="Daily" />
+						<FormControlLabel value="weekly" control={<Radio />} label="Weekly" />
+						<FormControlLabel value="biWeekly" control={<Radio />} label="Bi-Weekly" />
+						<FormControlLabel value="monthly" control={<Radio />} label="Monthly" />
+					</RadioGroup>
 				</FormControl>
 				<FormControl component="fieldset" sx={{ mt: 3 }}>
 					<FormLabel component="legend">Day of the Week</FormLabel>
@@ -215,15 +225,33 @@ const AddMedicationForm = () => {
 					</FormGroup>
 				</FormControl>
 				<FormControl component="fieldset" sx={{ mt: 3 }}>
-					<FormLabel component="legend">Frequency</FormLabel>
-					<RadioGroup value={frequency} onChange={handleFrequencyChange}>
-						<FormControlLabel value="none" control={<Radio />} label="None" />
-						<FormControlLabel value="once" control={<Radio />} label="One Time" />
-						<FormControlLabel value="daily" control={<Radio />} label="Daily" />
-						<FormControlLabel value="weekly" control={<Radio />} label="Weekly" />
-						<FormControlLabel value="biWeekly" control={<Radio />} label="Bi-Weekly" />
-						<FormControlLabel value="monthly" control={<Radio />} label="Monthly" />
-					</RadioGroup>
+					<FormLabel component="legend">Time of Day</FormLabel>
+					<FormGroup>
+						{Object.keys(timeOfDay).map((time) => (
+							<FormControlLabel
+								control={
+									<Checkbox checked={timeOfDay[time]} onChange={handleTimeOfDayChange} name={time} />
+								}
+								label={time.charAt(0).toUpperCase() + time.slice(1)}
+								key={time}
+							/>
+						))}
+					</FormGroup>
+				</FormControl>
+				<FormControl component="fieldset" sx={{ mt: 3 }}>
+					<FormLabel component="legend">Time</FormLabel>
+					<TextField
+						id="time"
+						type="time"
+						value={time}
+						onChange={handleTimeChange}
+						InputLabelProps={{
+							shrink: true,
+						}}
+						inputProps={{
+							step: 300,
+						}}
+					/>
 				</FormControl>
 				<Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
 					Add Medication

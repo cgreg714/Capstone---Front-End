@@ -17,7 +17,7 @@ const MedIntakeFormTwo = () => {
 	const { createIntake, medications } = useContext(MedicationContext);
 	const [intake, setIntake] = useState({
 		quantity: '',
-		time: new Date().toISOString().substring(0, 16),
+		takenAt: new Date().toISOString().substring(0, 16),
 		medication: '',
 	});
 
@@ -40,17 +40,21 @@ const MedIntakeFormTwo = () => {
 
 		setIntake({
 			...intake,
-			time: localDateTime,
+			takenAt: localDateTime,
 		});
 	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			await createIntake(intake.medication, intake);
+			const intakeData = {
+				...intake,
+				takenAt: new Date(intake.takenAt + 'Z').toISOString(),
+			};
+			await createIntake(intake.medication, intakeData);
 			setIntake({
 				quantity: '',
-				time: new Date().toISOString().substring(0, 16),
+				takenAt: new Date().toISOString().substring(0, 16),
 				medication: '',
 			});
 		} catch (error) {
@@ -79,10 +83,10 @@ const MedIntakeFormTwo = () => {
 						required
 					/>
 					<TextField
-						name="time"
-						label="Time"
+						name="takenAt"
+						label="Taken At"
 						type="datetime-local"
-						value={intake.time}
+						value={intake.takenAt}
 						onChange={handleChange}
 						InputProps={{
 							endAdornment: (

@@ -77,7 +77,7 @@ const MedicationCards = () => {
 							Description: {medication.description}
 						</Typography>
 						<Typography variant="body2" color="text.secondary">
-							Dose: {medication.dose}, {medication.unitOfMeasurement}
+							Dose: {medication.dose} {medication.unitOfMeasurement}
 						</Typography>
 						<Typography variant="body2" color="text.secondary">
 							{medication.frequency.time}

@@ -3,17 +3,18 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { DrugContext } from '../../contexts/DrugContext';
 import { getInteractionBetweenTwoDrugs } from '../../api/drugAPI';
+import MedicationAutocomplete from '../Medications/MedAutocomplete';
 
-function DrugInteractionChecker() {
+function MedDrugInteractionChecker() {
     const { drugs } = useContext(DrugContext);
-    const [drug1, setDrug1] = useState(null);
-    const [drug2, setDrug2] = useState(null);
+    const [medication, setMedication] = useState(null);
+    const [drug, setDrug] = useState(null);
     const [interaction, setInteraction] = useState(null);
 
     const checkInteraction = useCallback(async () => {
-        if (drug1 && drug2) {
+        if (medication && drug) {
             try {
-                const interaction = await getInteractionBetweenTwoDrugs(drug1['drugbank-id'][0], drug2['drugbank-id'][0]);
+                const interaction = await getInteractionBetweenTwoDrugs(medication.associatedDrug['drugbank-id'][0], drug['drugbank-id'][0]);
                 setInteraction(interaction);
             } catch (error) {
                 if (error.response && error.response.status === 404) {
@@ -23,7 +24,7 @@ function DrugInteractionChecker() {
                 }
             }
         }
-    }, [drug1, drug2]);
+    }, [medication, drug]);
 
     useEffect(() => {
         checkInteraction();
@@ -31,27 +32,23 @@ function DrugInteractionChecker() {
 
     return (
         <div>
-            <Autocomplete
-                options={drugs}
-                getOptionLabel={(option) => option.name}
-                style={{ width: 300 }}
+            <MedicationAutocomplete
                 onChange={(event, newValue) => {
-                    setDrug1(newValue);
+                    setMedication(newValue);
                 }}
-                renderInput={(params) => <TextField {...params} label="Drug 1" variant="outlined" />}
             />
             <Autocomplete
                 options={drugs}
                 getOptionLabel={(option) => option.name}
                 style={{ width: 300 }}
                 onChange={(event, newValue) => {
-                    setDrug2(newValue);
+                    setDrug(newValue);
                 }}
-                renderInput={(params) => <TextField {...params} label="Drug 2" variant="outlined" />}
+                renderInput={(params) => <TextField {...params} label="Drug" variant="outlined" />}
             />
             {interaction && <p>Interaction: {interaction.description}</p>}
         </div>
     );
 }
 
-export default DrugInteractionChecker;
+export default MedDrugInteractionChecker;

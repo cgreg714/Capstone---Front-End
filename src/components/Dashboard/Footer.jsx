@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from '@mui/material';
-import { StyledFooter } from '../styles/mainLayoutStyles';
+import { StyledFooter } from '../../styles/mainLayoutStyles';
 
 function Footer() {
     return (

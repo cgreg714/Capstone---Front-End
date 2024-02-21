@@ -2,15 +2,10 @@ import React from 'react';
 import { Box } from '@mui/material';
 import SearchAppBar from '../components/Dashboard/AppBar';
 import { PermanentDrawerLeft } from '../components/Dashboard/Drawer';
-import Dashboard from './Dashboard';
-import Medications from './Medications';
-import Drugs from './Drugs';
-import Profile from './Profile';
-import Settings from './Settings';
-import { Routes, Route } from 'react-router-dom';
-import Footer from '../components/Footer';
+import { Outlet } from 'react-router-dom';
+import Footer from '../components/Dashboard/Footer';
 
-function MainLayout() {
+function MainLayout({ children }) {
 	const drawerWidth = 240;
 
 	return (
@@ -27,13 +22,7 @@ function MainLayout() {
 				}}
 			>
 				<Box sx={{ p: { xs: 2, sm: 3 }, flexGrow: 1 }}>
-					<Routes>
-						<Route path="/dashboard" element={<Dashboard />} />
-						<Route path="/medications" element={<Medications />} />
-						<Route path="/drugs" element={<Drugs />} />
-						<Route path="/profile" element={<Profile />} />
-						<Route path="/settings" element={<Settings />} />
-					</Routes>
+					{children || <Outlet />}
 				</Box>
 				<Footer />
 			</Box>
