@@ -1,10 +1,10 @@
 import React from 'react'
 import { ListGroup, Card, Button, ButtonGroup } from 'react-bootstrap'
 
-function CardBody({name, description, dosages, quantity, dateAdded, prescriber, timeOfDay, dayOfTheWeek}) {
+function CardBody({name, description, unitOfMeasurement, dose,frequency, quantity, dateAdded, prescriber}) {
   return (
     <React.Fragment>
-        <Card style={{margin:"5px auto", width:"125pt"}}>
+        <Card style={{margin:"5px auto"}}>
         <Card.Body>
             <Card.Title>{name}</Card.Title>
             <Card.Text>{description}</Card.Text>
@@ -13,9 +13,9 @@ function CardBody({name, description, dosages, quantity, dateAdded, prescriber, 
             <ListGroup.Item>Prescriber: {prescriber}</ListGroup.Item>
         </ListGroup>
         <Card.Footer>
-            <ListGroup horizontal style={{margin:"10px auto"}}>
-                <ListGroup.Item>{quantity}</ListGroup.Item>
-                <ListGroup.Item>{dateAdded}</ListGroup.Item>
+            <ListGroup style={{margin:"10px auto"}}>
+                <ListGroup.Item>Quantity:{quantity}</ListGroup.Item>
+                <ListGroup.Item>Date Added:{dateAdded}</ListGroup.Item>
             </ListGroup>
             <ButtonGroup vertical>
             <Button style={{ fontSize:"14px", backgroundColor:"green", borderColor:"green"}} onClick={()=> console.log('click view', {name})}>View</Button>
