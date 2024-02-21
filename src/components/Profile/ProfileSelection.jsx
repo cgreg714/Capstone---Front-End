@@ -15,7 +15,7 @@ const ProfileSelectionPage = () => {
     };
 
     return (
-        <Grid container justifyContent="center">
+        <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
             <Card>
                 <CardContent>
                     <Typography variant="h4" component="div" align="center" gutterBottom>
