@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Button, Col, Container, Form, FormGroup, Input, InputGroup, Label, Row } from 'reactstrap'
 
+//toDO pass in {token} for auth as props
 function MedEdit() {
 
         //? global variables
@@ -24,31 +25,39 @@ function MedEdit() {
         const [medName, setMedName] = useState('')
         const [medPrescriber, setPrescriber] = useState('')
         const [medDescription, setDescription] = useState('')
-        // const [medMorning, setMorning] = useState('')
-        // const [medNoon, setNoon] = useState('')
-        // const [medEvening, setEvening] = useState('')
-        // const [medBedtime, setBedTime] = useState('')
-        // const [medSunday, setSunday] = useState('')
-        // const [medMonday, setMonday] = useState('')
-        // const [medTuesday, setTuesday] = useState('')
-        // const [medWednesday, setWednesday] = useState('')
-        // const [medThursday, setThursday] = useState('')
-        // const [medFriday, setFriday] = useState('')
-        // const [medSaturday, setSaturday] = useState('')
+        const [medMorning, setMorning] = useState(false)
+        const [medNoon, setNoon] = useState(false)
+        const [medEvening, setEvening] = useState(false)
+        const [medBedtime, setBedTime] = useState(false)
+        const [medSunday, setSunday] = useState(false)
+        const [medMonday, setMonday] = useState(false)
+        const [medTuesday, setTuesday] = useState(false)
+        const [medWednesday, setWednesday] = useState(false)
+        const [medThursday, setThursday] = useState(false)
+        const [medFriday, setFriday] = useState(false)
+        const [medSaturday, setSaturday] = useState(false)
         const [medDose, setDose] = useState('')
-        // const [medUnit, setUnit] = useState('')
-        // const [medDaily, setDaily] = useState('')
-        // const [medWeekly, setWeekly] = useState('')
-        // const [medBiWeekly, setBiWeekly] = useState('')
-        // const [medMonthly, setMonthly] = useState('')
+        const [medUnit, setUnit] = useState('')
+        const [medFrequency, setFrequency] = useState('')
         const [medQuantity, setQuantity] = useState('')
         // const [medDrug, setDrug] = useState('')
+        // const [medDay, setDay] = useState('')
+        // const [ medTime, setTime ] = useState('')
+        // const [ medAdded, setAdded ] = useState('')
 
         //? arrays
 
         const dayTimes = ['Morning', 'Noon', 'Evening', 'Bedtime'];
 
+        const setDayTimeStates = [setMorning, setNoon, setEvening, setBedTime];
+
+        let dayTimesStates = [medMorning, medNoon, medEvening, medBedtime];
+
         const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        const setWeekDaysStates = [setSunday, setMonday, setTuesday, setWednesday, setThursday, setFriday, setSaturday];
+
+        let weekDaysStates = [medSunday, medMonday, medTuesday, medWednesday, medThursday, medFriday, medSaturday];
 
         const units = [ null, 'kg', 'g', 'mg', 'mcg', 'L', 'ml', 'cc', 'mol', 'mmol', 'units', 'tbsp', 'tsp'];
 
@@ -57,19 +66,159 @@ function MedEdit() {
 
         //?Functions
 
-        function changeValue() {
-            console.log('change')
-        }
+        //toDo fetch medication through user context
+        //!needs to be tested
+        // const fetchMedication = async () => {
+        //     const url = `url that we have setup`
+
+        //     const requestOptions = {
+        //         method: 'GET',
+        //         headers: new Headers({
+        //             'Authorization': token
+        //         })
+        //     }
+            // try {
+            //     const res = await fetch(url,requestOptions);
+            //     const data = await res.json();
+
+            //     const{name, description, unitOfMeasurement, dose, frequency:{time,timeOfDay:{morning,noon,evening,bedtime},dayOfTheWeek:{sunday,monday,tuesday,wednesday,thursday,friday,saturday},day,daily,weekly,biWeekly,monthly}, quantity, dateAdded, prescriber //, associatedDrug
+            //     } = data.results[0];
+            //     setMedName(name);
+            //     setDescription(description);
+            //     setUnit(unitOfMeasurement);
+            //     setDose(dose);
+            //     setTime(time);
+            //     setFrequency([daily, weekly,biWeekly,monthly]);
+            //     setDay(day)
+            //     setMorning(morning);
+            //     setNoon(noon);
+            //     setEvening(evening);
+            //     setBedTime(bedtime);
+            //     setSunday(sunday);
+            //     setMonday(monday);
+            //     setTuesday(tuesday);
+            //     setWednesday(wednesday);
+            //     setThursday(thursday);
+            //     setFriday(friday);
+            //     setSaturday(saturday);
+            //     setQuantity(quantity);
+            //     setAdded(dateAdded);
+            //     setPrescriber(prescriber);
+
+            // } catch (err) {
+            //     console.error(err.message)
+            // }
+
+        // }
+
+        // useEffect(() => {
+        //     if(token){
+        //         fetchMedication();
+        //     }
+        // },[token])
 
         async function handleSubmit(e) {
             e.preventDefault();
-            console.log('submit');
-            console.log(medName);
-            console.log(medPrescriber);
-            console.log(medDescription);
-            console.log(medQuantity);
-            console.log(medDose);
-            console.log(medUnit);
+            //testing
+            // console.log('submit');
+            // console.log(medName);
+            // console.log(medPrescriber);
+            // console.log(medDescription);
+            // console.log(medQuantity);
+            // console.log(medDose);
+            // console.log(medUnit);
+            // console.log(medFrequency.f);
+
+            //?frequency variables
+            let medDaily;
+            let medWeekly;
+            let medBiWeekly;
+            let medMonthly;
+
+            //?Select Frequency(daily,weekly,biweekly,monthly) switch conditional to set true/false values
+            //this could have probably been made more simply than this
+            switch(medFrequency.f) {
+                case "daily":
+                    medDaily = true;
+                    medWeekly = false;
+                    medBiWeekly = false;
+                    medMonthly = false;
+                    break;
+                case "weekly":
+                    medDaily = false;
+                    medWeekly = true;
+                    medBiWeekly = false;
+                    medMonthly = false;
+                    break;
+                case "bi weekly":
+                    medDaily = false;
+                    medWeekly = false;
+                    medBiWeekly = true;
+                    medMonthly = false;
+                    break;
+                case "monthly":
+                    medDaily = false;
+                    medWeekly = false;
+                    medBiWeekly = false;
+                    medMonthly = true;
+                    break;
+                    default:
+                    medDaily = null;
+                    medWeekly = null;
+                    medBiWeekly = null;
+                    medMonthly = null;
+            }
+            //testing switch statement
+            // console.log(medDaily, medWeekly, medBiWeekly, medMonthly);
+
+            //*JSON compiling
+            let timeOfDay = {
+                //these didnt have to be nested in arrays but the way i initially(wrongly) worked on them called for arrays so im leaving them in. look its been a long grueling 4 weeks im just hoping this will be over soon.
+                morning: dayTimesStates[0],
+                noon: dayTimesStates[1],
+                evening: dayTimesStates[2],
+                bedtime:dayTimesStates[3]
+            }
+
+
+
+            let dayOfTheWeek = {
+                sunday: weekDaysStates[0],
+                monday: weekDaysStates[1],
+                tuesday: weekDaysStates[2],
+                wednesday: weekDaysStates[3],
+                thursday: weekDaysStates[4],
+                friday: weekDaysStates[5],
+                saturday: weekDaysStates[6]
+            }
+
+            let daily = medDaily;
+            let weekly= medWeekly;
+            let biWeekly= medBiWeekly;
+            let monthly= medMonthly;
+
+            let medicationFreq = {
+                timeOfDay,
+                dayOfTheWeek,
+                daily,
+                weekly,
+                biWeekly,
+                monthly
+            }
+
+            let body = JSON.stringify({
+                name: medName,
+                description: medDescription,
+                unitOfMeasurement: medUnit,
+                dose: medDose,
+                frequency: medicationFreq,
+                quantity: medQuantity,
+                prescriber: medPrescriber
+            })
+
+            console.log(body)
+
+        
         }
 
   return (
@@ -145,10 +294,10 @@ function MedEdit() {
                                     <Col sm={8}>
                                         <InputGroup>
                                             <Input type='number' value={medDose} onChange={e=>setDose(e.target.value)} />
-                                            <Input name='unit=select' type='select'>
+                                            <Input name='unit=select' type='select' onChange={e=>setUnit(e.target.value)}>
                                             {
                                                 units.map((u,i)=>(
-                                                    <option key={i}>{u}</option>
+                                                    <option key={i} className='unitSelect'>{u}</option>
                                                 ))
                                             }
                                             </Input>
@@ -170,6 +319,7 @@ function MedEdit() {
                                         <Input
                                         name='radio1'
                                         type='radio'
+                                        onChange={()=>setFrequency({f})}
                                         />
                                         <Label check>
                                             {f}
@@ -184,7 +334,7 @@ function MedEdit() {
                         {
                             dayTimes.map((d,i)=>(
                                 <FormGroup check inline key={i}>
-                                    <Input type='checkbox'/>
+                                    <Input type='checkbox' onChange={e=>{console.log(e.target.checked),setDayTimeStates[i](e.target.checked)}}/>
                                     <Label>{d}</Label>
                                 </FormGroup>
                             ))
@@ -194,7 +344,7 @@ function MedEdit() {
                         {
                             weekDays.map((weekDay,index)=>(
                                 <FormGroup key={index} check style={styles.marginAuto}>
-                                    <Input type='checkbox' />
+                                    <Input type='checkbox' onChange={e=>setWeekDaysStates[index](e.target.checked)}/>
                                     <Label>{weekDay}</Label>
                                 </FormGroup>
                             ))
