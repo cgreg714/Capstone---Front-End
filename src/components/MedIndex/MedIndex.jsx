@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import MedCreate from './MedCreate'
-import MedDisplay from './meddisplay/MedDisplay'
+import MedDisplay from './MedDisplay/DisplayContainer'
 import MedEdit from './MedEdit';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 

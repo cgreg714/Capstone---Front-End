@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container } from 'react-bootstrap';
 import DisplayNav from './DisplayNav';
-import CardContainer from './medcard/CardContainer';
+import CardContainer from './MedCard/CardContainer';
 
 function MedDisplay(props) {
 
