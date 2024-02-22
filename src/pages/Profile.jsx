@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import ProfileCards from '../components/Profile/Card/ProfileCard';
 import AddABuddyForm from '../components/Profile/AddABuddyForm';
@@ -7,6 +7,7 @@ import AddProfileForm from '../components/Profile/AddProfileForm';
 import AddPharmacyForm from '../components/Profile/AddPharmacyForm';
 
 function Profile() {
+	const [profiles, setProfiles] = useState([]);
 
 	return (
 		<Grid container rowSpacing={3} columnSpacing={3}>
@@ -14,7 +15,7 @@ function Profile() {
 				<ProfileCards />
 			</Grid>
 			<Grid item xs={12}>
-				<AddProfileForm />
+				<AddProfileForm onProfileCreated={(newProfile) => setProfiles([...profiles, newProfile])} />
 			</Grid>
 			<Grid item xs={12}>
 				<AddABuddyForm />

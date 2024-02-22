@@ -1,8 +1,8 @@
-import api from './';
+import api from '.';
 
-export const getOneUser = async (userId) => {
+export const signup = async (user) => {
     try {
-        const response = await api.get(`/user/${userId}`);
+        const response = await api.post('/signup', user);
         return response.data;
     } catch (error) {
         if (error.response) {
@@ -13,9 +13,9 @@ export const getOneUser = async (userId) => {
     }
 };
 
-export const updateUser = async (userId, user) => {
+export const login = async (user) => {
     try {
-        const response = await api.put(`/user/${userId}`, user);
+        const response = await api.post('/login', user);
         return response.data;
     } catch (error) {
         if (error.response) {
@@ -26,9 +26,12 @@ export const updateUser = async (userId, user) => {
     }
 };
 
-export const deleteUser = async (userId) => {
+export const logout = async (callback) => {
     try {
-        const response = await api.delete(`/user/${userId}`);
+        const response = await api.get('/logout');
+        if (typeof callback === 'function') {
+            callback();
+        }
         return response.data;
     } catch (error) {
         if (error.response) {
@@ -39,9 +42,9 @@ export const deleteUser = async (userId) => {
     }
 };
 
-export const getAllUsers = async () => {
+export const checkToken = async () => {
     try {
-        const response = await api.get(`/user`);
+        const response = await api.get('/check-token');
         return response.data;
     } catch (error) {
         if (error.response) {
@@ -52,9 +55,9 @@ export const getAllUsers = async () => {
     }
 };
 
-export const changeUserRole = async (userId, role) => {
+export const sendPasswordResetEmail = async (email) => {
     try {
-        const response = await api.patch(`/user/${userId}`, role);
+        const response = await api.post('/request-password-reset', { email });
         return response.data;
     } catch (error) {
         if (error.response) {
@@ -65,22 +68,9 @@ export const changeUserRole = async (userId, role) => {
     }
 };
 
-export const addProfileToUser = async (userId, profileId) => {
+export const resetPassword = async (token, password) => {
     try {
-        const response = await api.post(`/user/${userId}/addProfile/${profileId}`);
-        return response.data;
-    } catch (error) {
-        if (error.response) {
-            throw new Error(error.response.data.error);
-        } else {
-            throw error;
-        }
-    }
-};
-
-export const removeProfileFromUser = async (userId, profileId) => {
-    try {
-        const response = await api.post(`/user/${userId}/removeProfile/${profileId}`);
+        const response = await api.post(`/reset-password/${token}`, { password });
         return response.data;
     } catch (error) {
         if (error.response) {

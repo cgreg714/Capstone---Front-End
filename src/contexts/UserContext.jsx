@@ -7,7 +7,7 @@ import {
 	addProfileToUser as addProfileToUserAPI,
 	removeProfileFromUser as removeProfileFromUserAPI,
 } from '../api/userAPI';
-import { logout } from '../api/loginAPI';
+import { logout } from '../api/authAPI';
 import { ProfileProvider } from './ProfileContext';
 
 export const UserContext = createContext();

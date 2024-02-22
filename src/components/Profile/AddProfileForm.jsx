@@ -6,7 +6,7 @@ const avatarContext = require.context('../../assets/Avatars', false, /\.png$/);
 
 const avatarImages = avatarContext.keys().map(avatarContext);
 
-const AddProfileForm = () => {
+const AddProfileForm = ({ onProfileCreated }) => {
 	const firstNameRef = useRef();
 	const lastNameRef = useRef();
 	const emailRef = useRef();
@@ -31,6 +31,10 @@ const AddProfileForm = () => {
 
 		await createProfile(profile);
 
+		if (onProfileCreated) {
+            onProfileCreated(profile);
+        }
+		
 		firstNameRef.current.value = '';
 		lastNameRef.current.value = '';
 		emailRef.current.value = '';
@@ -47,7 +51,7 @@ const AddProfileForm = () => {
 						<Grid item xs={6}>
 							<TextField label="Last Name" inputRef={lastNameRef} fullWidth />
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={12}>
 							<TextField label="Email" inputRef={emailRef} fullWidth />
 						</Grid>
 						<Grid item xs={12}>

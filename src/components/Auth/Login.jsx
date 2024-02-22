@@ -2,7 +2,7 @@ import React, { useRef, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Card, CardContent, Box, InputAdornment, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { login } from '../../api/loginAPI';
+import { login } from '../../api/authAPI';
 import { UserContext } from '../../contexts/UserContext';
 import { jwtDecode } from 'jwt-decode';
 import Visibility from '@mui/icons-material/Visibility';

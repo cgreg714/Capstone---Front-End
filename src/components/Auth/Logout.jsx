@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
-import { logout } from '../../api/loginAPI';
+import { logout } from '../../api/authAPI';
 import { UserContext } from '../../contexts/UserContext';
 
 const LogoutButton = () => {

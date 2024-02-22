@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Box, Card, CardContent, LinearProgress, InputAdornment, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { signup } from '../../api/loginAPI';
+import { signup } from '../../api/authAPI';
 import zxcvbn from 'zxcvbn';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';

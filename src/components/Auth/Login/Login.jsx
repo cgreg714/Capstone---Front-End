@@ -1,13 +1,14 @@
 import './Login.css';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FormControl, InputAdornment, InputLabel, Input, Box } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import medication from '../../../assets/medicine130x130.png';
 import { UserContext } from '../../../contexts/UserContext';
 import { jwtDecode } from 'jwt-decode';
-import { login } from '../../../api/loginAPI';
+import { login } from '../../../api/authAPI';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -135,7 +136,7 @@ function Login() {
 			</Box>
 
 			<div className="forgot-password">
-				Forgot your password?<span> Click Here!</span>
+				Forgot your password? <Link to="/forgot-password">Click Here!</Link>
 			</div>
 
 			<div className="submit-container">
