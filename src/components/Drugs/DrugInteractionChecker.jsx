@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { DrugContext } from '../../contexts/DrugContext';
@@ -10,22 +10,24 @@ function DrugInteractionChecker() {
     const [drug2, setDrug2] = useState(null);
     const [interaction, setInteraction] = useState(null);
 
-    const checkInteraction = async () => {
+    const checkInteraction = useCallback(async () => {
         if (drug1 && drug2) {
-            console.log("🚀 ~ file: DrugInteractionChecker.jsx:15 ~ checkInteraction ~ drug2:", drug2)
-            console.log("🚀 ~ file: DrugInteractionChecker.jsx:15 ~ checkInteraction ~ drug1:", drug1['drugbank-id'][0])
             try {
                 const interaction = await getInteractionBetweenTwoDrugs(drug1['drugbank-id'][0], drug2['drugbank-id'][0]);
                 setInteraction(interaction);
             } catch (error) {
-                console.error(error);
+                if (error.response && error.response.status === 404) {
+                    setInteraction({ description: 'No interaction found.' });
+                } else {
+                    console.error(error);
+                }
             }
         }
-    };
+    }, [drug1, drug2]);
 
     useEffect(() => {
         checkInteraction();
-    }, [drug1, drug2]);
+    }, [checkInteraction]);
 
     return (
         <div>

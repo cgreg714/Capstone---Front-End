@@ -17,7 +17,9 @@ export const UserProvider = ({ children }) => {
 	const [userId, setUserId] = useState(initialToken ? jwtDecode(initialToken)._id : null);
 	const [user, setUser] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
-	
+	// eslint-disable-next-line
+	const [isCheckingToken, setIsCheckingToken] = useState(true);
+
 	useEffect(() => {
 		const fetchUserData = async () => {
 			if (initialToken) {
@@ -32,9 +34,10 @@ export const UserProvider = ({ children }) => {
 					}
 				}
 			}
+			setIsCheckingToken(false);
 			setIsLoading(false);
 		};
-
+	
 		fetchUserData();
 	}, [initialToken]);
 

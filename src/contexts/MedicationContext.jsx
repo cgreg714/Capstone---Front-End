@@ -9,16 +9,23 @@ import {
     getByPrescriber as getByPrescriberAPI,
     getByName as getByNameAPI,
     getByDate as getByDateAPI,
-    addDrugToMedication as addDrugToMedicationAPI,
-    removeDrugFromMedication as removeDrugFromMedicationAPI,
+    // addDrugToMedication as addDrugToMedicationAPI,
+    // removeDrugFromMedication as removeDrugFromMedicationAPI,
     toggleField as toggleFieldAPI,
 } from '../api/medicationAPI';
+import { getAllIntakes as getAllIntakesAPI,
+	deleteAllIntakes as deleteAllIntakesAPI,
+	createIntake as createIntakeAPI,
+	getIntake as getIntakeAPI,
+	updateIntake as updateIntakeAPI,
+	deleteIntake as deleteIntakeAPI,
+} from '../api/medicationIntakeAPI';
 
 export const MedicationContext = createContext();
 
 export const MedicationProvider = React.memo(({ children, userId, profileId }) => {
 	const [medications, setMedications] = useState([]);
-	console.log("🚀 ~ file: MedicationContext.jsx:23 ~ MedicationProvider ~ medications:", medications)
+	const [intakes, setIntakes] = useState([]);
 
 	useEffect(() => {
 		if (!userId || !profileId) {
@@ -37,7 +44,7 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 		getAllMedications();
 	}, [userId, profileId]);
 
-	const addMedication = async (medication) => {
+	const createMedication = async (medication) => {
 		if (userId && profileId) {
 			try {
 				const newMedication = await createMedicationAPI(userId, profileId, medication);
@@ -129,27 +136,27 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
         }
     };
 
-    const addDrugToMedication = async (medId, drugId) => {
-        if (userId && profileId) {
-            try {
-                const updatedMedication = await addDrugToMedicationAPI(userId, profileId, medId, drugId);
-                setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
-            } catch (error) {
-                console.error('Failed to add drug to medication:', error);
-            }
-        }
-    };
+    // const addDrugToMedication = async (medId, drugId) => {
+    //     if (userId && profileId) {
+    //         try {
+    //             const updatedMedication = await addDrugToMedicationAPI(userId, profileId, medId, drugId);
+    //             setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
+    //         } catch (error) {
+    //             console.error('Failed to add drug to medication:', error);
+    //         }
+    //     }
+    // };
 
-    const removeDrugFromMedication = async (medId, drugId) => {
-        if (userId && profileId) {
-            try {
-                const updatedMedication = await removeDrugFromMedicationAPI(userId, profileId, medId, drugId);
-                setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
-            } catch (error) {
-                console.error('Failed to remove drug from medication:', error);
-            }
-        }
-    };
+    // const removeDrugFromMedication = async (medId, drugId) => {
+    //     if (userId && profileId) {
+    //         try {
+    //             const updatedMedication = await removeDrugFromMedicationAPI(userId, profileId, medId, drugId);
+    //             setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
+    //         } catch (error) {
+    //             console.error('Failed to remove drug from medication:', error);
+    //         }
+    //     }
+    // };
 
     const toggleField = async (medId, field) => {
         if (userId && profileId) {
@@ -162,11 +169,81 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
         }
     };
 
+	const getAllIntakes = async (medId) => {
+		if (userId && profileId) {
+			try {
+				const data = await getAllIntakesAPI(userId, profileId, medId);
+				setIntakes(data);
+			} catch (error) {
+				console.error('Failed to fetch intakes:', error);
+			}
+		}
+	};
+
+	const deleteAllIntakes = async (medId) => {
+		if (userId && profileId) {
+			try {
+				await deleteAllIntakesAPI(userId, profileId, medId);
+				setIntakes([]);
+			} catch (error) {
+				console.error('Failed to delete all intakes:', error);
+			}
+		}
+	};
+
+	const createIntake = async (medId, intake) => {
+		if (userId && profileId) {
+			try {
+				const newIntake = await createIntakeAPI(userId, profileId, medId, intake);
+				setIntakes((prevIntakes) => [...prevIntakes, newIntake]);
+			} catch (error) {
+				console.error('Failed to create intake:', error);
+			}
+		}
+	};
+
+	const getIntake = async (medId, intakeId) => {
+		if (userId && profileId) {
+			try {
+				const intakeData = await getIntakeAPI(userId, profileId, medId, intakeId);
+				setIntakes((prevIntakes) =>
+					prevIntakes.map((intake) => (intake._id === intakeId ? intakeData : intake))
+				);
+			} catch (error) {
+				console.error('Failed to fetch intake:', error);
+			}
+		}
+	};
+
+	const updateIntake = async (medId, intakeId, updatedIntake) => {
+		if (userId && profileId) {
+			try {
+				const updatedIntakeData = await updateIntakeAPI(userId, profileId, medId, intakeId, updatedIntake);
+				setIntakes((prevIntakes) =>
+					prevIntakes.map((intake) => (intake._id === intakeId ? updatedIntakeData : intake))
+				);
+			} catch (error) {
+				console.error('Failed to update intake:', error);
+			}
+		}
+	};
+
+	const deleteIntake = async (medId, intakeId) => {
+		if (userId && profileId) {
+			try {
+				await deleteIntakeAPI(userId, profileId, medId, intakeId);
+				setIntakes((prevIntakes) => prevIntakes.filter((intake) => intake._id !== intakeId));
+			} catch (error) {
+				console.error('Failed to delete intake:', error);
+			}
+		}
+	};
+
 	return (
 		<MedicationContext.Provider
 			value={{
 				medications,
-				addMedication,
+				createMedication,
 				deleteAllMedications,
 				getMedication,
 				updateMedication,
@@ -174,9 +251,16 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
                 getByPrescriber,
                 getByName,
                 getByDate,
-                addDrugToMedication,
-                removeDrugFromMedication,
+                // addDrugToMedication,
+                // removeDrugFromMedication,
                 toggleField,
+				intakes,
+				getAllIntakes,
+				deleteAllIntakes,
+				createIntake,
+				getIntake,
+				updateIntake,
+				deleteIntake,
 			}}
 		>
 			{children}

@@ -13,6 +13,7 @@ const LogoutButton = () => {
             await logout(() => {
                 setUser(null);
                 localStorage.removeItem('token');
+                localStorage.removeItem('profileId');
                 navigate('/login');
             });
         } catch (error) {
@@ -21,7 +22,7 @@ const LogoutButton = () => {
     };
 
     return (
-        <Button variant="contained" onClick={handleLogout}>Log Out</Button>
+        <Button variant="contained" onClick={handleLogout} sx={{ minWidth: 120 }}>Log Out</Button>
     );
 };
 

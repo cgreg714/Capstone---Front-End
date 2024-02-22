@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { MedicationProvider } from './MedicationContext';
 import {
 	getAllProfiles as getAllProfilesAPI,
@@ -21,25 +21,29 @@ import {
 	updateABuddy as updateABuddyAPI,
 	deleteABuddy as deleteABuddyAPI,
 } from '../api/aBuddyAPI';
-import { addProfileToUser } from '../api/userAPI';
 
 export const ProfileContext = createContext();
 
 export const ProfileProvider = React.memo(({ children, userId }) => {
-	console.log('🚀 ~ file: ProfileContext.jsx:28 ~ ProfileProvider ~ userId:', userId);
+	const initialProfileId = localStorage.getItem('profileId');
 	const [profiles, setProfiles] = useState([]);
-	const [profileId, setProfileId] = useState(null);
+	const [profileId, setProfileId] = useState(initialProfileId || null);
 
 	const [doctors, setDoctors] = useState([]);
 	const [abuddies, setABuddies] = useState([]);
+	const [avatarUrl, setAvatarUrl] = useState(null);
 
-	useEffect(() => {
-		console.log('ProfileProvider mounted with userId:', userId);
-
-		return () => {
-			console.log('ProfileProvider is going to unmount');
-		};
-	}, []);
+	const getProfile = useCallback(async (profileId) => {
+		if (userId) {
+			try {
+				const profileData = await getProfileAPI(userId, profileId);
+				setProfileId(profileData._id);
+				setAvatarUrl(profileData.avatar);
+			} catch (error) {
+				console.error('Failed to fetch profile:', error);
+			}
+		}
+	}, [userId]);
 
 	useEffect(() => {
 		if (!userId) {
@@ -61,6 +65,8 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			return;
 		}
 
+		getProfile(profileId);
+
 		const fetchDoctors = async () => {
 			try {
 				const data = await getAllDoctorsAPI(userId, profileId);
@@ -81,30 +87,17 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 
 		fetchABuddies();
 		fetchDoctors();
-	}, [userId, profileId]);
+	}, [userId, profileId, getProfile]);
 
 	const createProfile = async (profile) => {
-		console.log("🚀 ~ file: ProfileContext.jsx:88 ~ createProfile ~ userId:", userId)
 		if (userId) {
 			try {
 				const newProfile = await createProfileAPI(userId, profile);
 				setProfiles((prevProfiles) => [...prevProfiles, newProfile]);
-				
 				setProfileId(newProfile._id);
-
+				localStorage.setItem('profileId', newProfile._id);
 			} catch (error) {
 				console.error('Failed to create profile:', error);
-			}
-		}
-	};
-
-	const getProfile = async (profileId) => {
-		if (userId) {
-			try {
-				const profileData = await getProfileAPI(userId, profileId);
-				setProfileId(profileData._id);
-			} catch (error) {
-				console.error('Failed to fetch profile:', error);
 			}
 		}
 	};
@@ -234,6 +227,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			value={{
 				userId,
 				profileId,
+				avatarUrl,
 				setProfileId,
 				profiles,
 				setProfiles,

@@ -12,8 +12,10 @@ const Signup = () => {
     const passwordRef = useRef();
     const emailRef = useRef();
     const navigate = useNavigate();
+    
     const [passwordStrength, setPasswordStrength] = useState(0);
     const [showPassword, setShowPassword] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const handleSignup = async () => {
         try {
@@ -24,7 +26,12 @@ const Signup = () => {
             });
             navigate('/login');
         } catch (error) {
-            console.error(error);
+            const errorMessage = error.response?.data?.error;
+            if (errorMessage) {
+                setErrorMessage(errorMessage);
+            } else {
+                console.error(error);
+            }
         }
     };
 
@@ -63,6 +70,7 @@ const Signup = () => {
         >
             <Card sx={{ minWidth: 275, width: '100%', maxWidth: 500 }}>
                 <CardContent>
+                {errorMessage && <p>{errorMessage}</p>}
                     <TextField
                         type="email"
                         placeholder="Email"

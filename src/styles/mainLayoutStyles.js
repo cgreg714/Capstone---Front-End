@@ -13,7 +13,7 @@ export const drawerWidth = 240;
 export const StyledAppBar = styled(AppBar)({
 	position: 'sticky',
 	zIndex: 999,
-	backgroundColor: '#9E1b32',
+	backgroundColor: '#AA384C',
 });
 
 //* Dashboard Drawer
@@ -21,7 +21,7 @@ export const StyledDrawer = styled(Drawer)({
 	'& .MuiDrawer-paper': {
 		width: drawerWidth,
 		boxSizing: 'border-box',
-		backgroundColor: '#9E1b32',
+		backgroundColor: '#AA384C',
 		color: '#00000',
 		flexShrink: 0,
 	},
@@ -42,4 +42,12 @@ export const StyledListItemIcon = styled(ListItemIcon)({
 	marginRight: '1.5rem',
 	fontSize: '1.5rem',
 	textAlign: 'center',
+});
+
+//* Footer
+export const StyledFooter = styled('footer')({
+    position: 'relative',
+    flexShrink: 0,
+	width: '100%',
+	height: '2.5rem',
 });
