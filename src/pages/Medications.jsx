@@ -21,7 +21,6 @@ function Medications() {
 			<Grid item xs={12} md={6}>
 				<MedIntakeFormTwo />
 			</Grid>
-
 		</Grid>
 	);
 }

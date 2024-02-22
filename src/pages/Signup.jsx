@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import Signup from '../components/Auth/Signup';
+import SignupComponent from '../components/Auth/Signup';
+import Signup from '../components/Auth/Signup/Signup';
 
 function SignupPage() {
 
