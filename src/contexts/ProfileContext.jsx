@@ -33,17 +33,22 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 	const [abuddies, setABuddies] = useState([]);
 	const [avatarUrl, setAvatarUrl] = useState(null);
 
-	const getProfile = useCallback(async (profileId) => {
-		if (userId) {
-			try {
-				const profileData = await getProfileAPI(userId, profileId);
-				setProfileId(profileData._id);
-				setAvatarUrl(profileData.avatar);
-			} catch (error) {
-				console.error('Failed to fetch profile:', error);
+	const [isLoading, setIsLoading] = useState(false);
+	
+	const getProfile = useCallback(
+		async (profileId) => {
+			if (userId) {
+				try {
+					const profileData = await getProfileAPI(userId, profileId);
+					setProfileId(profileData._id);
+					setAvatarUrl(profileData.avatar);
+				} catch (error) {
+					console.error('Failed to fetch profile:', error);
+				}
 			}
-		}
-	}, [userId]);
+		},
+		[userId]
+	);
 
 	useEffect(() => {
 		if (!userId) {
@@ -51,12 +56,14 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 		}
 
 		const fetchProfiles = async () => {
+			setIsLoading(true);
 			try {
 				const data = await getAllProfilesAPI(userId);
 				setProfiles(data);
 			} catch (error) {
 				console.error('Failed to fetch profiles:', error);
 			}
+			setIsLoading(false);
 		};
 
 		fetchProfiles();
@@ -245,6 +252,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				getABuddy,
 				updateABuddy,
 				deleteABuddy,
+				isLoading,
 			}}
 		>
 			<MedicationProvider userId={userId} profileId={profileId}>

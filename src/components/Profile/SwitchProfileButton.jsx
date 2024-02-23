@@ -3,7 +3,7 @@ import { MenuItem, Select, InputLabel, FormControl, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ProfileContext } from '../../contexts/ProfileContext';
 
-const ProfileSelector = ({ onClose }) => {
+const ProfileSelector = () => {
 	const { profiles, setProfileId, getProfile } = useContext(ProfileContext);
 	const navigate = useNavigate();
 	const [selectedProfile, setSelectedProfile] = React.useState('');
@@ -21,7 +21,6 @@ const ProfileSelector = ({ onClose }) => {
 		getProfile(id);
 		localStorage.setItem('profileId', id);
 		setSelectedProfile(id);
-		onClose();
 	};
 
 	if (profiles.length === 0) {

@@ -1,5 +1,5 @@
 import './Signup.css';
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormControl, InputAdornment, InputLabel, Input, Box } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -13,6 +13,7 @@ import zxcvbn from 'zxcvbn';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { SnackbarContext } from '../../../contexts/SnackbarContext';
 
 function Signup() {
 	const usernameRef = useRef();
@@ -29,6 +30,8 @@ function Signup() {
 	const [isNumberMet, setIsNumberMet] = useState(false);
 	const [isSpecialCharMet, setIsSpecialCharMet] = useState(false);
 
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
+
 	const handleSignup = async (e) => {
 		e.preventDefault();
 		try {
@@ -37,6 +40,11 @@ function Signup() {
 				username: usernameRef.current.value,
 				password: passwordRef.current.value,
 			});
+			
+			setOpenSnackbar(true);
+            setSnackbarSeverity('success');
+            setSnackbarMessage('Signup successful!');
+
 			navigate('/login');
 		} catch (error) {
 			const errorMessage = error.response?.data?.error;

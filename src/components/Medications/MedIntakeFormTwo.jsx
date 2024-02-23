@@ -10,6 +10,7 @@ import {
 	IconButton,
 	Select,
 	MenuItem,
+	Typography,
 } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
@@ -67,7 +68,20 @@ const MedIntakeFormTwo = () => {
 			<CardHeader title="Add Medication Intake" />
 			<CardContent>
 				<form onSubmit={handleSubmit}>
-					<Select name="medication" value={intake.medication} onChange={handleChange} required>
+					<Select
+						value={intake.medication || ''}
+						onChange={handleChange}
+						displayEmpty
+						name="medication"
+						required
+					>
+						{!intake.medication && (
+							<MenuItem value="" disabled style={{ display: 'none' }}>
+								<Typography style={{ color: intake.medication ? 'inherit' : '#9e9e9e' }}>
+									Select Medication
+								</Typography>
+							</MenuItem>
+						)}
 						{medications.map((medication) => (
 							<MenuItem key={medication._id} value={medication._id}>
 								{medication.name}

@@ -15,7 +15,7 @@ export const getOneUser = async (userId) => {
 
 export const updateUser = async (userId, user) => {
     try {
-        const response = await api.put(`/user/${userId}`, user);
+        const response = await api.patch(`/user/${userId}`, user);
         return response.data;
     } catch (error) {
         if (error.response) {

@@ -1,33 +1,43 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { ProfileContext } from '../contexts/ProfileContext';
 
 export const ProtectedRoute = ({ children }) => {
 	const navigate = useNavigate();
-	const { userId, isLoading, isCheckingToken, logout, user } = useContext(UserContext);
-	const { profileId } = useContext(ProfileContext);
+	const { userId, isLoading: isAuthLoading, isCheckingToken, logout } = useContext(UserContext);
+	const { profileId, setProfileId, profiles, isLoading: isProfileLoading } = useContext(ProfileContext);
+
+	const [isChecking, setIsChecking] = useState(true);
+
+	useEffect(() => {
+		const storedProfileId = localStorage.getItem('profileId');
+		if (storedProfileId) {
+			setProfileId(storedProfileId);
+		}
+	}, [setProfileId]);
 
 	useEffect(() => {
 		const checkToken = async () => {
-			if (!isLoading && !userId) {
+			if (!isAuthLoading && !userId) {
 				logout();
 				navigate('/login');
-			} else if (!isLoading && userId) {
-				if (user && user.profiles && user.profiles.length > 0) {
-					if (!profileId) {
-						navigate('/profile-selection');
-					}
+			} else if (!isAuthLoading && !isProfileLoading && userId) {
+				if (profileId) {
+				} else if (profiles && profiles.length > 0) {
+					navigate('/profile-selection');
 				} else {
 					navigate('/add-profile');
 				}
 			}
+
+			setIsChecking(false);
 		};
 
 		checkToken();
-	}, [userId, navigate, isLoading, logout, profileId]);
+	}, [userId, navigate, isAuthLoading, logout, profileId, profiles, isProfileLoading]);
 
-	if (isLoading || isCheckingToken || !userId) {
+	if (isChecking || isCheckingToken || !userId) {
 		return null;
 	}
 

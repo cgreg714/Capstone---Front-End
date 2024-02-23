@@ -48,7 +48,6 @@ const MedicationIntakeForm = ({ medicationId }) => {
 
     return (
         <Card>
-            <CardHeader title="Add Medication Intake" />
             <CardContent>
                 <form onSubmit={handleSubmit}>
                     <TextField

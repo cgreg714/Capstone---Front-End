@@ -6,11 +6,15 @@ import AddProfileForm from '../components/Profile/AddProfileForm';
 function AddProfilePage() {
     const navigate = useNavigate();
 
+	const handleProfileCreated = () => {
+        navigate('/dashboard');
+    };
+
 	return (
 		<Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
 			<Grid item xs={12}>
 				<Box display="flex" justifyContent="center">
-					<AddProfileForm onProfileCreated={() => navigate('/main-app')} />
+					<AddProfileForm onProfileCreated={handleProfileCreated} />
 				</Box>
 			</Grid>
 		</Grid>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import LoginComponent from '../components/Auth/Login';
 import Login from '../components/Auth/Login/Login';
 
 function LoginPage() {

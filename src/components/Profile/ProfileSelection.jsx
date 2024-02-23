@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { Card, CardContent, Typography, Avatar, Box, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const ProfileSelectionPage = () => {
-	const { profiles, setProfileId, getProfile } = useContext(ProfileContext);
+	const { profiles, isLoading, setProfileId, getProfile } = useContext(ProfileContext);
 	const navigate = useNavigate();
 
 	const handleProfileSelect = (profileId) => {
@@ -13,6 +13,12 @@ const ProfileSelectionPage = () => {
 		localStorage.setItem('profileId', profileId);
 		navigate('/dashboard');
 	};
+
+    useEffect(() => {
+        if (profiles.length === 1) {
+            handleProfileSelect(profiles[0]._id);
+        }
+    }, [profiles]);
 
 	return (
 		<Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>

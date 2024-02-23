@@ -27,7 +27,6 @@ export const deleteAllIntakes = async (userId, profileId, medId) => {
 };
 
 export const createIntake = async (userId, profileId, medId, intake) => {
-    console.log("🚀 ~ file: medicationIntakeAPI.jsx:22 ~ createIntake ~ intake:", intake)
     try {
         const response = await api.post(`/user/${userId}/profile/${profileId}/medications/${medId}/intake`, intake);
         return response.data;

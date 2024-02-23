@@ -72,8 +72,8 @@ const MedicationHistory = () => {
 										})}
 									</Typography>
 									<Divider />
-									{medications.map((medication) => (
-										<Box key={medication.intakeId} mb={2}>
+									{medications.map((medication, index) => (
+										<Box key={`${medication.intakeId}-${index}`} mb={2}>
 											<Card>
 												<CardContent>
 													<Typography variant="h6">

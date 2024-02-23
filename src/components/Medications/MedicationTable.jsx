@@ -1,13 +1,37 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
-import { getAllMedications } from '../../api/medicationAPI';
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Paper,
+	Typography,
+	Button,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	TextField,
+} from '@mui/material';
+import { getAllMedications, addQuantity } from '../../api/medicationAPI';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import MedicationIntakeForm from './MedicationIntakeForm';
 
 function MedicationTable() {
 	const [medications, setMedications] = useState([]);
+	const [open, setOpen] = useState(false);
+	const [selectedMedicationId, setSelectedMedicationId] = useState(null);
 	const { userId, profileId } = useContext(ProfileContext);
 
+	const [refillOpen, setRefillOpen] = useState(false);
+	const [refillAmount, setRefillAmount] = useState('');
+
 	useEffect(() => {
+		if (!userId || !profileId) {
+			return;
+		}
+
 		getAllMedications(userId, profileId)
 			.then((data) => {
 				data.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
@@ -16,35 +40,64 @@ function MedicationTable() {
 			.catch((error) => console.error(error));
 	}, [userId, profileId]);
 
+	const handleClickOpen = (medicationId) => {
+		setSelectedMedicationId(medicationId);
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handleRefillOpen = (medicationId) => {
+		setSelectedMedicationId(medicationId);
+		setRefillOpen(true);
+	};
+
+	const handleRefillClose = () => {
+		setRefillOpen(false);
+	};
+
+	const handleRefillSubmit = async () => {
+		if (selectedMedicationId && refillAmount) {
+			await addQuantity(userId, profileId, selectedMedicationId, refillAmount);
+			const updatedMedications = await getAllMedications(userId, profileId);
+			setMedications(updatedMedications);
+			handleRefillClose();
+		}
+	};
+
 	return (
 		<TableContainer component={Paper}>
 			<Table>
 				<TableHead>
 					<TableRow>
-						<TableCell colSpan={6}>
+						<TableCell colSpan={8}>
 							<Typography variant="h6">Medications</Typography>
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>Name</TableCell>
-                        <TableCell>Drug</TableCell>
+						<TableCell>Drug</TableCell>
 						<TableCell>Date Added</TableCell>
 						<TableCell>Dose</TableCell>
 						<TableCell>Frequency</TableCell>
 						<TableCell>Quantity Left</TableCell>
+						<TableCell>Refill</TableCell>
+						<TableCell>Add Intake</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{medications.map((medication, index) => (
 						<TableRow key={index}>
 							<TableCell>{medication.name}</TableCell>
-                            <TableCell>
-                                {medication.associatedDrug && medication.associatedDrug.name}
-                                {medication.associatedDrug &&
-                                    medication.associatedDrug.products &&
-                                    medication.associatedDrug.products[0] &&
-                                    `(${medication.associatedDrug.products[0].name})`}
-                            </TableCell>
+							<TableCell>
+								{medication.associatedDrug && medication.associatedDrug.name}
+								{medication.associatedDrug &&
+									medication.associatedDrug.products &&
+									medication.associatedDrug.products[0] &&
+									`(${medication.associatedDrug.products[0].name})`}
+							</TableCell>
 							<TableCell>{new Date(medication.dateAdded).toLocaleDateString()}</TableCell>
 							<TableCell>{`${medication.dose} ${medication.unitOfMeasurement}`}</TableCell>
 							<TableCell>
@@ -87,10 +140,51 @@ function MedicationTable() {
 								)}{' '}
 							</TableCell>
 							<TableCell>{medication.quantity}</TableCell>
+							<TableCell>
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={() => handleRefillOpen(medication._id)}
+								>
+									Refill
+								</Button>
+							</TableCell>
+							<TableCell>
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={() => handleClickOpen(medication._id)}
+								>
+									Add Intake
+								</Button>
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
 			</Table>
+			<Dialog open={refillOpen} onClose={handleRefillClose}>
+				<DialogTitle>Refill Medication</DialogTitle>
+				<DialogContent>
+					<TextField
+						autoFocus
+						margin="dense"
+						label="Refill Amount"
+						type="number"
+						fullWidth
+						value={refillAmount}
+						onChange={(e) => setRefillAmount(e.target.value)}
+					/>
+					<Button onClick={handleRefillSubmit} color="primary">
+						Submit
+					</Button>
+				</DialogContent>
+			</Dialog>
+			<Dialog open={open} onClose={handleClose}>
+				<DialogTitle>Add Medication Intake</DialogTitle>
+				<DialogContent>
+					<MedicationIntakeForm medicationId={selectedMedicationId} />
+				</DialogContent>
+			</Dialog>
 		</TableContainer>
 	);
 }

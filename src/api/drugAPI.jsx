@@ -6,7 +6,7 @@ export const getAllDrugs = async () => {
         return response.data;
     } catch (error) {
         if (error.response) {
-            throw new Error(error.response.data.error);
+            throw new Error(error.response.data);
         } else {
             throw error;
         }
@@ -18,8 +18,9 @@ export const getInteractionBetweenTwoDrugs = async (drugId1, drugId2) => {
         const response = await api.get(`/drugs/${drugId1}/interactions/${drugId2}`);
         return response.data;
     } catch (error) {
+        console.log("🚀 ~ file: drugAPI.jsx:21 ~ getInteractionBetweenTwoDrugs ~ error:", error)
         if (error.response) {
-            throw new Error(error.response.data.error);
+            throw new Error(error.response.data);
         } else {
             throw error;
         }
@@ -32,7 +33,7 @@ export const getDrugByDrugbankId = async (id) => {
         return response.data;
     } catch (error) {
         if (error.response) {
-            throw new Error(error.response.data.error);
+            throw new Error(error.response.data);
         } else {
             throw error;
         }
@@ -45,7 +46,7 @@ export const getDrugByUnii = async (unii) => {
         return response.data;
     } catch (error) {
         if (error.response) {
-            throw new Error(error.response.data.error);
+            throw new Error(error.response.data);
         } else {
             throw error;
         }
@@ -58,7 +59,7 @@ export const searchDrugsByName = async (drugName) => {
         return response.data;
     } catch (error) {
         if (error.response) {
-            throw new Error(error.response.data.error);
+            throw new Error(error.response.data);
         } else {
             throw error;
         }
@@ -71,7 +72,7 @@ export const searchDrugsByProductName = async (productName) => {
         return response.data;
     } catch (error) {
         if (error.response) {
-            throw new Error(error.response.data.error);
+            throw new Error(error.response.data);
         } else {
             throw error;
         }

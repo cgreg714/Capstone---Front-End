@@ -3,28 +3,10 @@ import { Card, CardContent, Typography } from '@mui/material';
 import { ProfileContext } from '../../../contexts/ProfileContext';
 
 const ProfileCards = () => {
-	const { doctors, abuddies, profiles, profileId } = useContext(ProfileContext);
-
-	const currentProfile = profiles.find((profile) => profile._id === profileId);
+	const { doctors, abuddies } = useContext(ProfileContext);
 
 	return (
 		<div>
-			<Typography variant="h4" component="div">
-				Profile
-			</Typography>
-
-			{currentProfile && (
-				<Card key={currentProfile._id} sx={{ maxWidth: 250, marginTop: 2 }}>
-					<CardContent>
-						<Typography variant="h5" component="div">
-							{currentProfile.firstName} {currentProfile.lastName}
-						</Typography>
-						<Typography variant="body2">Email: {currentProfile.email}</Typography>
-						<Typography variant="body2">Phone Number: {currentProfile.phoneNumber}</Typography>
-					</CardContent>
-				</Card>
-			)}
-
 			<Typography variant="h4" component="div" sx={{ marginTop: 4 }}>
 				Doctors
 			</Typography>

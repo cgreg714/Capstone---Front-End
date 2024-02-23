@@ -79,45 +79,6 @@ export const deleteMedication = async (userId, profileId, medId) => {
     }
 };
 
-export const getByPrescriber = async (userId, profileId, prescriber) => {
-    try {
-        const response = await api.get(`/user/${userId}/profile/${profileId}/medications/prescriber/${prescriber}`);
-        return response.data;
-    } catch (error) {
-        if (error.response) {
-            throw new Error(error.response.data.error);
-        } else {
-            throw error;
-        }
-    }
-};
-
-export const getByName = async (userId, profileId, name) => {
-    try {
-        const response = await api.get(`/user/${userId}/profile/${profileId}/medications/name/${name}`);
-        return response.data;
-    } catch (error) {
-        if (error.response) {
-            throw new Error(error.response.data.error);
-        } else {
-            throw error;
-        }
-    }
-};
-
-export const getByDate = async (userId, profileId, dateAdded) => {
-    try {
-        const response = await api.get(`/user/${userId}/profile/${profileId}/medications/date/${dateAdded}`);
-        return response.data;
-    } catch (error) {
-        if (error.response) {
-            throw new Error(error.response.data.error);
-        } else {
-            throw error;
-        }
-    }
-};
-
 // export const addDrugToMedication = async (userId, profileId, medId, drugId) => {
 //     try {
 //         const response = await api.post(`/user/${userId}/profile/${profileId}/medications/${medId}/drugs/${drugId}`);
@@ -139,18 +100,22 @@ export const getByDate = async (userId, profileId, dateAdded) => {
 //     }
 // };
 
-// export const removeDrugFromMedication = async (userId, profileId, medId, drugId) => {
-//     try {
-//         const response = await api.delete(`/user/${userId}/profile/${profileId}/medications/${medId}/drugs/${drugId}`);
-//         return response.data;
-//     } catch (error) {
-//         throw error;
-//     }
-// };
-
 export const toggleField = async (userId, profileId, medId, field) => {
     try {
         const response = await api.patch(`/user/${userId}/profile/${profileId}/medications/${medId}/toggle/${field}`);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
+    }
+};
+
+export const addQuantity = async (userId, profileId, medId, quantityToAdd) => {
+    try {
+        const response = await api.patch(`/user/${userId}/profile/${profileId}/medications/${medId}/addQuantity`, { quantity: quantityToAdd });
         return response.data;
     } catch (error) {
         if (error.response) {
