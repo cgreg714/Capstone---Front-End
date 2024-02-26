@@ -1,44 +1,56 @@
 import React, { useRef, useContext, useState } from 'react';
 import { Avatar, TextField, Button, Grid, Box, Card, CardContent } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import { SnackbarContext } from '../../contexts/SnackbarContext'; // Import SnackbarContext
 
 const avatarContext = require.context('../../assets/Avatars', false, /\.png$/);
 
 const avatarImages = avatarContext.keys().map(avatarContext);
 
 const AddProfileForm = ({ onProfileCreated }) => {
-	const firstNameRef = useRef();
-	const lastNameRef = useRef();
-	const emailRef = useRef();
+    const firstNameRef = useRef();
+    const lastNameRef = useRef();
+    const emailRef = useRef();
 
-	const { createProfile } = useContext(ProfileContext);
+    const { createProfile } = useContext(ProfileContext);
+    const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext); // Use SnackbarContext
 
-	const [selectedAvatar, setSelectedAvatar] = useState(null);
+    const [selectedAvatar, setSelectedAvatar] = useState(null);
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-		const firstName = firstNameRef.current.value;
-		const lastName = lastNameRef.current.value;
-		const email = emailRef.current.value;
+        const firstName = firstNameRef.current.value;
+        const lastName = lastNameRef.current.value;
+        const email = emailRef.current.value;
 
-		const profile = {
-			firstName,
-			lastName,
-			email,
-			avatar: selectedAvatar,
-		};
+        const profile = {
+            firstName,
+            lastName,
+            email,
+            avatar: selectedAvatar,
+        };
 
-		await createProfile(profile);
+        try {
+            await createProfile(profile);
 
-		if (onProfileCreated) {
-            onProfileCreated(profile);
+            if (onProfileCreated) {
+                onProfileCreated(profile);
+            }
+
+            setSnackbarMessage('Profile created successfully');
+            setSnackbarSeverity('success');
+            setOpenSnackbar(true);
+        } catch (error) {
+            setSnackbarMessage('An error occurred while creating the profile');
+            setSnackbarSeverity('error');
+            setOpenSnackbar(true);
         }
-		
-		firstNameRef.current.value = '';
-		lastNameRef.current.value = '';
-		emailRef.current.value = '';
-	};
+
+        firstNameRef.current.value = '';
+        lastNameRef.current.value = '';
+        emailRef.current.value = '';
+    };
 
 	return (
 		<Card sx={{ maxWidth: 600 }}>

@@ -1,44 +1,50 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
 import {
-    getAllMedications as getAllMedicationsAPI,
-    createMedication as createMedicationAPI,
-    deleteAllMedications as deleteAllMedicationsAPI,
-    getMedication as getMedicationAPI,
-    updateMedication as updateMedicationAPI,
-    deleteMedication as deleteMedicationAPI,
-    // addDrugToMedication as addDrugToMedicationAPI,
-    toggleField as toggleFieldAPI,
+	getAllMedications as getAllMedicationsAPI,
+	createMedication as createMedicationAPI,
+	deleteAllMedications as deleteAllMedicationsAPI,
+	getMedication as getMedicationAPI,
+	updateMedication as updateMedicationAPI,
+	deleteMedication as deleteMedicationAPI,
+	// addDrugToMedication as addDrugToMedicationAPI,
+	toggleField as toggleFieldAPI,
+	addQuantity as addQuantityAPI,
 } from '../api/medicationAPI';
-import { getAllIntakes as getAllIntakesAPI,
+import {
+	getAllIntakes as getAllIntakesAPI,
 	deleteAllIntakes as deleteAllIntakesAPI,
 	createIntake as createIntakeAPI,
 	getIntake as getIntakeAPI,
 	updateIntake as updateIntakeAPI,
 	deleteIntake as deleteIntakeAPI,
 } from '../api/medicationIntakeAPI';
+import { SnackbarContext } from '../contexts/SnackbarContext';
 
 export const MedicationContext = createContext();
 
 export const MedicationProvider = React.memo(({ children, userId, profileId }) => {
 	const [medications, setMedications] = useState([]);
 	const [intakes, setIntakes] = useState([]);
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
-	useEffect(() => {
+	const getAllMedications = useCallback(async () => {
 		if (!userId || !profileId) {
 			return;
 		}
 
-		const getAllMedications = async () => {
-			try {
-				const data = await getAllMedicationsAPI(userId, profileId);
-				setMedications(data);
-			} catch (error) {
-				console.error('Failed to fetch medications:', error);
-			}
-		};
+		try {
+			const data = await getAllMedicationsAPI(userId, profileId);
+			setMedications(data);
+		} catch (error) {
+			setSnackbarMessage('An error occurred while fetching medications');
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
+		}
+	}, [userId, profileId, setSnackbarMessage, setSnackbarSeverity, setOpenSnackbar]);
 
+	useEffect(() => {
 		getAllMedications();
-	}, [userId, profileId]);
+	}, [getAllMedications]);
 
 	const createMedication = async (medication) => {
 		if (userId && profileId) {
@@ -46,7 +52,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 				const newMedication = await createMedicationAPI(userId, profileId, medication);
 				setMedications((prevMedications) => [...prevMedications, newMedication]);
 			} catch (error) {
-				console.error('Failed to create medication:', error);
+				setSnackbarMessage('An error occurred while creating a medication');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -57,7 +65,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 				await deleteAllMedicationsAPI(userId, profileId);
 				setMedications([]);
 			} catch (error) {
-				console.error('Failed to delete all medications:', error);
+				setSnackbarMessage('An error occurred while deleting all medications');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -70,7 +80,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 					prevMedications.map((medication) => (medication._id === medId ? medicationData : medication))
 				);
 			} catch (error) {
-				console.error('Failed to fetch medication:', error);
+				setSnackbarMessage('An error occurred while fetching a medication');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -80,10 +92,16 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 			try {
 				const updatedMedicationData = await updateMedicationAPI(userId, profileId, medId, updatedMedication);
 				setMedications((prevMedications) =>
-					prevMedications.map((medication) => (medication._id === medId ? updatedMedicationData : medication))
+					prevMedications.map((medication) =>
+						medication._id === medId
+							? { ...updatedMedicationData, quantity: updatedMedication.quantity }
+							: medication
+					)
 				);
 			} catch (error) {
-				console.error('Failed to update medication:', error);
+				setSnackbarMessage('An error occurred while updating a medication');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -94,32 +112,53 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 				await deleteMedicationAPI(userId, profileId, medId);
 				setMedications((prevMedications) => prevMedications.filter((medication) => medication._id !== medId));
 			} catch (error) {
-				console.error('Failed to delete medication:', error);
+				setSnackbarMessage('An error occurred while deleting a medication');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
 
-    // const addDrugToMedication = async (medId, drugId) => {
-    //     if (userId && profileId) {
-    //         try {
-    //             const updatedMedication = await addDrugToMedicationAPI(userId, profileId, medId, drugId);
-    //             setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
-    //         } catch (error) {
-    //             console.error('Failed to add drug to medication:', error);
-    //         }
-    //     }
-    // };
+	// const addDrugToMedication = async (medId, drugId) => {
+	//     if (userId && profileId) {
+	//         try {
+	//             const updatedMedication = await addDrugToMedicationAPI(userId, profileId, medId, drugId);
+	//             setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
+	//         } catch (error) {
+	//             console.error('Failed to add drug to medication:', error);
+	//         }
+	//     }
+	// };
 
-    const toggleField = async (medId, field) => {
-        if (userId && profileId) {
-            try {
-                const updatedMedication = await toggleFieldAPI(userId, profileId, medId, field);
-                setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
-            } catch (error) {
-                console.error('Failed to toggle field:', error);
-            }
-        }
-    };
+	const toggleField = async (medId, field) => {
+		if (userId && profileId) {
+			try {
+				const updatedMedication = await toggleFieldAPI(userId, profileId, medId, field);
+				setMedications((prevMedications) =>
+					prevMedications.map((medication) => (medication._id === medId ? updatedMedication : medication))
+				);
+			} catch (error) {
+				setSnackbarMessage('An error occurred while toggling the field');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	};
+
+	const addQuantity = async (medId, quantity) => {
+		if (userId && profileId) {
+			try {
+				const updatedMedication = await addQuantityAPI(userId, profileId, medId, quantity);
+				setMedications((prevMedications) =>
+					prevMedications.map((medication) => (medication._id === medId ? updatedMedication : medication))
+				);
+			} catch (error) {
+				setSnackbarMessage('An error occurred while adding quantity');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	};
 
 	const getAllIntakes = async (medId) => {
 		if (userId && profileId) {
@@ -127,7 +166,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 				const data = await getAllIntakesAPI(userId, profileId, medId);
 				setIntakes(data);
 			} catch (error) {
-				console.error('Failed to fetch intakes:', error);
+				setSnackbarMessage('An error occurred while fetching intakes');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -138,7 +179,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 				await deleteAllIntakesAPI(userId, profileId, medId);
 				setIntakes([]);
 			} catch (error) {
-				console.error('Failed to delete all intakes:', error);
+				setSnackbarMessage('An error occurred while deleting all intakes');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -147,15 +190,17 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 		if (userId && profileId) {
 			try {
 				const newIntake = await createIntakeAPI(userId, profileId, medId, intake);
-				setMedications((prevMedications) => 
-					prevMedications.map((medication) => 
-						medication._id === medId 
-							? { ...medication, medicationIntakes: [...medication.medicationIntakes, newIntake] } 
+				setMedications((prevMedications) =>
+					prevMedications.map((medication) =>
+						medication._id === medId
+							? { ...medication, medicationIntakes: [...medication.medicationIntakes, newIntake] }
 							: medication
 					)
 				);
 			} catch (error) {
-				console.error('Failed to create intake:', error);
+				setSnackbarMessage('An error occurred while creating an intake');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -168,7 +213,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 					prevIntakes.map((intake) => (intake._id === intakeId ? intakeData : intake))
 				);
 			} catch (error) {
-				console.error('Failed to fetch intake:', error);
+				setSnackbarMessage('An error occurred while fetching an intake');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -181,7 +228,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 					prevIntakes.map((intake) => (intake._id === intakeId ? updatedIntakeData : intake))
 				);
 			} catch (error) {
-				console.error('Failed to update intake:', error);
+				setSnackbarMessage('An error occurred while updating an intake');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -190,9 +239,24 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 		if (userId && profileId) {
 			try {
 				await deleteIntakeAPI(userId, profileId, medId, intakeId);
-				setIntakes((prevIntakes) => prevIntakes.filter((intake) => intake._id !== intakeId));
+				setMedications((prevMedications) => {
+					return prevMedications.map((medication) => {
+						if (medication._id === medId) {
+							return {
+								...medication,
+								medicationIntakes: medication.medicationIntakes.filter(
+									(intake) => intake._id !== intakeId
+								),
+							};
+						} else {
+							return medication;
+						}
+					});
+				});
 			} catch (error) {
-				console.error('Failed to delete intake:', error);
+				setSnackbarMessage('An error occurred while deleting an intake');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -202,12 +266,14 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 			value={{
 				medications,
 				createMedication,
+				getAllMedications,
 				deleteAllMedications,
 				getMedication,
 				updateMedication,
 				deleteMedication,
-                // addDrugToMedication,
-                toggleField,
+				// addDrugToMedication,
+				toggleField,
+				addQuantity,
 				intakes,
 				getAllIntakes,
 				deleteAllIntakes,

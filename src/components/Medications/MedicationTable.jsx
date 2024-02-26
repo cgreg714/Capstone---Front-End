@@ -14,31 +14,23 @@ import {
 	DialogContent,
 	TextField,
 } from '@mui/material';
-import { getAllMedications, addQuantity } from '../../api/medicationAPI';
-import { ProfileContext } from '../../contexts/ProfileContext';
+import { MedicationContext } from '../../contexts/MedicationContext';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
 import MedicationIntakeForm from './MedicationIntakeForm';
 
 function MedicationTable() {
-	const [medications, setMedications] = useState([]);
+	const { medications, getAllMedications, addQuantity } = useContext(MedicationContext);
 	const [open, setOpen] = useState(false);
 	const [selectedMedicationId, setSelectedMedicationId] = useState(null);
-	const { userId, profileId } = useContext(ProfileContext);
+
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
 	const [refillOpen, setRefillOpen] = useState(false);
 	const [refillAmount, setRefillAmount] = useState('');
 
 	useEffect(() => {
-		if (!userId || !profileId) {
-			return;
-		}
-
-		getAllMedications(userId, profileId)
-			.then((data) => {
-				data.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-				setMedications(data);
-			})
-			.catch((error) => console.error(error));
-	}, [userId, profileId]);
+		getAllMedications();
+	}, [medications, getAllMedications]);
 
 	const handleClickOpen = (medicationId) => {
 		setSelectedMedicationId(medicationId);
@@ -60,10 +52,19 @@ function MedicationTable() {
 
 	const handleRefillSubmit = async () => {
 		if (selectedMedicationId && refillAmount) {
-			await addQuantity(userId, profileId, selectedMedicationId, refillAmount);
-			const updatedMedications = await getAllMedications(userId, profileId);
-			setMedications(updatedMedications);
-			handleRefillClose();
+			try {
+				await addQuantity(selectedMedicationId, refillAmount);
+				setRefillAmount('');
+				handleRefillClose();
+
+				setSnackbarMessage('Refill submitted successfully');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
+			} catch (error) {
+				setSnackbarMessage('An error occurred while submitting the refill');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
 		}
 	};
 
@@ -95,7 +96,7 @@ function MedicationTable() {
 								{medication.associatedDrug && medication.associatedDrug.name}
 								{medication.associatedDrug &&
 									medication.associatedDrug.products &&
-									medication.associatedDrug.products[0] &&
+									medication.associatedDrug.products.length > 0 &&
 									`(${medication.associatedDrug.products[0].name})`}
 							</TableCell>
 							<TableCell>{new Date(medication.dateAdded).toLocaleDateString()}</TableCell>
@@ -129,15 +130,16 @@ function MedicationTable() {
 								})}
 								{medication.frequency.time && (
 									<div>
-										{`Time: ${new Date(
-											`1970-01-01T${medication.frequency.time}Z`
-										).toLocaleTimeString([], {
-											hour: '2-digit',
-											minute: '2-digit',
-											hour12: true,
-										})}`}
+										{`${new Date(`1970-01-01T${medication.frequency.time}Z`).toLocaleTimeString(
+											[],
+											{
+												hour: '2-digit',
+												minute: '2-digit',
+												hour12: true,
+											}
+										)}`}
 									</div>
-								)}{' '}
+								)}
 							</TableCell>
 							<TableCell>{medication.quantity}</TableCell>
 							<TableCell>
@@ -182,7 +184,7 @@ function MedicationTable() {
 			<Dialog open={open} onClose={handleClose}>
 				<DialogTitle>Add Medication Intake</DialogTitle>
 				<DialogContent>
-					<MedicationIntakeForm medicationId={selectedMedicationId} />
+					<MedicationIntakeForm medicationId={selectedMedicationId} handleClose={handleClose} />
 				</DialogContent>
 			</Dialog>
 		</TableContainer>

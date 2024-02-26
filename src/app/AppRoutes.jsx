@@ -10,7 +10,8 @@ import Drugs from '../pages/Drugs';
 import Profile from '../pages/Profile';
 import Settings from '../pages/Settings';
 import ForgotPasswordPage from '../pages/ForgotPassword';
-import PasswordResetPage from '../pages/PasswordReset';
+import VerifyOTP from '../pages/VerifyOTP';
+import ResetPassword from '../pages/ResetPassword';
 import { ProtectedRoute } from './AppProtectedRoute';
 
 export const AppRoutes = () => (
@@ -18,7 +19,8 @@ export const AppRoutes = () => (
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password/:token" element={<PasswordResetPage />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/add-profile" element={<ProtectedRoute><AddProfilePage /></ProtectedRoute>} />
         <Route path="/profile-selection" element={<ProtectedRoute><ProfileSelectionPage /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><MainLayout><Dashboard /></MainLayout></ProtectedRoute>} />

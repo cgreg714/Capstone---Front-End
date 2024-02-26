@@ -38,6 +38,7 @@ export const createIntake = async (userId, profileId, medId, intake) => {
         }
     }
 };
+
 export const getIntake = async (userId, profileId, medId, intakeId) => {
     try {
         const response = await api.get(`/user/${userId}/profile/${profileId}/medications/${medId}/intake/${intakeId}`);

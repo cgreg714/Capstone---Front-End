@@ -5,8 +5,8 @@ import { FormControl, InputAdornment, InputLabel, Input, Box } from '@mui/materi
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import MailIcon from '@mui/icons-material/Mail';
-import { RiCheckboxCircleLine } from "react-icons/ri";
-import { CiCircleRemove } from "react-icons/ci";
+import { RiCheckboxCircleLine } from 'react-icons/ri';
+import { CiCircleRemove } from 'react-icons/ci';
 import medication from '../../../assets/medicine130x130.png';
 import { signup } from '../../../api/authAPI';
 import zxcvbn from 'zxcvbn';
@@ -17,12 +17,14 @@ import { SnackbarContext } from '../../../contexts/SnackbarContext';
 
 function Signup() {
 	const usernameRef = useRef();
-	const passwordRef = useRef();
 	const emailRef = useRef();
+	const passwordRef = useRef();
+	const confirmPasswordRef = useRef();
 	const navigate = useNavigate();
 
 	const [passwordStrength, setPasswordStrength] = useState(0);
 	const [showPassword, setShowPassword] = useState(false);
+	// eslint-disable-next-line
 	const [errorMessage, setErrorMessage] = useState(null);
 
 	const [isLengthMet, setIsLengthMet] = useState(false);
@@ -34,25 +36,29 @@ function Signup() {
 
 	const handleSignup = async (e) => {
 		e.preventDefault();
+		if (passwordRef.current.value !== confirmPasswordRef.current.value) {
+			setOpenSnackbar(true);
+			setSnackbarSeverity('error');
+			setSnackbarMessage('Passwords do not match');
+			return;
+		}
 		try {
 			await signup({
 				email: emailRef.current.value,
 				username: usernameRef.current.value,
 				password: passwordRef.current.value,
 			});
-			
+
 			setOpenSnackbar(true);
-            setSnackbarSeverity('success');
-            setSnackbarMessage('Signup successful!');
+			setSnackbarSeverity('success');
+			setSnackbarMessage('Signup successful!');
 
 			navigate('/login');
 		} catch (error) {
-			const errorMessage = error.response?.data?.error;
-			if (errorMessage) {
-				setErrorMessage(errorMessage);
-			} else {
-				console.error(error);
-			}
+			const errorMessage = error.response?.data?.error || error.message;
+			setOpenSnackbar(true);
+			setSnackbarSeverity('error');
+			setSnackbarMessage(errorMessage);
 		}
 	};
 
@@ -154,6 +160,81 @@ function Signup() {
 							'& > :not(style)': { m: 1 },
 						}}
 					>
+						<PasswordStrengthBar />
+						<div style={{ width: '400px', margin: '0 auto' }}>
+							<p>Password must contain:</p>
+							<ul style={{ listStyleType: 'none' }}>
+								<li>
+									<span
+										style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
+									>
+										{isLengthMet ? (
+											<RiCheckboxCircleLine
+												color="green"
+												style={{ position: 'relative', top: '2px' }}
+											/>
+										) : (
+											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
+										)}
+									</span>
+									12 character minimum
+								</li>
+								<li>
+									<span
+										style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
+									>
+										{isUppercaseMet ? (
+											<RiCheckboxCircleLine
+												color="green"
+												style={{ position: 'relative', top: '2px' }}
+											/>
+										) : (
+											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
+										)}
+									</span>
+									At least one uppercase letter
+								</li>
+								<li>
+									<span
+										style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
+									>
+										{isNumberMet ? (
+											<RiCheckboxCircleLine
+												color="green"
+												style={{ position: 'relative', top: '2px' }}
+											/>
+										) : (
+											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
+										)}
+									</span>
+									At least one number
+								</li>
+								<li>
+									<span
+										style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
+									>
+										{isSpecialCharMet ? (
+											<RiCheckboxCircleLine
+												color="green"
+												style={{ position: 'relative', top: '2px' }}
+											/>
+										) : (
+											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
+										)}
+									</span>
+									At least one special character
+								</li>
+							</ul>
+						</div>
+					</Box>
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							'& > :not(style)': { m: 1 },
+						}}
+					>
 						<FormControl variant="standard">
 							<InputLabel htmlFor="password" style={{ marginLeft: '40px' }}>
 								Password
@@ -181,52 +262,32 @@ function Signup() {
 								inputRef={passwordRef}
 							/>
 						</FormControl>
-						<PasswordStrengthBar />
-						<div style={{ width: '400px', margin: '0 auto' }}>
-							<p>Password must contain:</p>
-							<ul style={{ listStyleType: 'none' }}>
-								<li>
-									<span style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}>
-										{isLengthMet ? (
-											<RiCheckboxCircleLine color="green" style={{ position: 'relative', top: '2px' }} />
-										) : (
-											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
-										)}
-									</span>
-									12 character minimum
-								</li>
-								<li>
-									<span style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}>
-										{isUppercaseMet ? (
-											<RiCheckboxCircleLine color="green" style={{ position: 'relative', top: '2px' }} />
-										) : (
-											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
-										)}
-									</span>
-									At least one uppercase letter
-								</li>
-								<li>
-									<span style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}>
-										{isNumberMet ? (
-											<RiCheckboxCircleLine color="green" style={{ position: 'relative', top: '2px' }} />
-										) : (
-											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
-										)}
-									</span>
-									At least one number
-								</li>
-								<li>
-									<span style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}>
-										{isSpecialCharMet ? (
-											<RiCheckboxCircleLine color="green" style={{ position: 'relative', top: '2px' }} />
-										) : (
-											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
-										)}
-									</span>
-									At least one special character
-								</li>
-							</ul>
-						</div>
+						<FormControl variant="standard">
+							<InputLabel htmlFor="confirm-password" style={{ marginLeft: '40px' }}>
+								Confirm Password
+							</InputLabel>
+							<Input
+								id="confirm-password"
+								type={showPassword ? 'text' : 'password'}
+								startAdornment={
+									<InputAdornment position="start">
+										<LockIcon />
+									</InputAdornment>
+								}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={() => setShowPassword(!showPassword)}
+										>
+											{showPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+								style={{ width: '400px', height: '50px', marginLeft: '40px', background: '#828A8F' }}
+								inputRef={confirmPasswordRef}
+							/>
+						</FormControl>
 					</Box>
 				</Box>
 			</Box>

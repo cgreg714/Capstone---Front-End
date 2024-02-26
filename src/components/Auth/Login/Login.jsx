@@ -7,6 +7,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import medication from '../../../assets/medicine130x130.png';
 import { UserContext } from '../../../contexts/UserContext';
+import { SnackbarContext } from '../../../contexts/SnackbarContext';
 import { jwtDecode } from 'jwt-decode';
 import { login } from '../../../api/authAPI';
 import IconButton from '@mui/material/IconButton';
@@ -16,10 +17,14 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 function Login() {
 	const identifierRef = useRef(null);
 	const passwordRef = useRef(null);
+
 	const navigate = useNavigate();
+
+	// eslint-disable-next-line
 	const [action, setAction] = useState('Login');
 	const { setUserId, fetchUser } = useContext(UserContext);
 	const [showPassword, setShowPassword] = useState(false);
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
 	useEffect(() => {
 		let decodedToken;
@@ -32,7 +37,9 @@ function Login() {
 				userId = decodedToken?._id;
 			}
 		} catch (error) {
-			console.error('Failed to decode token:', error);
+			setSnackbarMessage('Failed to decode token');
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
 		}
 
 		if (userId) {
@@ -41,10 +48,12 @@ function Login() {
 				fetchUser(userId);
 				navigate('/dashboard');
 			} catch (error) {
-				console.error(error);
+				setSnackbarMessage('Failed to fetch user');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
-	}, [fetchUser, navigate, setUserId]);
+	}, [fetchUser, navigate, setUserId, setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity]);
 
 	const handleLogin = async () => {
 		try {
@@ -52,6 +61,10 @@ function Login() {
 				identifier: identifierRef.current.value,
 				password: passwordRef.current.value,
 			});
+
+			setOpenSnackbar(true);
+			setSnackbarSeverity('success');
+			setSnackbarMessage('Login successful!');
 
 			const decodedToken = jwtDecode(response.token);
 			const userId = decodedToken._id;
@@ -67,7 +80,9 @@ function Login() {
 				navigate('/dashboard');
 			}
 		} catch (error) {
-			console.error(error);
+			setSnackbarMessage(error.message);
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
 		}
 	};
 

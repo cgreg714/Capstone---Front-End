@@ -1,6 +1,7 @@
 import React, { useRef, useContext } from 'react';
 import { Button, TextField, Box, Card, CardContent, Grid } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
 
 function AddABuddyForm() {
 	const firstNameRef = useRef();
@@ -8,11 +9,13 @@ function AddABuddyForm() {
 	const relationRef = useRef();
 	const emailRef = useRef();
 	const phoneNumberRef = useRef();
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
 	const { createABuddy } = useContext(ProfileContext);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+
 		const aBuddy = {
 			firstName: firstNameRef.current.value,
 			lastName: lastNameRef.current.value,
@@ -21,7 +24,17 @@ function AddABuddyForm() {
 			phoneNumber: phoneNumberRef.current.value,
 		};
 
-		await createABuddy(aBuddy);
+		try {
+			await createABuddy(aBuddy);
+
+			setSnackbarMessage('Buddy added successfully');
+			setSnackbarSeverity('success');
+			setOpenSnackbar(true);
+		} catch (error) {
+			setSnackbarMessage('An error occurred while adding the buddy');
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
+		}
 
 		firstNameRef.current.value = '';
 		lastNameRef.current.value = '';

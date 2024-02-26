@@ -1,12 +1,13 @@
 import React, { useRef, useContext } from 'react';
 import { Button, TextField, Box, Card, CardContent, Grid } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
 
 function AddDoctorForm() {
 	const firstNameRef = useRef();
 	const lastNameRef = useRef();
 	const phoneNumberRef = useRef();
-
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const { createDoctor } = useContext(ProfileContext);
 
 	const handleSubmit = async (event) => {
@@ -18,7 +19,17 @@ function AddDoctorForm() {
 			phoneNumber: phoneNumberRef.current.value,
 		};
 
-		await createDoctor(doctor);
+		try {
+			await createDoctor(doctor);
+
+			setSnackbarMessage('Doctor added successfully');
+			setSnackbarSeverity('success');
+			setOpenSnackbar(true);
+		} catch (error) {
+			setSnackbarMessage('An error occurred while adding the doctor');
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
+		}
 
 		firstNameRef.current.value = '';
 		lastNameRef.current.value = '';

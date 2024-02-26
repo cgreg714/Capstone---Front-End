@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
 import { MedicationProvider } from './MedicationContext';
 import {
 	getAllProfiles as getAllProfilesAPI,
@@ -21,6 +21,7 @@ import {
 	updateABuddy as updateABuddyAPI,
 	deleteABuddy as deleteABuddyAPI,
 } from '../api/aBuddyAPI';
+import { SnackbarContext } from '../contexts/SnackbarContext';
 
 export const ProfileContext = createContext();
 
@@ -34,7 +35,8 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 	const [avatarUrl, setAvatarUrl] = useState(null);
 
 	const [isLoading, setIsLoading] = useState(false);
-	
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
+
 	const getProfile = useCallback(
 		async (profileId) => {
 			if (userId) {
@@ -43,11 +45,13 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					setProfileId(profileData._id);
 					setAvatarUrl(profileData.avatar);
 				} catch (error) {
-					console.error('Failed to fetch profile:', error);
+					setSnackbarMessage('Failed to fetch profile');
+					setSnackbarSeverity('error');
+					setOpenSnackbar(true);
 				}
 			}
 		},
-		[userId]
+		[userId, setSnackbarMessage, setSnackbarSeverity, setOpenSnackbar, setAvatarUrl, setProfileId]
 	);
 
 	useEffect(() => {
@@ -61,7 +65,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const data = await getAllProfilesAPI(userId);
 				setProfiles(data);
 			} catch (error) {
-				console.error('Failed to fetch profiles:', error);
+				setSnackbarMessage('Failed to fetch profiles');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 			setIsLoading(false);
 		};
@@ -79,7 +85,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const data = await getAllDoctorsAPI(userId, profileId);
 				setDoctors(data);
 			} catch (error) {
-				console.error('Failed to fetch doctors:', error);
+				setSnackbarMessage('Failed to fetch doctors');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		};
 
@@ -88,13 +96,15 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const data = await getAllABuddiesAPI(userId, profileId);
 				setABuddies(data);
 			} catch (error) {
-				console.error('Failed to fetch abuddies:', error);
+				setSnackbarMessage('Failed to fetch abuddies');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		};
 
 		fetchABuddies();
 		fetchDoctors();
-	}, [userId, profileId, getProfile]);
+	}, [userId, profileId, getProfile, setSnackbarMessage, setSnackbarSeverity, setOpenSnackbar]);
 
 	const createProfile = async (profile) => {
 		if (userId) {
@@ -104,7 +114,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setProfileId(newProfile._id);
 				localStorage.setItem('profileId', newProfile._id);
 			} catch (error) {
-				console.error('Failed to create profile:', error);
+				setSnackbarMessage('Failed to create profile');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -117,7 +129,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					prevProfiles.map((profile) => (profile._id === profileId ? updatedProfileData : profile))
 				);
 			} catch (error) {
-				console.error('Failed to update profile:', error);
+				setSnackbarMessage('Failed to update profile');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -128,7 +142,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				await deleteProfileAPI(userId, profileId);
 				setProfiles((prevProfiles) => prevProfiles.filter((profile) => profile._id !== profileId));
 			} catch (error) {
-				console.error('Failed to delete profile:', error);
+				setSnackbarMessage('Failed to delete profile');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -139,7 +155,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const newDoctor = await createDoctorAPI(userId, profileId, doctor);
 				setDoctors((prevDoctors) => [...prevDoctors, newDoctor]);
 			} catch (error) {
-				console.error('Failed to create doctor:', error);
+				setSnackbarMessage('Failed to create doctor');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -152,7 +170,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					prevDoctors.map((doctor) => (doctor._id === doctorId ? doctorData : doctor))
 				);
 			} catch (error) {
-				console.error('Failed to fetch doctor:', error);
+				setSnackbarMessage('Failed to fetch doctor');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -165,7 +185,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					prevDoctors.map((doctor) => (doctor._id === doctorId ? updatedDoctorData : doctor))
 				);
 			} catch (error) {
-				console.error('Failed to update doctor:', error);
+				setSnackbarMessage('Failed to update doctor');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -176,7 +198,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				await deleteDoctorAPI(userId, profileId, doctorId);
 				setDoctors((prevDoctors) => prevDoctors.filter((doctor) => doctor._id !== doctorId));
 			} catch (error) {
-				console.error('Failed to delete doctor:', error);
+				setSnackbarMessage('Failed to delete doctor');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -187,7 +211,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const newABuddy = await createABuddyAPI(userId, profileId, aBuddy);
 				setABuddies((prevABuddies) => [...prevABuddies, newABuddy]);
 			} catch (error) {
-				console.error('Failed to create aBuddy:', error);
+				setSnackbarMessage('Failed to create abuddy');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -200,7 +226,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					prevABuddies.map((aBuddy) => (aBuddy._id === aBuddyId ? aBuddyData : aBuddy))
 				);
 			} catch (error) {
-				console.error('Failed to fetch aBuddy:', error);
+				setSnackbarMessage('Failed to fetch abuddy');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -213,7 +241,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					prevABuddies.map((aBuddy) => (aBuddy._id === aBuddyId ? updatedABuddyData : aBuddy))
 				);
 			} catch (error) {
-				console.error('Failed to update aBuddy:', error);
+				setSnackbarMessage('Failed to update abuddy');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};
@@ -224,7 +254,9 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				await deleteABuddyAPI(userId, profileId, aBuddyId);
 				setABuddies((prevABuddies) => prevABuddies.filter((aBuddy) => aBuddy._id !== aBuddyId));
 			} catch (error) {
-				console.error('Failed to delete aBuddy:', error);
+				setSnackbarMessage('Failed to delete abuddy');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
 			}
 		}
 	};

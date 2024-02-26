@@ -55,28 +55,35 @@ export const checkToken = async () => {
     }
 };
 
-export const sendPasswordResetEmail = async (email) => {
+export const sendOTP = async (email) => {
     try {
-        const response = await api.post('/request-password-reset', { email });
+        const response = await api.post('/send-otp', { email });
         return response.data;
     } catch (error) {
         if (error.response) {
             throw new Error(error.response.data.error);
-        } else {
-            throw error;
         }
     }
 };
 
-export const resetPassword = async (token, password) => {
+export const verifyOTP = async (otp) => {
     try {
-        const response = await api.post(`/reset-password/${token}`, { password });
+        const response = await api.post('/verify-otp', { otp });
         return response.data;
     } catch (error) {
         if (error.response) {
             throw new Error(error.response.data.error);
-        } else {
-            throw error;
+        }
+    }
+};
+
+export const resetPassword = async (otp, password) => {
+    try {
+        const response = await api.post('/reset-password', { otp, password });
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.error);
         }
     }
 };

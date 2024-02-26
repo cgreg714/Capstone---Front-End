@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { searchDrugsByName, searchDrugsByProductName } from '../../api/drugAPI';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
 
-function AddDrugAutocomplete({ setSelectedDrugId }) {
+function AddDrugAutocomplete({ setSelectedDrugId, reset }) {
 	const [options, setOptions] = useState([]);
 	const [inputValue, setInputValue] = useState('');
 	const [selectedValue, setSelectedValue] = useState(null);
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
 	useEffect(() => {
 		if (inputValue) {
@@ -22,12 +24,21 @@ function AddDrugAutocomplete({ setSelectedDrugId }) {
 					);
 					setOptions(uniqueDrugs);
 				} catch (error) {
-					console.error(error);
+					setSnackbarMessage('An error occurred while fetching drugs');
+					setSnackbarSeverity('error');
+					setOpenSnackbar(true);
 				}
 			};
 			fetchDrugs();
 		}
-	}, [inputValue]);
+	}, [inputValue, setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity]);
+
+	useEffect(() => {
+		if (reset) {
+			setSelectedValue(null);
+			setInputValue('');
+		}
+	}, [reset]);
 
 	return (
 		<Autocomplete

@@ -15,11 +15,14 @@ import {
 	MenuItem,
 } from '@mui/material';
 import { MedicationContext } from '../../contexts/MedicationContext';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
 import AddDrugAutocomplete from './AddDrugAutocomplete';
 
 const AddMedicationForm = () => {
 	const { createMedication } = useContext(MedicationContext);
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
+	const [resetAutocomplete, setResetAutocomplete] = useState(false);
 	const [selectedDrugId, setSelectedDrugId] = useState(null);
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
@@ -51,7 +54,36 @@ const AddMedicationForm = () => {
 		setTime(event.target.value);
 	};
 
-	const handleSubmit = (event) => {
+	const resetForm = () => {
+		setSelectedDrugId(null);
+		setName('');
+		setDescription('');
+		setUnitOfMeasurement('');
+		setDose('');
+		setQuantity('');
+		setPrescriber('');
+		setResetAutocomplete(true);
+		setTimeOfDay({
+			morning: false,
+			noon: false,
+			evening: false,
+			bedtime: false,
+		});
+		setDayOfTheWeek({
+			sunday: false,
+			monday: false,
+			tuesday: false,
+			wednesday: false,
+			thursday: false,
+			friday: false,
+			saturday: false,
+		});
+		setSelectAllDays(false);
+		setFrequency('');
+		setTime('');
+	};
+
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 
 		let utcTime = '';
@@ -60,21 +92,33 @@ const AddMedicationForm = () => {
 			utcTime = date.toLocaleTimeString('en-US', { hour12: false, timeZone: 'UTC' }).substr(0, 5);
 		}
 
-		createMedication({
-			name,
-			description,
-			unitOfMeasurement,
-			dose,
-			quantity,
-			prescriber,
-			drug: selectedDrugId,
-			frequency: {
-				[frequency]: true,
-				dayOfTheWeek,
-				timeOfDay,
-				time: utcTime,
-			},
-		});
+		try {
+			await createMedication({
+				name,
+				description,
+				unitOfMeasurement,
+				dose,
+				quantity,
+				prescriber,
+				drug: selectedDrugId,
+				frequency: {
+					[frequency]: true,
+					dayOfTheWeek,
+					timeOfDay,
+					time: utcTime,
+				},
+			});
+
+			setSnackbarMessage('Medication created successfully.');
+			setSnackbarSeverity('success');
+			setOpenSnackbar(true);
+
+			resetForm();
+		} catch (error) {
+			setSnackbarMessage('Error creating medication.');
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
+		}
 	};
 
 	const handleTimeOfDayChange = (event) => {
@@ -184,7 +228,7 @@ const AddMedicationForm = () => {
 					value={prescriber}
 					onChange={(e) => setPrescriber(e.target.value)}
 				/>
-				<AddDrugAutocomplete setSelectedDrugId={setSelectedDrugId} />
+				<AddDrugAutocomplete setSelectedDrugId={setSelectedDrugId} reset={resetAutocomplete} />
 				<FormControl component="fieldset" sx={{ mt: 3 }}>
 					<FormLabel component="legend">Frequency</FormLabel>
 					<RadioGroup value={frequency} onChange={handleFrequencyChange}>

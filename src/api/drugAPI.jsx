@@ -18,7 +18,6 @@ export const getInteractionBetweenTwoDrugs = async (drugId1, drugId2) => {
         const response = await api.get(`/drugs/${drugId1}/interactions/${drugId2}`);
         return response.data;
     } catch (error) {
-        console.log("🚀 ~ file: drugAPI.jsx:21 ~ getInteractionBetweenTwoDrugs ~ error:", error)
         if (error.response) {
             throw new Error(error.response.data);
         } else {

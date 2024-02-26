@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import PasswordReset from '../components/Auth/ForgotPassword/PasswordReset';
+import PasswordReset from '../components/Auth/ForgotPassword/ResetPassword';
 
 function PasswordResetPage() {
 	return (

@@ -2,13 +2,14 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { ProfileContext } from '../contexts/ProfileContext';
+import LoadingSpinner from './LoadingSpinner';
 
 export const ProtectedRoute = ({ children }) => {
 	const navigate = useNavigate();
 	const { userId, isLoading: isAuthLoading, isCheckingToken, logout } = useContext(UserContext);
 	const { profileId, setProfileId, profiles, isLoading: isProfileLoading } = useContext(ProfileContext);
 
-	const [isChecking, setIsChecking] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const storedProfileId = localStorage.getItem('profileId');
@@ -24,21 +25,22 @@ export const ProtectedRoute = ({ children }) => {
 				navigate('/login');
 			} else if (!isAuthLoading && !isProfileLoading && userId) {
 				if (profileId) {
-				} else if (profiles && profiles.length > 0) {
-					navigate('/profile-selection');
-				} else {
+					setIsLoading(false);
+				} else if (profiles && profiles.length === 0) {
 					navigate('/add-profile');
+					setIsLoading(false);
+				} else {
+					navigate('/profile-selection');
+					setIsLoading(false);
 				}
 			}
-
-			setIsChecking(false);
 		};
 
 		checkToken();
 	}, [userId, navigate, isAuthLoading, logout, profileId, profiles, isProfileLoading]);
 
-	if (isChecking || isCheckingToken || !userId) {
-		return null;
+	if (isLoading || isCheckingToken || !userId) {
+		return <LoadingSpinner />;
 	}
 
 	return children;
