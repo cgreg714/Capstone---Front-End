@@ -3,11 +3,13 @@ import { MedicationContext } from '../../contexts/MedicationContext';
 import { Card, CardContent, TextField, Button, InputAdornment, IconButton } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
+import { NotificationContext } from '../../contexts/NotificationContext';
 
 const MedicationIntakeForm = ({ medicationId, handleClose }) => {
-	const { createIntake, getAllMedications } = useContext(MedicationContext);
+    const { createIntake, getAllMedications, getMedication } = useContext(MedicationContext);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
-
+    const { addNotification } = useContext(NotificationContext);
+    
 	const [intake, setIntake] = useState({
 		quantity: '',
 		takenAt: new Date().toISOString().substring(0, 16),
@@ -36,22 +38,29 @@ const MedicationIntakeForm = ({ medicationId, handleClose }) => {
 		});
 	};
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		try {
-			await createIntake(medicationId, intake);
-			setIntake({
-				quantity: '',
-				takenAt: new Date().toISOString().substring(0, 16),
-			});
-			getAllMedications();
-			handleClose();
-		} catch (error) {
-			setSnackbarMessage('Failed to submit medication intake');
-			setSnackbarSeverity('error');
-			setOpenSnackbar(true);
-		}
-	};
+const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+        await createIntake(medicationId, intake);
+        const updatedMedication = await getMedication(medicationId); // get the updated medication
+        if (updatedMedication.quantity < 10) {
+            addNotification({
+                id: updatedMedication._id,
+                message: `You are low on ${updatedMedication.name}. Please refill your prescription.`,
+            });
+        }
+        setIntake({
+            quantity: '',
+            takenAt: new Date().toISOString().substring(0, 16),
+        });
+        getAllMedications();
+        handleClose();
+    } catch (error) {
+        setSnackbarMessage('Failed to submit medication intake');
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+    }
+};
 
 	return (
 		<Card>

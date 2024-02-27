@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import DrugInteractionChecker from '../components/Drugs/DrugInteractionChecker';
 import MedDrugInteractionChecker from '../components/Drugs/MedDrugInteractionChecker';
-
 function Drugs() {
 	return (
 		<Grid container rowSpacing={3} columnSpacing={3}>

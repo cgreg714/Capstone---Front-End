@@ -17,6 +17,7 @@ import {
 import { MedicationContext } from '../../contexts/MedicationContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import AddDrugAutocomplete from './AddDrugAutocomplete';
+import DrugAutocomplete from '../Drugs/DrugAutocomplete';
 
 const AddMedicationForm = () => {
 	const { createMedication } = useContext(MedicationContext);
@@ -228,7 +229,7 @@ const AddMedicationForm = () => {
 					value={prescriber}
 					onChange={(e) => setPrescriber(e.target.value)}
 				/>
-				<AddDrugAutocomplete setSelectedDrugId={setSelectedDrugId} reset={resetAutocomplete} />
+				<DrugAutocomplete setSelectedDrugId={setSelectedDrugId} reset={resetAutocomplete} />
 				<FormControl component="fieldset" sx={{ mt: 3 }}>
 					<FormLabel component="legend">Frequency</FormLabel>
 					<RadioGroup value={frequency} onChange={handleFrequencyChange}>

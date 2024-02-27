@@ -7,12 +7,14 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import medication from '../../../assets/medicine130x130.png';
 import { UserContext } from '../../../contexts/UserContext';
+import { ProfileContext } from '../../../contexts/ProfileContext';
 import { SnackbarContext } from '../../../contexts/SnackbarContext';
 import { jwtDecode } from 'jwt-decode';
 import { login } from '../../../api/authAPI';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Login() {
 	const identifierRef = useRef(null);
@@ -23,6 +25,7 @@ function Login() {
 	// eslint-disable-next-line
 	const [action, setAction] = useState('Login');
 	const { setUserId, fetchUser } = useContext(UserContext);
+	const { isLoading } = useContext(ProfileContext);
 	const [showPassword, setShowPassword] = useState(false);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
@@ -89,6 +92,10 @@ function Login() {
 	const handleSignUp = () => {
 		navigate('/signup');
 	};
+
+    if (isLoading) {
+        return <CircularProgress />;
+    }
 
 	return (
 		<>

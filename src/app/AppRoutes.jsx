@@ -6,6 +6,7 @@ import AddProfilePage from '../pages/AddProfile';
 import MainLayout from '../pages/MainLayout';
 import Dashboard from '../pages/Dashboard';
 import Medications from '../pages/Medications';
+import NotificationsPage from '../pages/Notifications';
 import Drugs from '../pages/Drugs';
 import Profile from '../pages/Profile';
 import Settings from '../pages/Settings';
@@ -28,6 +29,7 @@ export const AppRoutes = () => (
         <Route path="/drugs" element={<ProtectedRoute><MainLayout><Drugs /></MainLayout></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><MainLayout><Profile /></MainLayout></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><MainLayout><Settings /></MainLayout></ProtectedRoute>} />
+        <Route path="/notifications" element={<ProtectedRoute><MainLayout><NotificationsPage /></MainLayout></ProtectedRoute>} />
         <Route path="/" element={<ProtectedRoute><MainLayout><Dashboard /></MainLayout></ProtectedRoute>} />
         <Route path="/*" element={<ProtectedRoute><MainLayout><Dashboard /></MainLayout></ProtectedRoute>} />
     </Routes>

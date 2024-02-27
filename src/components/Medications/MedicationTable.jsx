@@ -94,10 +94,6 @@ function MedicationTable() {
 							<TableCell>{medication.name}</TableCell>
 							<TableCell>
 								{medication.associatedDrug && medication.associatedDrug.name}
-								{medication.associatedDrug &&
-									medication.associatedDrug.products &&
-									medication.associatedDrug.products.length > 0 &&
-									`(${medication.associatedDrug.products[0].name})`}
 							</TableCell>
 							<TableCell>{new Date(medication.dateAdded).toLocaleDateString()}</TableCell>
 							<TableCell>{`${medication.dose} ${medication.unitOfMeasurement}`}</TableCell>

@@ -19,6 +19,7 @@ import {
 	deleteIntake as deleteIntakeAPI,
 } from '../api/medicationIntakeAPI';
 import { SnackbarContext } from '../contexts/SnackbarContext';
+import { NotificationContext } from '../contexts/NotificationContext';
 
 export const MedicationContext = createContext();
 
@@ -26,6 +27,7 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 	const [medications, setMedications] = useState([]);
 	const [intakes, setIntakes] = useState([]);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
+    const { addNotification } = useContext(NotificationContext);
 
 	const getAllMedications = useCallback(async () => {
 		if (!userId || !profileId) {
