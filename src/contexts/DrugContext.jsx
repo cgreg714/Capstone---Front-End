@@ -6,6 +6,7 @@ export const DrugContext = createContext();
 
 export const DrugProvider = ({ children }) => {
     const [drugs, setDrugs] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
     useEffect(() => {
@@ -17,6 +18,8 @@ export const DrugProvider = ({ children }) => {
                 setSnackbarMessage('An error occurred while fetching drugs');
                 setSnackbarSeverity('error');
                 setOpenSnackbar(true);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -24,7 +27,7 @@ export const DrugProvider = ({ children }) => {
     }, [setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity]);
 
     return (
-        <DrugContext.Provider value={{ drugs }}>
+        <DrugContext.Provider value={{ drugs, isLoading }}>
             {children}
         </DrugContext.Provider>
     );

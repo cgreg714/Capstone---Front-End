@@ -21,6 +21,14 @@ import {
 	updateABuddy as updateABuddyAPI,
 	deleteABuddy as deleteABuddyAPI,
 } from '../api/aBuddyAPI';
+import {
+	getAllNotifications as getAllNotificationsAPI,
+	createNotification as createNotificationAPI,
+	getNotification as getNotificationAPI,
+	updateNotification as updateNotificationAPI,
+	deleteNotification as deleteNotificationAPI,
+	deleteAllNotifications as deleteAllNotificationsAPI,
+} from '../api/notificationAPI';
 import { SnackbarContext } from '../contexts/SnackbarContext';
 
 export const ProfileContext = createContext();
@@ -33,6 +41,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 	const [doctors, setDoctors] = useState([]);
 	const [abuddies, setABuddies] = useState([]);
 	const [avatarUrl, setAvatarUrl] = useState(null);
+	const [notifications, setNotifications] = useState([]);
 
 	const [isLoading, setIsLoading] = useState(false);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
@@ -54,6 +63,17 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 		[userId, setSnackbarMessage, setSnackbarSeverity, setOpenSnackbar, setAvatarUrl, setProfileId]
 	);
 
+	const getAllNotifications = useCallback(async () => {
+		try {
+			const notificationsData = await getAllNotificationsAPI(userId, profileId);
+			setNotifications(notificationsData);
+		} catch (error) {
+			setSnackbarMessage('Failed to fetch notifications');
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
+		}
+	}, [userId, profileId, setSnackbarMessage, setSnackbarSeverity, setOpenSnackbar]);
+
 	useEffect(() => {
 		if (!userId) {
 			return;
@@ -62,8 +82,8 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 		const fetchProfiles = async () => {
 			setIsLoading(true);
 			try {
-				const data = await getAllProfilesAPI(userId);
-				setProfiles(data);
+				const profilesData = await getAllProfilesAPI(userId);
+				setProfiles(profilesData);
 			} catch (error) {
 				setSnackbarMessage('Failed to fetch profiles');
 				setSnackbarSeverity('error');
@@ -80,10 +100,10 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 
 		getProfile(profileId);
 
-		const fetchDoctors = async () => {
+		const getAllDoctors = async () => {
 			try {
-				const data = await getAllDoctorsAPI(userId, profileId);
-				setDoctors(data);
+				const doctorsData = await getAllDoctorsAPI(userId, profileId);
+				setDoctors(doctorsData);
 			} catch (error) {
 				setSnackbarMessage('Failed to fetch doctors');
 				setSnackbarSeverity('error');
@@ -91,10 +111,10 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			}
 		};
 
-		const fetchABuddies = async () => {
+		const getAllABuddies = async () => {
 			try {
-				const data = await getAllABuddiesAPI(userId, profileId);
-				setABuddies(data);
+				const abuddiesData = await getAllABuddiesAPI(userId, profileId);
+				setABuddies(abuddiesData);
 			} catch (error) {
 				setSnackbarMessage('Failed to fetch abuddies');
 				setSnackbarSeverity('error');
@@ -102,9 +122,10 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			}
 		};
 
-		fetchABuddies();
-		fetchDoctors();
-	}, [userId, profileId, getProfile, setSnackbarMessage, setSnackbarSeverity, setOpenSnackbar]);
+		getAllABuddies();
+		getAllDoctors();
+		getAllNotifications();
+	}, [userId, profileId, getProfile, getAllNotifications, setSnackbarMessage, setSnackbarSeverity, setOpenSnackbar]);
 
 	const createProfile = async (profile) => {
 		if (userId) {
@@ -261,6 +282,103 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 		}
 	};
 
+	const createNotification = useCallback(
+		async (notification) => {
+			console.log("🚀 ~ file: ProfileContext.jsx:287 ~ notification:", notification)
+			if (userId && profileId) {
+				try {
+					const newNotification = await createNotificationAPI(userId, profileId, notification);
+					setNotifications((prevNotifications) => [...prevNotifications, newNotification]);
+				} catch (error) {
+					setSnackbarMessage('Failed to create notification');
+					setSnackbarSeverity('error');
+					setOpenSnackbar(true);
+				}
+			}
+		},
+		[setSnackbarMessage, setSnackbarSeverity, setOpenSnackbar, setNotifications, userId, profileId]
+	);
+
+	const getNotification = async (notificationId) => {
+		if (userId && profileId) {
+			try {
+				const notificationData = await getNotificationAPI(userId, profileId, notificationId);
+				setNotifications((prevNotifications) =>
+					prevNotifications.map((notification) =>
+						notification.id === notificationId ? notificationData : notification
+					)
+				);
+			} catch (error) {
+				setSnackbarMessage('Failed to fetch notification');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	};
+
+	const updateNotification = async (notificationId, updatedNotification) => {
+		if (userId && profileId) {
+			try {
+				const updatedNotificationData = await updateNotificationAPI(
+					userId,
+					profileId,
+					notificationId,
+					updatedNotification
+				);
+				setNotifications((prevNotifications) =>
+					prevNotifications.map((notification) =>
+						notification.id === notificationId ? updatedNotificationData : notification
+					)
+				);
+			} catch (error) {
+				setSnackbarMessage('Failed to update notification');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	};
+
+	const deleteNotification = async (notificationId) => {
+		if (userId && profileId) {
+			try {
+				await deleteNotificationAPI(userId, profileId, notificationId);
+				setNotifications((prevNotifications) =>
+					prevNotifications.filter((notification) => notification._id !== notificationId)
+				);
+			} catch (error) {
+				setSnackbarMessage('Failed to delete notification');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	};
+
+	const deleteAllNotifications = async () => {
+		if (userId && profileId) {
+			try {
+				await deleteAllNotificationsAPI(userId, profileId);
+				setNotifications([]);
+			} catch (error) {
+				setSnackbarMessage('Failed to delete all notifications');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	};
+
+	useEffect(() => {
+		profiles.forEach((profile) => {
+			profile.medications.forEach((medication) => {
+				if (medication.dose < 10) {
+					createNotification({
+						id: medication._id,
+						message: `You are low on ${medication.name}. Please refill your prescription.`,
+					});
+				}
+			});
+		});
+	}, [profiles, createNotification]);
+
 	return (
 		<ProfileContext.Provider
 			value={{
@@ -285,6 +403,13 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				updateABuddy,
 				deleteABuddy,
 				isLoading,
+				notifications,
+				getAllNotifications,
+				createNotification,
+				getNotification,
+				updateNotification,
+				deleteNotification,
+				deleteAllNotifications,
 			}}
 		>
 			<MedicationProvider userId={userId} profileId={profileId}>

@@ -31,7 +31,7 @@ function Signup() {
 	const [isUppercaseMet, setIsUppercaseMet] = useState(false);
 	const [isNumberMet, setIsNumberMet] = useState(false);
 	const [isSpecialCharMet, setIsSpecialCharMet] = useState(false);
-
+	const [passwordsMatch, setPasswordsMatch] = useState(false);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
 	const handleSignup = async (e) => {
@@ -70,6 +70,11 @@ function Signup() {
 		setIsSpecialCharMet(/[@$!%*?&]/.test(password));
 		const result = zxcvbn(password);
 		setPasswordStrength(result.score);
+		setPasswordsMatch(password === confirmPasswordRef.current.value);
+	};
+
+	const handleConfirmPasswordChange = (event) => {
+		setPasswordsMatch(passwordRef.current.value === event.target.value);
 	};
 
 	const getPasswordStrengthColor = () => {
@@ -107,203 +112,269 @@ function Signup() {
 	return (
 		<>
 			<div className="medication">
-				<img src={medication} alt="medication" />
+				<img src={medication} alt="Medication" />
 			</div>
-			<div className="header">
+			<header className="header">
 				<h2 className="header-title">DoseMinder</h2>
 				<h4 className="header-subtitle">Sign Up</h4>
-			</div>
+			</header>
 
-			<Box component="form" onSubmit={handleSignup}>
-				<Box className="inputs">
-					<Box sx={{ '& > :not(style)': { m: 1 } }}>
-						<FormControl variant="standard">
-							<InputLabel htmlFor="email" style={{ marginLeft: '40px' }}>
-								Email
-							</InputLabel>
-							<Input
-								id="email-with-icon"
-								startAdornment={
-									<InputAdornment position="start">
-										<MailIcon />
-									</InputAdornment>
-								}
-								style={{ width: '400px', height: '50px', marginLeft: '40px', background: '#828A8F' }}
-								inputRef={emailRef}
-							/>
-						</FormControl>
-					</Box>
+			<main>
+				<Box component="form" onSubmit={handleSignup}>
+					<Box className="inputs">
+						<Box sx={{ '& > :not(style)': { m: 1 } }}>
+							<FormControl variant="standard">
+								<InputLabel htmlFor="email" style={{ marginLeft: '40px' }}>
+									Email
+								</InputLabel>
+								<Input
+									id="email-with-icon"
+									startAdornment={
+										<InputAdornment position="start">
+											<MailIcon />
+										</InputAdornment>
+									}
+									style={{
+										width: '400px',
+										height: '50px',
+										marginLeft: '40px',
+										background: '#828A8F',
+									}}
+									inputRef={emailRef}
+								/>
+							</FormControl>
+						</Box>
 
-					<Box sx={{ '& > :not(style)': { m: 1 } }}>
-						<FormControl variant="standard">
-							<InputLabel htmlFor="username" style={{ marginLeft: '40px' }}>
-								Username
-							</InputLabel>
-							<Input
-								id="username-with-icon"
-								startAdornment={
-									<InputAdornment position="start">
-										<AccountCircle />
-									</InputAdornment>
-								}
-								style={{ width: '400px', height: '50px', marginLeft: '40px', background: '#828A8F' }}
-								inputRef={usernameRef}
-							/>
-						</FormControl>
-					</Box>
+						<Box sx={{ '& > :not(style)': { m: 1 } }}>
+							<FormControl variant="standard">
+								<InputLabel htmlFor="username" style={{ marginLeft: '40px' }}>
+									Username
+								</InputLabel>
+								<Input
+									id="username-with-icon"
+									startAdornment={
+										<InputAdornment position="start">
+											<AccountCircle />
+										</InputAdornment>
+									}
+									style={{
+										width: '400px',
+										height: '50px',
+										marginLeft: '40px',
+										background: '#828A8F',
+									}}
+									inputRef={usernameRef}
+								/>
+							</FormControl>
+						</Box>
 
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							'& > :not(style)': { m: 1 },
-						}}
-					>
-						<PasswordStrengthBar />
-						<div style={{ width: '400px', margin: '0 auto' }}>
-							<p>Password must contain:</p>
-							<ul style={{ listStyleType: 'none' }}>
-								<li>
-									<span
-										style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
-									>
-										{isLengthMet ? (
-											<RiCheckboxCircleLine
-												color="green"
-												style={{ position: 'relative', top: '2px' }}
-											/>
-										) : (
-											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
-										)}
-									</span>
-									12 character minimum
-								</li>
-								<li>
-									<span
-										style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
-									>
-										{isUppercaseMet ? (
-											<RiCheckboxCircleLine
-												color="green"
-												style={{ position: 'relative', top: '2px' }}
-											/>
-										) : (
-											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
-										)}
-									</span>
-									At least one uppercase letter
-								</li>
-								<li>
-									<span
-										style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
-									>
-										{isNumberMet ? (
-											<RiCheckboxCircleLine
-												color="green"
-												style={{ position: 'relative', top: '2px' }}
-											/>
-										) : (
-											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
-										)}
-									</span>
-									At least one number
-								</li>
-								<li>
-									<span
-										style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '5px' }}
-									>
-										{isSpecialCharMet ? (
-											<RiCheckboxCircleLine
-												color="green"
-												style={{ position: 'relative', top: '2px' }}
-											/>
-										) : (
-											<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
-										)}
-									</span>
-									At least one special character
-								</li>
-							</ul>
-						</div>
-					</Box>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							'& > :not(style)': { m: 1 },
-						}}
-					>
-						<FormControl variant="standard">
-							<InputLabel htmlFor="password" style={{ marginLeft: '40px' }}>
-								Password
-							</InputLabel>
-							<Input
-								id="password"
-								type={showPassword ? 'text' : 'password'}
-								onChange={handlePasswordChange}
-								startAdornment={
-									<InputAdornment position="start">
-										<LockIcon />
-									</InputAdornment>
-								}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={() => setShowPassword(!showPassword)}
+						<Box
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								'& > :not(style)': { m: 1 },
+							}}
+						>
+							<PasswordStrengthBar />
+							<div style={{ width: '400px', margin: '0 auto' }}>
+								<p>Password must contain:</p>
+								<ul style={{ listStyleType: 'none' }}>
+									<li>
+										<span
+											style={{
+												display: 'inline-block',
+												verticalAlign: 'middle',
+												marginRight: '5px',
+											}}
 										>
-											{showPassword ? <VisibilityOff /> : <Visibility />}
-										</IconButton>
-									</InputAdornment>
-								}
-								style={{ width: '400px', height: '50px', marginLeft: '40px', background: '#828A8F' }}
-								inputRef={passwordRef}
-							/>
-						</FormControl>
-						<FormControl variant="standard">
-							<InputLabel htmlFor="confirm-password" style={{ marginLeft: '40px' }}>
-								Confirm Password
-							</InputLabel>
-							<Input
-								id="confirm-password"
-								type={showPassword ? 'text' : 'password'}
-								startAdornment={
-									<InputAdornment position="start">
-										<LockIcon />
-									</InputAdornment>
-								}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={() => setShowPassword(!showPassword)}
+											{isLengthMet ? (
+												<RiCheckboxCircleLine
+													color="green"
+													style={{ position: 'relative', top: '2px' }}
+												/>
+											) : (
+												<CiCircleRemove
+													color="red"
+													style={{ position: 'relative', top: '2px' }}
+												/>
+											)}
+										</span>
+										12 character minimum
+									</li>
+									<li>
+										<span
+											style={{
+												display: 'inline-block',
+												verticalAlign: 'middle',
+												marginRight: '5px',
+											}}
 										>
-											{showPassword ? <VisibilityOff /> : <Visibility />}
-										</IconButton>
-									</InputAdornment>
-								}
-								style={{ width: '400px', height: '50px', marginLeft: '40px', background: '#828A8F' }}
-								inputRef={confirmPasswordRef}
-							/>
-						</FormControl>
+											{isUppercaseMet ? (
+												<RiCheckboxCircleLine
+													color="green"
+													style={{ position: 'relative', top: '2px' }}
+												/>
+											) : (
+												<CiCircleRemove
+													color="red"
+													style={{ position: 'relative', top: '2px' }}
+												/>
+											)}
+										</span>
+										At least one uppercase letter
+									</li>
+									<li>
+										<span
+											style={{
+												display: 'inline-block',
+												verticalAlign: 'middle',
+												marginRight: '5px',
+											}}
+										>
+											{isNumberMet ? (
+												<RiCheckboxCircleLine
+													color="green"
+													style={{ position: 'relative', top: '2px' }}
+												/>
+											) : (
+												<CiCircleRemove
+													color="red"
+													style={{ position: 'relative', top: '2px' }}
+												/>
+											)}
+										</span>
+										At least one number
+									</li>
+									<li>
+										<span
+											style={{
+												display: 'inline-block',
+												verticalAlign: 'middle',
+												marginRight: '5px',
+											}}
+										>
+											{isSpecialCharMet ? (
+												<RiCheckboxCircleLine
+													color="green"
+													style={{ position: 'relative', top: '2px' }}
+												/>
+											) : (
+												<CiCircleRemove
+													color="red"
+													style={{ position: 'relative', top: '2px' }}
+												/>
+											)}
+										</span>
+										At least one special character
+									</li>
+								</ul>
+							</div>
+						</Box>
+						{passwordsMatch ? (
+							<p>
+								Passwords match{' '}
+								<RiCheckboxCircleLine color="green" style={{ position: 'relative', top: '2px' }} />
+							</p>
+						) : (
+							<p>
+								Passwords do not match{' '}
+								<CiCircleRemove color="red" style={{ position: 'relative', top: '2px' }} />
+							</p>
+						)}
+						<Box
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								'& > :not(style)': { m: 1 },
+							}}
+						>
+							<FormControl variant="standard">
+								<InputLabel htmlFor="password" style={{ marginLeft: '40px' }}>
+									Password
+								</InputLabel>
+								<Input
+									id="password"
+									type={showPassword ? 'text' : 'password'}
+									onChange={handlePasswordChange}
+									startAdornment={
+										<InputAdornment position="start">
+											<LockIcon />
+										</InputAdornment>
+									}
+									endAdornment={
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle password visibility"
+												onClick={() => setShowPassword(!showPassword)}
+												tabIndex={-1}
+											>
+												{showPassword ? <VisibilityOff /> : <Visibility />}
+											</IconButton>
+										</InputAdornment>
+									}
+									style={{
+										width: '400px',
+										height: '50px',
+										marginLeft: '40px',
+										background: '#828A8F',
+									}}
+									inputRef={passwordRef}
+								/>
+							</FormControl>
+							<FormControl variant="standard">
+								<InputLabel htmlFor="confirm-password" style={{ marginLeft: '40px' }}>
+									Confirm Password
+								</InputLabel>
+								<Input
+									id="confirm-password"
+									type={showPassword ? 'text' : 'password'}
+									onChange={handleConfirmPasswordChange}
+									startAdornment={
+										<InputAdornment position="start">
+											<LockIcon />
+										</InputAdornment>
+									}
+									endAdornment={
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle password visibility"
+												onClick={() => setShowPassword(!showPassword)}
+												tabIndex={-1}
+											>
+												{showPassword ? <VisibilityOff /> : <Visibility />}
+											</IconButton>
+										</InputAdornment>
+									}
+									style={{
+										width: '400px',
+										height: '50px',
+										marginLeft: '40px',
+										background: '#828A8F',
+									}}
+									inputRef={confirmPasswordRef}
+								/>
+							</FormControl>
+						</Box>
 					</Box>
 				</Box>
-			</Box>
+			</main>
 
-			<div className="submit-container">
-				<div className="submit gray" onClick={handleLogin}>
-					Go To Login
-				</div>
+			<footer>
+				<div className="submit-container">
+					<button className="submit gray" onClick={handleLogin}>
+						Go To Login
+					</button>
 
-				<div className="submit" onClick={handleSignup}>
-					Sign Up
+					<button className="submit" onClick={handleSignup}>
+						Sign Up
+					</button>
 				</div>
-			</div>
-			<div className="copyright">
-				<p>© Project Doseminder 2024</p>
-			</div>
+				<div className="copyright">
+					<p>© Project Doseminder 2024</p>
+				</div>
+			</footer>
 		</>
 	);
 }

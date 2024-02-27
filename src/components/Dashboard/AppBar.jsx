@@ -9,12 +9,12 @@ import {
 import { Link } from 'react-router-dom';
 import { StyledAppBar } from '../../styles/mainLayoutStyles';
 import { ThemeContext } from '../../contexts/ThemeContext';
-import { NotificationContext } from '../../contexts/NotificationContext';
+import { ProfileContext } from '../../contexts/ProfileContext';
 import ProfileMenu from '../Profile/ProfilePictureMenu';
 
 function SearchAppBar() {
 	const { theme, toggleTheme } = useContext(ThemeContext);
-	const { notifications } = useContext(NotificationContext);
+	const { notifications } = useContext(ProfileContext);
 
 	return (
 		<StyledAppBar>

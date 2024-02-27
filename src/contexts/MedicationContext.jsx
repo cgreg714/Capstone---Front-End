@@ -6,7 +6,6 @@ import {
 	getMedication as getMedicationAPI,
 	updateMedication as updateMedicationAPI,
 	deleteMedication as deleteMedicationAPI,
-	// addDrugToMedication as addDrugToMedicationAPI,
 	toggleField as toggleFieldAPI,
 	addQuantity as addQuantityAPI,
 } from '../api/medicationAPI';
@@ -19,7 +18,7 @@ import {
 	deleteIntake as deleteIntakeAPI,
 } from '../api/medicationIntakeAPI';
 import { SnackbarContext } from '../contexts/SnackbarContext';
-import { NotificationContext } from '../contexts/NotificationContext';
+import { ProfileContext } from '../contexts/ProfileContext';
 
 export const MedicationContext = createContext();
 
@@ -27,8 +26,7 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 	const [medications, setMedications] = useState([]);
 	const [intakes, setIntakes] = useState([]);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
-    const { addNotification } = useContext(NotificationContext);
-
+	const { getAllNotifications } = useContext(ProfileContext);
 	const getAllMedications = useCallback(async () => {
 		if (!userId || !profileId) {
 			return;
@@ -121,17 +119,6 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 		}
 	};
 
-	// const addDrugToMedication = async (medId, drugId) => {
-	//     if (userId && profileId) {
-	//         try {
-	//             const updatedMedication = await addDrugToMedicationAPI(userId, profileId, medId, drugId);
-	//             setMedications((prevMedications) => prevMedications.map((medication) => medication._id === medId ? updatedMedication : medication));
-	//         } catch (error) {
-	//             console.error('Failed to add drug to medication:', error);
-	//         }
-	//     }
-	// };
-
 	const toggleField = async (medId, field) => {
 		if (userId && profileId) {
 			try {
@@ -199,6 +186,7 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 							: medication
 					)
 				);
+			getAllNotifications();
 			} catch (error) {
 				setSnackbarMessage('An error occurred while creating an intake');
 				setSnackbarSeverity('error');
@@ -273,7 +261,6 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 				getMedication,
 				updateMedication,
 				deleteMedication,
-				// addDrugToMedication,
 				toggleField,
 				addQuantity,
 				intakes,

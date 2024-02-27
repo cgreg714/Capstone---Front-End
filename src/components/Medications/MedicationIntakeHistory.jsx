@@ -85,11 +85,9 @@ const MedicationHistory = () => {
 														<Box flexGrow={1}>
 															<Typography variant="h6">
 																{medication.name} -{' '}
-																{medication.associatedDrug &&
-																medication.associatedDrug.products &&
-																medication.associatedDrug.products.length > 0
-																	? medication.associatedDrug.products[0].name
-																	: 'No product'}
+																{medication.associatedDrug
+																	? medication.associatedDrug.name
+																	: 'No Drug'}
 															</Typography>
 															<Typography variant="body2" color="text.secondary">
 																{medication.dose} mg - {medication.intakeQuantity}

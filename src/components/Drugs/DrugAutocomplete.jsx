@@ -2,15 +2,19 @@ import React, { useEffect, useContext } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { DrugContext } from '../../contexts/DrugContext';
+import LoadingBar from '../../components/LoadingScreen';
 
 function DrugAutocomplete({ setSelectedDrugId, reset }) {
-	const { drugs } = useContext(DrugContext);
-
+	const { drugs, isLoading } = useContext(DrugContext);
 	useEffect(() => {
 		if (reset) {
 			setSelectedDrugId(null);
 		}
 	}, [reset, setSelectedDrugId]);
+
+	if (isLoading) {
+		return <LoadingBar />;
+	}
 
 	return (
 		<Autocomplete

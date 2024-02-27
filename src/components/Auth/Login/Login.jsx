@@ -102,10 +102,10 @@ function Login() {
 			<div className="medication">
 				<img src={medication} alt="medication" />
 			</div>
-			<div className="header">
-				<h2 className="header-title">DoseMinder</h2>
-				<h4 className="header-subtitle">Login</h4>
-			</div>
+            <header className="header">
+                <h2 className="header-title">DoseMinder</h2>
+                <h4 className="header-subtitle">Login</h4>
+            </header>
 			<Box component="form" onSubmit={handleLogin}>
 				<Box className="inputs">
 					<Box sx={{ '& > :not(style)': { m: 1 } }}>
@@ -170,9 +170,9 @@ function Login() {
 					Go To Sign Up
 				</div>
 			</div>
-			<div className="copyright">
-				<p>© Project Doseminder 2024</p>
-			</div>
+            <footer className="copyright">
+                <p>© Project Doseminder 2024</p>
+            </footer>
 		</>
 	);
 }
