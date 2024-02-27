@@ -7,10 +7,11 @@ import {
 	Brightness7 as Brightness7Icon,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import { StyledAppBar } from '../../styles/mainLayoutStyles';
-import { ThemeContext } from '../../contexts/ThemeContext';
-import { NotificationContext } from '../../contexts/NotificationContext';
-import ProfileMenu from '../Profile/ProfilePictureMenu';
+import { StyledAppBar } from '../../../styles/mainLayoutStyles';
+import { ThemeContext } from '../../../contexts/ThemeContext';
+import { NotificationContext } from '../../../contexts/NotificationContext';
+// import ProfileMenu from '../../Profile/ProfilePictureMenu';
+import DropdownIconButton from './DropdownIconButton';
 
 function SearchAppBar() {
 	const { theme, toggleTheme } = useContext(ThemeContext);
@@ -25,7 +26,8 @@ function SearchAppBar() {
 							<NotificationsIcon />
 						</Badge>
 					</IconButton>
-					<ProfileMenu />
+					{/* <ProfileMenu /> */}
+					<DropdownIconButton />
 					<Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
 					<IconButton color="inherit" onClick={toggleTheme}>
 						{theme === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}

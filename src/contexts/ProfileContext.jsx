@@ -103,6 +103,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 	};
 
 	const updateProfile = async (profileId, updatedProfile) => {
+		// console.log(profileId, updatedProfile)
 		if (userId) {
 			try {
 				const updatedProfileData = await updateProfileAPI(userId, profileId, updatedProfile);

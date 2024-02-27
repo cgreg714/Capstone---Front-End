@@ -28,6 +28,7 @@ export const getProfile = async (userId, profileId) => {
 };
 
 export const updateProfile = async (userId, profileId, updatedProfile) => {
+    console.log(userId, profileId, updatedProfile)
     try {
         const response = await api.patch(`/user/${userId}/profile/${profileId}`, updatedProfile);
         return response.data;

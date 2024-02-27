@@ -3,7 +3,7 @@ import { MenuItem, Select, InputLabel, FormControl, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ProfileContext } from '../../contexts/ProfileContext';
 
-const ProfileSelector = ({ onClose }) => {
+const ProfileSelector = () => {
 	const { profiles, setProfileId, getProfile } = useContext(ProfileContext);
 	const navigate = useNavigate();
 	const [selectedProfile, setSelectedProfile] = React.useState('');
@@ -21,16 +21,15 @@ const ProfileSelector = ({ onClose }) => {
 		getProfile(id);
 		localStorage.setItem('profileId', id);
 		setSelectedProfile(id);
-		onClose();
 	};
 
 	if (profiles.length === 0) {
-		return <MenuItem onClick={() => navigate('/profile')}>Create Profile</MenuItem>;
+		return <MenuItem onClick={() => navigate('/profile')} style={{margin: 0}}>Create Profile</MenuItem>;
 	}
 
 	return (
-		<Box sx={{ padding: 2 }}>
-			<FormControl sx={{ minWidth: 150 }}>
+		<Box sx={{ padding: 0 }}>
+			<FormControl sx={{ minWidth: 150}}>
 				<InputLabel id="profile-selector-label">Select Profile</InputLabel>
 				<Select
 					labelId="profile-selector-label"

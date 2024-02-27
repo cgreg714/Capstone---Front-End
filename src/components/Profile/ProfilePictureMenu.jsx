@@ -27,8 +27,8 @@ const ProfileMenu = () => {
                 />
             </IconButton>
             <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-                <ProfileSelector onClose={handleClose} />
-                <Box display="flex" justifyContent="center">
+                <ProfileSelector onClose={handleClose}/>
+                <Box display="flex" justifyContent="center" padding="0">
                     <LogoutButton onClose={handleClose} />
                 </Box>
             </Menu>

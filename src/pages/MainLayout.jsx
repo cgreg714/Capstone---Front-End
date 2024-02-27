@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import SearchAppBar from '../components/Dashboard/AppBar';
 import { PermanentDrawerLeft } from '../components/Dashboard/Drawer';
 import { Outlet } from 'react-router-dom';
 import Footer from '../components/Dashboard/Footer';
+import SearchAppBar from '../components/Dashboard/AppBar/AppBar';
 
 function MainLayout({ children }) {
 	const drawerWidth = 240;
