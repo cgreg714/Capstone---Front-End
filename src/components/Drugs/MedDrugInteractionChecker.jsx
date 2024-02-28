@@ -2,21 +2,22 @@ import React, { useContext, useState, useEffect, useCallback } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { DrugContext } from '../../contexts/DrugContext';
+import { MedicationContext } from '../../contexts/MedicationContext';
 import { getInteractionBetweenTwoDrugs } from '../../api/drugAPI';
-import MedicationAutocomplete from '../Medications/MedAutocomplete';
 
 function MedDrugInteractionChecker() {
 	const { drugs } = useContext(DrugContext);
-	const [medication, setMedication] = useState(null);
-	const [drug, setDrug] = useState(null);
+	const { medications } = useContext(MedicationContext);
+	const [selectedMedication, setSelectedMedication] = useState(null);
+	const [selectedDrug, setSelectedDrug] = useState(null);
 	const [interaction, setInteraction] = useState(null);
 
 	const checkInteraction = useCallback(async () => {
-		if (medication && drug) {
+		if (selectedMedication && selectedDrug) {
 			try {
 				const response = await getInteractionBetweenTwoDrugs(
-					medication.associatedDrug['drugbank-id'],
-					drug['drugbank-id']
+					selectedMedication.associatedDrug['drugbank-id'],
+					selectedDrug['drugbank-id']
 				);
 				if (response.message) {
 					setInteraction({ description: response.message });
@@ -27,7 +28,7 @@ function MedDrugInteractionChecker() {
 				setInteraction({ description: 'An error occurred while checking for interactions.' });
 			}
 		}
-	}, [medication, drug]);
+	}, [selectedMedication, selectedDrug]);
 
 	useEffect(() => {
 		checkInteraction();
@@ -35,17 +36,21 @@ function MedDrugInteractionChecker() {
 
 	return (
 		<div>
-			<MedicationAutocomplete
+			<Autocomplete
+				options={medications}
+				getOptionLabel={(option) => option.name}
+				style={{ width: 300 }}
 				onChange={(event, newValue) => {
-					setMedication(newValue);
+					setSelectedMedication(newValue);
 				}}
+				renderInput={(params) => <TextField {...params} label="Medication" variant="outlined" />}
 			/>
 			<Autocomplete
 				options={drugs}
 				getOptionLabel={(option) => option.name}
 				style={{ width: 300 }}
 				onChange={(event, newValue) => {
-					setDrug(newValue);
+					setSelectedDrug(newValue);
 				}}
 				renderInput={(params) => <TextField {...params} label="Drug" variant="outlined" />}
 			/>

@@ -27,7 +27,22 @@ const LogoutButton = () => {
 	};
 
 	return (
-		<Button variant="contained" onClick={handleLogout} sx={{ minWidth: 120 }}>
+		<Button
+			variant="contained"
+			sx={{
+				minWidth: 120,
+				color: 'black',
+				fontWeight: 'bolder',
+				fontFamily: 'Comfortaa',
+				borderRadius: 20,
+				zIndex: 1,
+				'&:hover': {
+					backgroundColor: (theme) => theme.palette.hoverGrey,
+				},
+			}}
+			color="secondary"
+			onClick={handleLogout}
+		>
 			Log Out
 		</Button>
 	);

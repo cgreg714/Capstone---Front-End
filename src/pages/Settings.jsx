@@ -1,12 +1,35 @@
-import React from 'react';
-import { Grid } from '@mui/material';
+import React, { useState } from 'react';
+import { Button } from '@mui/material';
+import { Box } from '@mui/system';
+import { Link } from 'react-router-dom';
 
-function Settings() {
+export default function Settings() {
+
+	 // eslint-disable-next-line
+	const [active, setActive] = useState('GeneralCard')
 
 	return (
-		<Grid container rowSpacing={3} columnSpacing={3}>
-		</Grid>
+		<>
+            <Box>
+                <Button component={Link} to="/profile">Profile Settings</Button>
+            </Box>
+            <Box>
+                {active === 'GeneralCard' && <SettingCard /> }
+            </Box>
+        </>
 	);
 }
 
-export default Settings;
+export function SettingCard() {
+    return (
+        <div>
+            <h2>Email</h2>
+            <p>Email here</p>
+
+            <h2>Username</h2>
+            <p>Username here</p>
+
+            <h3>Change Password</h3>
+        </div>
+    )
+}

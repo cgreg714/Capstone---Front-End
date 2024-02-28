@@ -1,59 +1,63 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Avatar, TextField, Button, Grid, Box, Card, CardContent } from '@mui/material';
+import { Avatar, TextField, Button, Grid, Box, CardContent, Accordion, AccordionSummary, Typography } from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { ProfileContext } from '../../contexts/ProfileContext';
-import { SnackbarContext } from '../../contexts/SnackbarContext'; // Import SnackbarContext
+import { SnackbarContext } from '../../contexts/SnackbarContext';
 
 const avatarContext = require.context('../../assets/Avatars', false, /\.png$/);
 
 const avatarImages = avatarContext.keys().map(avatarContext);
 
 const AddProfileForm = ({ onProfileCreated }) => {
-    const firstNameRef = useRef();
-    const lastNameRef = useRef();
-    const emailRef = useRef();
+	const firstNameRef = useRef();
+	const lastNameRef = useRef();
+	const emailRef = useRef();
 
-    const { createProfile } = useContext(ProfileContext);
-    const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext); // Use SnackbarContext
+	const { createProfile } = useContext(ProfileContext);
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext); // Use SnackbarContext
 
-    const [selectedAvatar, setSelectedAvatar] = useState(null);
+	const [selectedAvatar, setSelectedAvatar] = useState(null);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+	const handleSubmit = async (event) => {
+		event.preventDefault();
 
-        const firstName = firstNameRef.current.value;
-        const lastName = lastNameRef.current.value;
-        const email = emailRef.current.value;
+		const firstName = firstNameRef.current.value;
+		const lastName = lastNameRef.current.value;
+		const email = emailRef.current.value;
 
-        const profile = {
-            firstName,
-            lastName,
-            email,
-            avatar: selectedAvatar,
-        };
+		const profile = {
+			firstName,
+			lastName,
+			email,
+			avatar: selectedAvatar,
+		};
 
-        try {
-            await createProfile(profile);
+		try {
+			await createProfile(profile);
 
-            if (onProfileCreated) {
-                onProfileCreated(profile);
-            }
+			if (onProfileCreated) {
+				onProfileCreated(profile);
+			}
 
-            setSnackbarMessage('Profile created successfully');
-            setSnackbarSeverity('success');
-            setOpenSnackbar(true);
-        } catch (error) {
-            setSnackbarMessage('An error occurred while creating the profile');
-            setSnackbarSeverity('error');
-            setOpenSnackbar(true);
-        }
+			setSnackbarMessage('Profile created successfully');
+			setSnackbarSeverity('success');
+			setOpenSnackbar(true);
+		} catch (error) {
+			setSnackbarMessage('An error occurred while creating the profile');
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
+		}
 
-        firstNameRef.current.value = '';
-        lastNameRef.current.value = '';
-        emailRef.current.value = '';
-    };
+		firstNameRef.current.value = '';
+		lastNameRef.current.value = '';
+		emailRef.current.value = '';
+	};
 
 	return (
-		<Card sx={{ maxWidth: 600 }}>
+		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1 }}>
+			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
+				<Typography>Add Profile</Typography>
+			</AccordionSummary>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
 					<Grid container spacing={2}>
@@ -101,15 +105,30 @@ const AddProfileForm = ({ onProfileCreated }) => {
 								))}
 							</Box>
 						</Grid>
-						<Grid item xs={12}>
-							<Button type="submit" variant="contained" color="primary" fullWidth>
+						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+							<Button
+								type="submit"
+								variant="contained"
+								sx={{
+									width: '50%',
+									color: 'black',
+									fontWeight: 'bolder',
+									fontFamily: 'Comfortaa',
+									borderRadius: 20,
+									zIndex: 1,
+									'&:hover': {
+										backgroundColor: (theme) => theme.palette.hoverGrey,
+									},
+								}}
+								color="secondary"
+							>
 								Add Profile
 							</Button>
 						</Grid>
 					</Grid>
 				</Box>
 			</CardContent>
-		</Card>
+		</Accordion>
 	);
 };
 

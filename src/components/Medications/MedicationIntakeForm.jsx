@@ -3,12 +3,10 @@ import { MedicationContext } from '../../contexts/MedicationContext';
 import { Card, CardContent, TextField, Button, InputAdornment, IconButton } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
-import { ProfileContext } from '../../contexts/ProfileContext';
 
 const MedicationIntakeForm = ({ medicationId, handleClose }) => {
     const { createIntake, getAllMedications, getMedication } = useContext(MedicationContext);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
-	const { getAllNotifications } = useContext(ProfileContext);
     
 	const [intake, setIntake] = useState({
 		quantity: '',
@@ -42,7 +40,7 @@ const handleSubmit = async (event) => {
     event.preventDefault();
     try {
         await createIntake(medicationId, intake);
-        const updatedMedication = await getMedication(medicationId);
+        await getMedication(medicationId);
         setIntake({
             quantity: '',
             takenAt: new Date().toISOString().substring(0, 16),

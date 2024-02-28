@@ -16,15 +16,15 @@ import {
 } from '@mui/material';
 import { MedicationContext } from '../../contexts/MedicationContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
-import AddDrugAutocomplete from './AddDrugAutocomplete';
-import DrugAutocomplete from '../Drugs/DrugAutocomplete';
+import DrugSearchByNameAutocomplete from '../Drugs/DrugNameSearchAutocomplete';
+import { DrugContext } from '../../contexts/DrugContext';
 
 const AddMedicationForm = () => {
 	const { createMedication } = useContext(MedicationContext);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
+	const { selectedDrugId, setSelectedDrugId } = useContext(DrugContext);
 
 	const [resetAutocomplete, setResetAutocomplete] = useState(false);
-	const [selectedDrugId, setSelectedDrugId] = useState(null);
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const [unitOfMeasurement, setUnitOfMeasurement] = useState('');
@@ -86,13 +86,13 @@ const AddMedicationForm = () => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-
-		let utcTime = '';
-		if (time) {
-			const date = new Date(`1970-01-01T${time}:00`);
-			utcTime = date.toLocaleTimeString('en-US', { hour12: false, timeZone: 'UTC' }).substr(0, 5);
-		}
-
+	
+		// Convert the local time to UTC
+		const localTime = new Date(`1970-01-01T${time}:00`);
+		const utcTime = new Date(localTime.getTime() - localTime.getTimezoneOffset() * 60000)
+			.toISOString()
+			.slice(11, 16);
+	
 		try {
 			await createMedication({
 				name,
@@ -109,11 +109,11 @@ const AddMedicationForm = () => {
 					time: utcTime,
 				},
 			});
-
+	
 			setSnackbarMessage('Medication created successfully.');
 			setSnackbarSeverity('success');
 			setOpenSnackbar(true);
-
+	
 			resetForm();
 		} catch (error) {
 			setSnackbarMessage('Error creating medication.');
@@ -229,7 +229,7 @@ const AddMedicationForm = () => {
 					value={prescriber}
 					onChange={(e) => setPrescriber(e.target.value)}
 				/>
-				<DrugAutocomplete setSelectedDrugId={setSelectedDrugId} reset={resetAutocomplete} />
+				<DrugSearchByNameAutocomplete reset={resetAutocomplete} />
 				<FormControl component="fieldset" sx={{ mt: 3 }}>
 					<FormLabel component="legend">Frequency</FormLabel>
 					<RadioGroup value={frequency} onChange={handleFrequencyChange}>

@@ -14,6 +14,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const MedicationHistory = () => {
+	 // eslint-disable-next-line
 	const { medications, updateIntake, deleteIntake } = useContext(MedicationContext);
 
 	// Flatten medications and intakes into a single array

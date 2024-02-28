@@ -35,11 +35,12 @@ const lightTheme = createTheme({
 			main: '#AA384C',
 		},
 		secondary: {
-			main: '#dcb667',
+			main: '#9e521b',
 		},
 		background: {
 			default: '#E5E5E5',
 		},
+		hoverGrey: '#828A8F',
 	},
 	...styleOverrides,
 });
@@ -51,11 +52,12 @@ const darkTheme = createTheme({
 			main: '#AA384C',
 		},
 		secondary: {
-			main: '#dcb667',
+			main: '#9e521b',
 		},
 		background: {
 			default: '#333333',
 		},
+		hoverGrey: '#828A8F',
 	},
 	components: {
 		...styleOverrides,

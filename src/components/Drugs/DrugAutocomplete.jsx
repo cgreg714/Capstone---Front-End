@@ -4,8 +4,8 @@ import TextField from '@mui/material/TextField';
 import { DrugContext } from '../../contexts/DrugContext';
 import LoadingBar from '../../components/LoadingScreen';
 
-function DrugAutocomplete({ setSelectedDrugId, reset }) {
-	const { drugs, isLoading } = useContext(DrugContext);
+function DrugAutocomplete({ reset }) {
+	const { drugs, isLoading, setSelectedDrugId } = useContext(DrugContext);
 	useEffect(() => {
 		if (reset) {
 			setSelectedDrugId(null);

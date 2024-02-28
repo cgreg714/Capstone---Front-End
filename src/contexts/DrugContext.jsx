@@ -6,8 +6,9 @@ export const DrugContext = createContext();
 
 export const DrugProvider = ({ children }) => {
     const [drugs, setDrugs] = useState([]);
+    const [selectedDrugId, setSelectedDrugId] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
+    const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
     useEffect(() => {
         const fetchDrugs = async () => {
@@ -27,7 +28,7 @@ export const DrugProvider = ({ children }) => {
     }, [setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity]);
 
     return (
-        <DrugContext.Provider value={{ drugs, isLoading }}>
+        <DrugContext.Provider value={{ drugs, isLoading, selectedDrugId, setSelectedDrugId }}>
             {children}
         </DrugContext.Provider>
     );

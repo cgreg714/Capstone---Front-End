@@ -363,11 +363,11 @@ function Signup() {
 
 			<footer>
 				<div className="submit-container">
-					<button className="submit gray" onClick={handleLogin}>
+					<button className="submit gray hoverable" onClick={handleLogin}>
 						Go To Login
 					</button>
 
-					<button className="submit" onClick={handleSignup}>
+					<button className="submit hoverable" onClick={handleSignup}>
 						Sign Up
 					</button>
 				</div>

@@ -2,3 +2,8 @@
     color: red;
     margin: 10px 0;
 }
+
+.hoverable:hover {
+    background-color: #828A8F; /* Replace with your desired hover color */
+    transition: background-color 0.3s ease;
+}

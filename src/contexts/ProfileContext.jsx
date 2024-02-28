@@ -22,6 +22,13 @@ import {
 	deleteABuddy as deleteABuddyAPI,
 } from '../api/aBuddyAPI';
 import {
+	getAllPharmacies as getAllPharmaciesAPI,
+	createPharmacy as createPharmacyAPI,
+	getOnePharmacy as getOnePharmacyAPI,
+	updatePharmacy as updatePharmacyAPI,
+	deletePharmacy as deletePharmacyAPI,
+} from '../api/pharmacyAPI';
+import {
 	getAllNotifications as getAllNotificationsAPI,
 	createNotification as createNotificationAPI,
 	getNotification as getNotificationAPI,
@@ -40,6 +47,8 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 
 	const [doctors, setDoctors] = useState([]);
 	const [abuddies, setABuddies] = useState([]);
+	const [pharmacies, setPharmacies] = useState([]);
+
 	const [avatarUrl, setAvatarUrl] = useState(null);
 	const [notifications, setNotifications] = useState([]);
 
@@ -122,6 +131,18 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			}
 		};
 
+		const getAllPharmacies = async () => {
+			try {
+				const pharmaciesData = await getAllPharmaciesAPI(userId, profileId);
+				setPharmacies(pharmaciesData);
+			} catch (error) {
+				setSnackbarMessage('Failed to fetch pharmacies');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		};
+
+		getAllPharmacies();
 		getAllABuddies();
 		getAllDoctors();
 		getAllNotifications();
@@ -284,7 +305,6 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 
 	const createNotification = useCallback(
 		async (notification) => {
-			console.log("🚀 ~ file: ProfileContext.jsx:287 ~ notification:", notification)
 			if (userId && profileId) {
 				try {
 					const newNotification = await createNotificationAPI(userId, profileId, notification);
@@ -366,18 +386,61 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 		}
 	};
 
-	useEffect(() => {
-		profiles.forEach((profile) => {
-			profile.medications.forEach((medication) => {
-				if (medication.dose < 10) {
-					createNotification({
-						id: medication._id,
-						message: `You are low on ${medication.name}. Please refill your prescription.`,
-					});
-				}
-			});
-		});
-	}, [profiles, createNotification]);
+	const createPharmacy = async (pharmacy) => {
+		if (userId && profileId) {
+			try {
+				const newPharmacy = await createPharmacyAPI(userId, profileId, pharmacy);
+				setPharmacies((prevPharmacies) => [...prevPharmacies, newPharmacy]);
+			} catch (error) {
+				setSnackbarMessage('Failed to create pharmacy');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	}
+
+	const getPharmacy = async (pharmacyId) => {
+		if (userId && profileId) {
+			try {
+				const pharmacyData = await getOnePharmacyAPI(userId, profileId, pharmacyId);
+				setPharmacies((prevPharmacies) =>
+					prevPharmacies.map((pharmacy) => (pharmacy._id === pharmacyId ? pharmacyData : pharmacy))
+				);
+			} catch (error) {
+				setSnackbarMessage('Failed to fetch pharmacy');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	}
+
+	const updatePharmacy = async (pharmacyId, updatedPharmacy) => {
+		if (userId && profileId) {
+			try {
+				const updatedPharmacyData = await updatePharmacyAPI(userId, profileId, pharmacyId, updatedPharmacy);
+				setPharmacies((prevPharmacies) =>
+					prevPharmacies.map((pharmacy) => (pharmacy._id === pharmacyId ? updatedPharmacyData : pharmacy))
+				);
+			} catch (error) {
+				setSnackbarMessage('Failed to update pharmacy');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	}
+
+	const deletePharmacy = async (pharmacyId) => {
+		if (userId && profileId) {
+			try {
+				await deletePharmacyAPI(userId, profileId, pharmacyId);
+				setPharmacies((prevPharmacies) => prevPharmacies.filter((pharmacy) => pharmacy._id !== pharmacyId));
+			} catch (error) {
+				setSnackbarMessage('Failed to delete pharmacy');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	}
 
 	return (
 		<ProfileContext.Provider
@@ -402,6 +465,11 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				getABuddy,
 				updateABuddy,
 				deleteABuddy,
+				pharmacies,
+				createPharmacy,
+				getPharmacy,
+				updatePharmacy,
+				deletePharmacy,
 				isLoading,
 				notifications,
 				getAllNotifications,
