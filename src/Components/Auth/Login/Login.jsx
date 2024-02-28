@@ -79,7 +79,10 @@ function Login({updateToken}) {
 
      <Box sx={{ '& > :not(style)': { m: 1 } }}>
       <FormControl variant="standard">
-        <InputLabel htmlFor="username">
+        <InputLabel htmlFor="username"
+          sx={{
+            fontWeight:"bold"
+          }}>
           Username/Email
         </InputLabel>
         <Input
@@ -89,14 +92,17 @@ function Login({updateToken}) {
               <AccountCircle />
             </InputAdornment>
           }
-          style={{width:'400px', height:'50px', marginLeft:'40px', background: '#828A8F'}}
+          style={{width:'400px', height:'50px', marginLeft:'40px', background: '#eaeaea'}}
         />
       </FormControl>
      </Box>
 
      <Box sx={{ '& > :not(style)': { m: 1 } }}>
       <FormControl variant="standard">
-        <InputLabel htmlFor="password">
+        <InputLabel htmlFor="password"
+        sx={{
+          fontWeight:"bold"
+        }}>
           Password
         </InputLabel>
         <Input
@@ -106,7 +112,7 @@ function Login({updateToken}) {
               <LockIcon />
             </InputAdornment>
           }
-          style={{width:'400px', height:'50px', marginLeft:'40px', background: '#828A8F'}}
+          style={{width:'400px', height:'50px', marginLeft:'40px', background: '#eaeaea'}}
         />
       </FormControl>
      </Box> 
@@ -152,15 +158,3 @@ function Login({updateToken}) {
 export default Login
 
 
-/* 
-<TextField id="input" innerRef={passwordRef} label="Password" 
-      InputProps={{ startAdornment: (
-        <InputAdornment position="start">
-          <PasswordIcon />
-        </InputAdornment>
-      ),
-    }}
-      variant="standard" autoComplete={'off'} 
-      style={{width:'400px', height:'50px', marginLeft:'40px', background: '#828A8F'}}/>
-      
-*/

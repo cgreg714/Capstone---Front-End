@@ -3,7 +3,8 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import {Routes, Route} from 'react-router-dom'
 
-import Login from './Components/Auth/Login/Login';
+/* import Login from './components/Auth/Login/Login'; */
+import DInteractions from './components/Drug-Interactions/DInteractions';
 /*import Profile from './Components/Auth/Profile/Profile';*/
 /* import ABuddy from './Components/ABuddy/ABuddy'; */
 /*import Medication from './Components/Medication/Medication'; 
@@ -59,10 +60,10 @@ function App() {
       } */}
      <Routes>
      
-      <Route
+     {/*  <Route
           path="/"
           element={<Login token={updateToken}/>}
-        />
+        /> */}
         {/* <Route
           element={<Profile token={sessionToken}/>}
     />*/}
@@ -73,6 +74,10 @@ function App() {
         {/*<Route 
           element={<Medication token={sessionToken}/>}        
         /> */}
+        <Route
+          path="/"
+          element={<DInteractions token={updateToken}/>}
+        />
       </Routes>
     </div>
     
@@ -81,8 +86,3 @@ function App() {
 
 export default App;
 
-/* 
- <Route
-      path="/"
-      element={<Auth updateToken={updateToken}/>}
-      /> */

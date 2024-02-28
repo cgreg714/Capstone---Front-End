@@ -20,12 +20,12 @@ function DInteractions() {
 
   
   const [open1, setOpen1] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
+  
   const [selectedMedication, setSelectedMedication] = useState('');
   const [showInteractions, setShowInteractions] = useState(false);
 
 
-  const handleClose2 = () => setOpen2(false);
+  
 
   const handleClick1 = () => {
     setOpen1(!open1);
@@ -116,6 +116,9 @@ function DInteractions() {
         fontFamily: 'Comfortaa',
         backgroundColor: '#9e521b',
         zIndex: 1,
+        border: '5px solid black',
+        borderRadius: '0.5rem',    
+        boxShadow: '0px 20px 20px rgba(0,0,0,0.75)',
         "&:hover": { backgroundColor: '#828A8F',},
         }}>Check Interactions</Button>
       
@@ -148,6 +151,9 @@ function DInteractions() {
           fontFamily: 'Comfortaa',
           backgroundColor: '#9e521b',
           zIndex: 2,
+          border: '2.5px solid black',
+          borderRadius: '0.5rem',    
+          boxShadow: '0px 20px 20px rgba(0,0,0,0.75)',
           "&:hover": { backgroundColor: '#828A8F',},
           }}>Close</Button>
           
