@@ -7,28 +7,36 @@ import { ContextProviders } from './AppContexts';
 import { AppRoutes } from './AppRoutes';
 import { lightTheme, darkTheme } from '../theme/theme';
 import api from '../api';
+import LoadingSpinner from './LoadingSpinner';
 
 function App() {
-	const [error, setError] = useState(null);
 	const [theme, setTheme] = useState('light');
+	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	const toggleTheme = () => {
 		setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
 	};
 
 	useEffect(() => {
-        const checkToken = async () => {
-            try {
-                await api.get('/check-token');
-            } catch (error) {
-                if (error.response && error.response.status === 401) {
-                    localStorage.removeItem('profileId');
-                }
-            }
-        };
+		const checkToken = async () => {
+			try {
+				await api.get('/check-token');
+				setLoading(false);
+			} catch (error) {
+				if (error.response && error.response.status === 401) {
+					localStorage.removeItem('profileId');
+				}
+				setLoading(false);
+			}
+		};
 
-        checkToken();
-    }, []);
+		checkToken();
+	}, []);
+
+	if (loading) {
+		return <LoadingSpinner />;
+	}
 
 	return (
 		<ThemeProvider theme={theme === 'dark' ? lightTheme : darkTheme}>

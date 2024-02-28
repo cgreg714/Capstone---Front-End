@@ -1,46 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { searchDrugsByName, searchDrugsByProductName } from '../../api/drugAPI';
+import { DrugContext } from '../../contexts/DrugContext';
+import LoadingBar from '../../components/LoadingScreen';
 
-function DrugAutocomplete() {
-	const [options, setOptions] = useState([]);
-	const [inputValue, setInputValue] = useState('');
-
+function DrugAutocomplete({ reset }) {
+	const { drugs, isLoading, setSelectedDrugId } = useContext(DrugContext);
 	useEffect(() => {
-		if (inputValue) {
-			const fetchDrugs = async () => {
-				try {
-					const [drugsByName, drugsByProductName] = await Promise.all([
-						searchDrugsByName(inputValue),
-						searchDrugsByProductName(inputValue)
-					]);
-					const combinedDrugs = [...drugsByName, ...drugsByProductName];
-					const uniqueDrugs = Array.from(new Set(combinedDrugs.map(drug => JSON.stringify(drug)))).map(drug => JSON.parse(drug));
-					setOptions(uniqueDrugs);
-				} catch (error) {
-					console.error(error);
-				}
-			};
-			fetchDrugs();
+		if (reset) {
+			setSelectedDrugId(null);
 		}
-	}, [inputValue]);
+	}, [reset, setSelectedDrugId]);
+
+	if (isLoading) {
+		return <LoadingBar />;
+	}
 
 	return (
 		<Autocomplete
-			options={options}
-			getOptionLabel={(option) => {
-				if (option.products && option.products.length > 0) {
-					return `${option.name} (${option.products[0].name})`;
-				} else {
-					return option.name;
-				}
-			}}
+			options={drugs}
+			getOptionLabel={(option) => option.name}
 			style={{ width: 300 }}
-			onInputChange={(event, newInputValue) => {
-				setInputValue(newInputValue);
+			onChange={(event, newValue) => {
+				setSelectedDrugId(newValue?._id);
 			}}
-			renderInput={(params) => <TextField {...params} label="Drug or Product" variant="outlined" />}
+			renderInput={(params) => <TextField {...params} label="Search for Drug" variant="outlined" />}
 			autoHighlight
 			autoSelect
 		/>

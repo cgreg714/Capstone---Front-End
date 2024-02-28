@@ -1,50 +1,113 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
-import { getAllMedications } from '../../api/medicationAPI';
-import { ProfileContext } from '../../contexts/ProfileContext';
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Paper,
+	Typography,
+	Button,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	TextField,
+	Box,
+} from '@mui/material';
+import { MedicationContext } from '../../contexts/MedicationContext';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
+import MedicationIntakeForm from './MedicationIntakeForm';
+import AddMedicationForm from './AddMedicationForm';
 
 function MedicationTable() {
-	const [medications, setMedications] = useState([]);
-	const { userId, profileId } = useContext(ProfileContext);
+	const { medications, getAllMedications, addQuantity } = useContext(MedicationContext);
+	const [open, setOpen] = useState(false);
+	const [selectedMedicationId, setSelectedMedicationId] = useState(null);
 
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
+
+	const [refillOpen, setRefillOpen] = useState(false);
+	const [refillAmount, setRefillAmount] = useState('');
+	const [addOpen, setAddOpen] = useState(false);
+
+	const handleAddMedicationOpen = () => {
+		setAddOpen(true);
+	};
+
+	const handleAddMedicationClose = () => {
+		setAddOpen(false);
+	};
 	useEffect(() => {
-		getAllMedications(userId, profileId)
-			.then((data) => {
-				data.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-				setMedications(data);
-			})
-			.catch((error) => console.error(error));
-	}, [userId, profileId]);
+		getAllMedications();
+	}, [medications, getAllMedications]);
+
+	const handleClickOpen = (medicationId) => {
+		setSelectedMedicationId(medicationId);
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handleRefillOpen = (medicationId) => {
+		setSelectedMedicationId(medicationId);
+		setRefillOpen(true);
+	};
+
+	const handleRefillClose = () => {
+		setRefillOpen(false);
+	};
+
+	const handleRefillSubmit = async () => {
+		if (selectedMedicationId && refillAmount) {
+			try {
+				await addQuantity(selectedMedicationId, refillAmount);
+				setRefillAmount('');
+				handleRefillClose();
+
+				setSnackbarMessage('Refill submitted successfully');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
+			} catch (error) {
+				setSnackbarMessage('An error occurred while submitting the refill');
+				setSnackbarSeverity('error');
+				setOpenSnackbar(true);
+			}
+		}
+	};
 
 	return (
 		<TableContainer component={Paper}>
 			<Table>
 				<TableHead>
 					<TableRow>
-						<TableCell colSpan={6}>
-							<Typography variant="h6">Medications</Typography>
+						<TableCell colSpan={8}>
+							<Box display="flex" justifyContent="space-between" alignItems="center">
+								<Typography variant="h6">Medications</Typography>
+								<Button variant="contained" color="primary" onClick={handleAddMedicationOpen}>
+									Add Medication
+								</Button>
+							</Box>
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>Name</TableCell>
-                        <TableCell>Drug</TableCell>
+						<TableCell>Drug</TableCell>
 						<TableCell>Date Added</TableCell>
 						<TableCell>Dose</TableCell>
 						<TableCell>Frequency</TableCell>
 						<TableCell>Quantity Left</TableCell>
+						<TableCell>Refill</TableCell>
+						<TableCell>Add Intake</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{medications.map((medication, index) => (
 						<TableRow key={index}>
 							<TableCell>{medication.name}</TableCell>
-                            <TableCell>
-                                {medication.associatedDrug && medication.associatedDrug.name}
-                                {medication.associatedDrug &&
-                                    medication.associatedDrug.products &&
-                                    medication.associatedDrug.products[0] &&
-                                    `(${medication.associatedDrug.products[0].name})`}
-                            </TableCell>
+							<TableCell>{medication.associatedDrug && medication.associatedDrug.name}</TableCell>
 							<TableCell>{new Date(medication.dateAdded).toLocaleDateString()}</TableCell>
 							<TableCell>{`${medication.dose} ${medication.unitOfMeasurement}`}</TableCell>
 							<TableCell>
@@ -76,21 +139,69 @@ function MedicationTable() {
 								})}
 								{medication.frequency.time && (
 									<div>
-										{`Time: ${new Date(
-											`1970-01-01T${medication.frequency.time}Z`
-										).toLocaleTimeString([], {
-											hour: '2-digit',
-											minute: '2-digit',
-											hour12: true,
-										})}`}
+										{`${new Date(`1970-01-01T${medication.frequency.time}Z`).toLocaleTimeString(
+											[],
+											{
+												hour: '2-digit',
+												minute: '2-digit',
+												hour12: true,
+											}
+										)}`}
 									</div>
-								)}{' '}
+								)}
 							</TableCell>
 							<TableCell>{medication.quantity}</TableCell>
+							<TableCell>
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={() => handleRefillOpen(medication._id)}
+								>
+									Refill
+								</Button>
+							</TableCell>
+							<TableCell>
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={() => handleClickOpen(medication._id)}
+								>
+									Add Intake
+								</Button>
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
 			</Table>
+			<Dialog open={refillOpen} onClose={handleRefillClose}>
+				<DialogTitle>Refill Medication</DialogTitle>
+				<DialogContent>
+					<TextField
+						autoFocus
+						margin="dense"
+						label="Refill Amount"
+						type="number"
+						fullWidth
+						value={refillAmount}
+						onChange={(e) => setRefillAmount(e.target.value)}
+					/>
+					<Button onClick={handleRefillSubmit} color="primary">
+						Submit
+					</Button>
+				</DialogContent>
+			</Dialog>
+			<Dialog open={open} onClose={handleClose}>
+				<DialogTitle>Add Medication Intake</DialogTitle>
+				<DialogContent>
+					<MedicationIntakeForm medicationId={selectedMedicationId} handleClose={handleClose} />
+				</DialogContent>
+			</Dialog>
+			<Dialog open={addOpen} onClose={handleAddMedicationClose}>
+				<DialogTitle>Add Medication</DialogTitle>
+				<DialogContent>
+					<AddMedicationForm handleClose={handleAddMedicationClose} />
+				</DialogContent>
+			</Dialog>
 		</TableContainer>
 	);
 }

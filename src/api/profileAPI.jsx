@@ -5,7 +5,11 @@ export const getAllProfiles = async (userId) => {
         const response = await api.get(`/user/${userId}/profile`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -14,7 +18,11 @@ export const createProfile = async (userId, profile) => {
         const response = await api.post(`/user/${userId}/profile`, profile);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -23,7 +31,11 @@ export const getProfile = async (userId, profileId) => {
         const response = await api.get(`/user/${userId}/profile/${profileId}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -32,7 +44,11 @@ export const updateProfile = async (userId, profileId, updatedProfile) => {
         const response = await api.patch(`/user/${userId}/profile/${profileId}`, updatedProfile);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -41,6 +57,10 @@ export const deleteProfile = async (userId, profileId) => {
         const response = await api.delete(`/user/${userId}/profile/${profileId}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };

@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
+
+.container {
+	display: flex;
+	flex-direction: column;
+	width: 480px;
+	margin: auto;
+	background: #fff;
+	padding-bottom: 10px;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-family: 'Comfortaa', sans-serif;
+	font-weight: bolder;
+	color: #828a8f;
+	width: 100%;
+}
+
+.header-title {
+    margin-bottom: 0;
+}
+
+.header-subtitle {
+    margin-top: 0;
+}
+
+.text {
+	color: #9e1b32;
+	font-size: 32px;
+	font-weight: 900;
+}
+
+.underline {
+	width: 200px;
+	height: 6px;
+	background: #9e1b32;
+	border-radius: 9px;
+}
+
+.medication {
+	display: flex;
+	flex-direction: column;
+	padding-top: 50px;
+	align-items: center;
+	object-fit: scale-down;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.medication {
+		animation: App-logo-spin infinite 7s linear;
+	}
+}
+
+@keyframes medication-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.inputs {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 5px;
+}
+
+.input {
+	display: flex;
+	align-items: center;
+	margin: auto;
+	width: 400px;
+	height: 60px;
+	background: #eaeaea;
+	border-radius: 6px;
+}
+
+.input img {
+	margin: 0px 30px;
+}
+
+.input input {
+	height: 50px;
+	width: 400px;
+	background: transparent;
+	border: none;
+	outline: none;
+	color: #828a8f;
+	font-size: 19px;
+}
+
+.forgot-password {
+	justify-content: center;
+	align-content: center;
+    text-align: center;
+	margin-top: 27px;
+	color: #828a8f;
+	font-size: 18px;
+}
+
+.forgot-password a {
+	color: #339e1b;
+	cursor: pointer;
+}
+
+.forgot-password a:visited {
+    color: #FF69B4;
+}
+
+.submit-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 30px;
+	margin-top: 25px;
+}
+
+.submit {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Comfortaa', sans-serif;
+	width: 220px;
+	height: 60px;
+	color: #fff;
+	border-style: inset;
+	border-color: #828a8f;
+	background: #9e521b;
+	border-radius: 50px;
+	font-size: 19px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.gray {
+	font-family: 'Comfortaa', sans-serif;
+	background: #eaeaea;
+	color: #828a8f;
+}
+
+.copyright {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: #9e521b;
+	font-size: 15px;
+	font-weight: 900;
+}

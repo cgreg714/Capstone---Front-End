@@ -1,17 +1,20 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Avatar, TextField, Button, Grid, Box, Card, CardContent } from '@mui/material';
+import { Avatar, TextField, Button, Grid, Box, CardContent, Accordion, AccordionSummary, Typography } from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
 
 const avatarContext = require.context('../../assets/Avatars', false, /\.png$/);
 
 const avatarImages = avatarContext.keys().map(avatarContext);
 
-const AddProfileForm = () => {
+const AddProfileForm = ({ onProfileCreated }) => {
 	const firstNameRef = useRef();
 	const lastNameRef = useRef();
 	const emailRef = useRef();
 
 	const { createProfile } = useContext(ProfileContext);
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext); // Use SnackbarContext
 
 	const [selectedAvatar, setSelectedAvatar] = useState(null);
 
@@ -29,7 +32,21 @@ const AddProfileForm = () => {
 			avatar: selectedAvatar,
 		};
 
-		await createProfile(profile);
+		try {
+			await createProfile(profile);
+
+			if (onProfileCreated) {
+				onProfileCreated(profile);
+			}
+
+			setSnackbarMessage('Profile created successfully');
+			setSnackbarSeverity('success');
+			setOpenSnackbar(true);
+		} catch (error) {
+			setSnackbarMessage('An error occurred while creating the profile');
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
+		}
 
 		firstNameRef.current.value = '';
 		lastNameRef.current.value = '';
@@ -37,7 +54,10 @@ const AddProfileForm = () => {
 	};
 
 	return (
-		<Card sx={{ maxWidth: 600 }}>
+		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1 }}>
+			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
+				<Typography>Add Profile</Typography>
+			</AccordionSummary>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
 					<Grid container spacing={2}>
@@ -47,7 +67,7 @@ const AddProfileForm = () => {
 						<Grid item xs={6}>
 							<TextField label="Last Name" inputRef={lastNameRef} fullWidth />
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={12}>
 							<TextField label="Email" inputRef={emailRef} fullWidth />
 						</Grid>
 						<Grid item xs={12}>
@@ -85,15 +105,30 @@ const AddProfileForm = () => {
 								))}
 							</Box>
 						</Grid>
-						<Grid item xs={12}>
-							<Button type="submit" variant="contained" color="primary" fullWidth>
+						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+							<Button
+								type="submit"
+								variant="contained"
+								sx={{
+									width: '50%',
+									color: 'black',
+									fontWeight: 'bolder',
+									fontFamily: 'Comfortaa',
+									borderRadius: 20,
+									zIndex: 1,
+									'&:hover': {
+										backgroundColor: (theme) => theme.palette.hoverGrey,
+									},
+								}}
+								color="secondary"
+							>
 								Add Profile
 							</Button>
 						</Grid>
 					</Grid>
 				</Box>
 			</CardContent>
-		</Card>
+		</Accordion>
 	);
 };
 
