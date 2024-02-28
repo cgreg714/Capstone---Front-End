@@ -51,6 +51,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 			try {
 				const newMedication = await createMedicationAPI(userId, profileId, medication);
 				setMedications((prevMedications) => [...prevMedications, newMedication]);
+				setSnackbarMessage(`Successfully created medication.`);
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
 				setSnackbarMessage('An error occurred while creating a medication');
 				setSnackbarSeverity('error');
@@ -64,6 +67,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 			try {
 				await deleteAllMedicationsAPI(userId, profileId);
 				setMedications([]);
+				setSnackbarMessage(`Successfully deleted all medications.`);
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
 				setSnackbarMessage('An error occurred while deleting all medications');
 				setSnackbarSeverity('error');
@@ -98,6 +104,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 							: medication
 					)
 				);
+				setSnackbarMessage(`Successfully updated medication.`);
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
 				setSnackbarMessage('An error occurred while updating a medication');
 				setSnackbarSeverity('error');
@@ -111,6 +120,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 			try {
 				await deleteMedicationAPI(userId, profileId, medId);
 				setMedications((prevMedications) => prevMedications.filter((medication) => medication._id !== medId));
+				setSnackbarMessage(`Successfully deleted medication.`);
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
 				setSnackbarMessage('An error occurred while deleting a medication');
 				setSnackbarSeverity('error');
@@ -167,6 +179,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 			try {
 				await deleteAllIntakesAPI(userId, profileId, medId);
 				setIntakes([]);
+				setSnackbarMessage(`Successfully deleted all medication intakes.`);
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
 				setSnackbarMessage('An error occurred while deleting all intakes');
 				setSnackbarSeverity('error');
@@ -186,7 +201,10 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 							: medication
 					)
 				);
-			getAllNotifications();
+				setSnackbarMessage(`Successfully created medication intake.`);
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
+				getAllNotifications();
 			} catch (error) {
 				setSnackbarMessage('An error occurred while creating an intake');
 				setSnackbarSeverity('error');
@@ -217,6 +235,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 				setIntakes((prevIntakes) =>
 					prevIntakes.map((intake) => (intake._id === intakeId ? updatedIntakeData : intake))
 				);
+				setSnackbarMessage(`Successfully updated medication intake.`);
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
 				setSnackbarMessage('An error occurred while updating an intake');
 				setSnackbarSeverity('error');
@@ -243,6 +264,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 						}
 					});
 				});
+				setSnackbarMessage(`Successfully deleted medication intake.`);
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
 				setSnackbarMessage('An error occurred while deleting an intake');
 				setSnackbarSeverity('error');

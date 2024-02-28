@@ -50,6 +50,7 @@ function DrugSearchByNameAutocomplete({ reset }) {
                 setSelectedDrugId(newValue?._id);
             }}
             renderInput={(params) => <TextField {...params} label="Search for Drug" variant="outlined" />}
+            autoSelect
             autoHighlight
         />
     );

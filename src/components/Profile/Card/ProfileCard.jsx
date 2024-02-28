@@ -38,7 +38,7 @@ const ProfileCard = () => {
 		<Card sx={{ marginTop: 2, marginBottom: 1 }}>
 			<CardContent>
 				<Typography variant="h4" component="div" sx={{ marginBottom: 4, textAlign: 'center' }}>
-					Hello, {currentProfile && currentProfile.firstName}!
+				Hello, {currentProfile && currentProfile.firstName} {currentProfile.lastName}!
 				</Typography>
 				{currentProfile && (
 					<>

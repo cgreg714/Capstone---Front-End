@@ -13,10 +13,12 @@ import {
 	DialogTitle,
 	DialogContent,
 	TextField,
+	Box,
 } from '@mui/material';
 import { MedicationContext } from '../../contexts/MedicationContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import MedicationIntakeForm from './MedicationIntakeForm';
+import AddMedicationForm from './AddMedicationForm';
 
 function MedicationTable() {
 	const { medications, getAllMedications, addQuantity } = useContext(MedicationContext);
@@ -27,7 +29,15 @@ function MedicationTable() {
 
 	const [refillOpen, setRefillOpen] = useState(false);
 	const [refillAmount, setRefillAmount] = useState('');
+	const [addOpen, setAddOpen] = useState(false);
 
+	const handleAddMedicationOpen = () => {
+		setAddOpen(true);
+	};
+
+	const handleAddMedicationClose = () => {
+		setAddOpen(false);
+	};
 	useEffect(() => {
 		getAllMedications();
 	}, [medications, getAllMedications]);
@@ -74,7 +84,12 @@ function MedicationTable() {
 				<TableHead>
 					<TableRow>
 						<TableCell colSpan={8}>
-							<Typography variant="h6">Medications</Typography>
+							<Box display="flex" justifyContent="space-between" alignItems="center">
+								<Typography variant="h6">Medications</Typography>
+								<Button variant="contained" color="primary" onClick={handleAddMedicationOpen}>
+									Add Medication
+								</Button>
+							</Box>
 						</TableCell>
 					</TableRow>
 					<TableRow>
@@ -92,9 +107,7 @@ function MedicationTable() {
 					{medications.map((medication, index) => (
 						<TableRow key={index}>
 							<TableCell>{medication.name}</TableCell>
-							<TableCell>
-								{medication.associatedDrug && medication.associatedDrug.name}
-							</TableCell>
+							<TableCell>{medication.associatedDrug && medication.associatedDrug.name}</TableCell>
 							<TableCell>{new Date(medication.dateAdded).toLocaleDateString()}</TableCell>
 							<TableCell>{`${medication.dose} ${medication.unitOfMeasurement}`}</TableCell>
 							<TableCell>
@@ -181,6 +194,12 @@ function MedicationTable() {
 				<DialogTitle>Add Medication Intake</DialogTitle>
 				<DialogContent>
 					<MedicationIntakeForm medicationId={selectedMedicationId} handleClose={handleClose} />
+				</DialogContent>
+			</Dialog>
+			<Dialog open={addOpen} onClose={handleAddMedicationClose}>
+				<DialogTitle>Add Medication</DialogTitle>
+				<DialogContent>
+					<AddMedicationForm handleClose={handleAddMedicationClose} />
 				</DialogContent>
 			</Dialog>
 		</TableContainer>

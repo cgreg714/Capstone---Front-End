@@ -54,6 +54,9 @@ function NotificationCard({ notification, deleteNotification }) {
                         </Button>
                     </Box>
                 </Box>
+                <Typography variant="body2" color="textSecondary">
+                    Created at: {new Date(notification.createdAt).toLocaleString()}
+                </Typography>
             </CardContent>
             <Dialog open={open} onClose={handleClose}>
                 <MedicationIntakeForm medicationId={notification.medicationId} handleClose={handleClose} />

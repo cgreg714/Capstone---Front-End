@@ -40,6 +40,9 @@ const lightTheme = createTheme({
 		background: {
 			default: '#E5E5E5',
 		},
+		third: {
+			main: '#136E57',
+		},
 		hoverGrey: '#828A8F',
 	},
 	...styleOverrides,
@@ -53,6 +56,9 @@ const darkTheme = createTheme({
 		},
 		secondary: {
 			main: '#9e521b',
+		},
+		third: {
+			main: '#136E57',
 		},
 		background: {
 			default: '#333333',

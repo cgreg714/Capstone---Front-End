@@ -15,6 +15,8 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
+import LoadingBar from '../../LoadingScreen';
+
 
 function Login() {
 	const identifierRef = useRef(null);
@@ -25,7 +27,7 @@ function Login() {
 	// eslint-disable-next-line
 	const [action, setAction] = useState('Login');
 	const { setUserId, fetchUser } = useContext(UserContext);
-	const { isLoading } = useContext(ProfileContext);
+    const [loading, setLoading] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
@@ -58,7 +60,9 @@ function Login() {
 		}
 	}, [fetchUser, navigate, setUserId, setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity]);
 
-	const handleLogin = async () => {
+	const handleLogin = async (event) => {
+		event.preventDefault();
+		setLoading(true);
 		try {
 			const response = await login({
 				identifier: identifierRef.current.value,
@@ -86,15 +90,17 @@ function Login() {
 			setSnackbarMessage(error.message);
 			setSnackbarSeverity('error');
 			setOpenSnackbar(true);
-		}
+        } finally {
+            setLoading(false);
+        }
 	};
 
 	const handleSignUp = () => {
 		navigate('/signup');
 	};
 
-    if (isLoading) {
-        return <CircularProgress />;
+    if (loading) {
+        return <LoadingBar />;
     }
 
 	return (
@@ -102,10 +108,10 @@ function Login() {
 			<div className="medication">
 				<img src={medication} alt="medication" />
 			</div>
-            <header className="header">
-                <h2 className="header-title">DoseMinder</h2>
-                <h4 className="header-subtitle">Login</h4>
-            </header>
+			<header className="header">
+				<h2 className="header-title">DoseMinder</h2>
+				<h4 className="header-subtitle">Login</h4>
+			</header>
 			<Box component="form" onSubmit={handleLogin}>
 				<Box className="inputs">
 					<Box sx={{ '& > :not(style)': { m: 1 } }}>
@@ -155,24 +161,24 @@ function Login() {
 						</FormControl>
 					</Box>
 				</Box>
+
+				<div className="forgot-password">
+					Forgot your password? <Link to="/forgot-password">Click Here!</Link>
+				</div>
+
+				<div className="submit-container">
+					<button className="submit" type="submit">
+						Login
+					</button>
+
+					<div className={action === 'Login' ? 'submit gray' : 'submit'} onClick={handleSignUp}>
+						Go To Sign Up
+					</div>
+				</div>
 			</Box>
-
-			<div className="forgot-password">
-				Forgot your password? <Link to="/forgot-password">Click Here!</Link>
-			</div>
-
-			<div className="submit-container">
-				<div className={action === 'Sign Up' ? 'submit gray' : 'submit'} onClick={handleLogin}>
-					Login
-				</div>
-
-				<div className={action === 'Login' ? 'submit gray' : 'submit'} onClick={handleSignUp}>
-					Go To Sign Up
-				</div>
-			</div>
-            <footer className="copyright">
-                <p>© Project Doseminder 2024</p>
-            </footer>
+			<footer className="copyright">
+				<p>© Project Doseminder 2024</p>
+			</footer>
 		</>
 	);
 }

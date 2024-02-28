@@ -367,7 +367,7 @@ function Signup() {
 						Go To Login
 					</button>
 
-					<button className="submit hoverable" onClick={handleSignup}>
+					<button className="submit hoverable" type="submit">
 						Sign Up
 					</button>
 				</div>
