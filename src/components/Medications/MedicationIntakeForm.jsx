@@ -8,10 +8,10 @@ const MedicationIntakeForm = ({ medicationId, handleClose }) => {
     const { createIntake, getAllMedications, getMedication } = useContext(MedicationContext);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
     
-	const [intake, setIntake] = useState({
-		quantity: '',
-		takenAt: new Date().toISOString().substring(0, 16),
-	});
+const [intake, setIntake] = useState({
+    quantity: '1',
+    takenAt: new Date().toLocaleString('sv-SE').replace(' ', 'T').substring(0, 16),
+});
 
 	const handleChange = (event) => {
 		setIntake({

@@ -40,7 +40,6 @@ function DrugSearchByNameAutocomplete({ reset }) {
         <Autocomplete
             options={drugsList}
             getOptionLabel={(option) => option.name}
-            style={{ width: 300 }}
             onInputChange={(event, newInputValue) => {
                 setInputValue(newInputValue);
             }}

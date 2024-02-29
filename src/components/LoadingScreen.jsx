@@ -7,7 +7,7 @@ const LoadingBar = () => {
     const theme = useTheme();
 
     return (
-        <div className="loading-bar">
+        <div className="loading-bar" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <img src={medicineImage} alt="Loading..." className="loading-image" />
             <div className="loading-text" style={{ color: theme.palette.text.primary }}>Fetching drugs from database</div>
         </div>

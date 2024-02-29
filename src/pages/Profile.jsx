@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import ProfileCards from '../components/Profile/Card/ProfileCard';
+import ProfileCard from '../components/Profile/Card/ProfileCard';
 import ABuddyCard from '../components/Profile/Card/AbuddyCard';
 import DoctorCard from '../components/Profile/Card/DoctorCard';
 import PharmacyCard from '../components/Profile/Card/PharmacyCard.jsx';
@@ -13,7 +13,7 @@ function Profile() {
 	return (
 		<Grid container rowSpacing={3} columnSpacing={3}>
 			<Grid item xs={12}>
-				<ProfileCards />
+				<ProfileCard />
 			</Grid>
 			<Grid item xs={12}>
 				<PharmacyCard />

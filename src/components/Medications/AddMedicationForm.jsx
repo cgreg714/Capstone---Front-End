@@ -243,20 +243,23 @@ const AddMedicationForm = ({ handleClose }) => {
 						/>
 					</Grid>
 				</Grid>
-				<Grid container spacing={2} alignItems="center">
+				<Grid container spacing={2} alignItems="center" sx={{ mt: .25 }}>
 					<Grid item xs={6}>
-						<DrugSearchByNameAutocomplete reset={resetAutocomplete} />
+						<Box width={1}>
+							<DrugSearchByNameAutocomplete reset={resetAutocomplete} />
+						</Box>
 					</Grid>
 					<Grid item xs={6}>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							id="prescriber"
-							label="Prescriber"
-							value={prescriber}
-							onChange={(e) => setPrescriber(e.target.value)}
-						/>
+						<Box width={1}>
+							<TextField
+								required
+								fullWidth
+								id="prescriber"
+								label="Prescriber"
+								value={prescriber}
+								onChange={(e) => setPrescriber(e.target.value)}
+							/>
+						</Box>
 					</Grid>
 				</Grid>
 				<Grid container spacing={2}>

@@ -18,7 +18,12 @@ function EditMedications() {
 
 	const handleCheckboxChange = (index, field, subfield) => {
 		const values = [...editedMedications];
-		values[index][field][subfield] = !values[index][field][subfield];
+		const fieldParts = field.split('.');
+		if (fieldParts.length === 2) {
+			values[index][fieldParts[0]][fieldParts[1]][subfield] = !values[index][fieldParts[0]][fieldParts[1]][subfield];
+		} else {
+			values[index][field][subfield] = !values[index][field][subfield];
+		}
 		setEditedMedications(values);
 	};
 

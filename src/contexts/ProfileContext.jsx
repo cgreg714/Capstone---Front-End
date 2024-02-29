@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
+import LoadingBar from '../components/LoadingScreen';
 import { MedicationProvider } from './MedicationContext';
 import {
 	getAllProfiles as getAllProfilesAPI,
@@ -397,7 +398,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setOpenSnackbar(true);
 			}
 		}
-	}
+	};
 
 	const getPharmacy = async (pharmacyId) => {
 		if (userId && profileId) {
@@ -412,7 +413,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setOpenSnackbar(true);
 			}
 		}
-	}
+	};
 
 	const updatePharmacy = async (pharmacyId, updatedPharmacy) => {
 		if (userId && profileId) {
@@ -427,7 +428,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setOpenSnackbar(true);
 			}
 		}
-	}
+	};
 
 	const deletePharmacy = async (pharmacyId) => {
 		if (userId && profileId) {
@@ -440,7 +441,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setOpenSnackbar(true);
 			}
 		}
-	}
+	};
 
 	return (
 		<ProfileContext.Provider
@@ -480,9 +481,13 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				deleteAllNotifications,
 			}}
 		>
-			<MedicationProvider userId={userId} profileId={profileId}>
-				{children}
-			</MedicationProvider>
+			{isLoading ? (
+				<LoadingBar />
+			) : (
+				<MedicationProvider userId={userId} profileId={profileId}>
+					{children}
+				</MedicationProvider>
+			)}
 		</ProfileContext.Provider>
 	);
 });

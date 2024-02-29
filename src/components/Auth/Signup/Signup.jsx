@@ -358,19 +358,19 @@ function Signup() {
 							</FormControl>
 						</Box>
 					</Box>
+					<div className="submit-container">
+						<button className="submit gray hoverable" onClick={handleLogin}>
+							Go To Login
+						</button>
+
+						<button className="submit hoverable" type="submit">
+							Sign Up
+						</button>
+					</div>
 				</Box>
 			</main>
 
 			<footer>
-				<div className="submit-container">
-					<button className="submit gray hoverable" onClick={handleLogin}>
-						Go To Login
-					</button>
-
-					<button className="submit hoverable" type="submit">
-						Sign Up
-					</button>
-				</div>
 				<div className="copyright">
 					<p>© Project Doseminder 2024</p>
 				</div>

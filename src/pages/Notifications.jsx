@@ -78,10 +78,10 @@ function NotificationsPage() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button variant='contained' onClick={handleClose} color="secondary">
                         Cancel
                     </Button>
-                    <Button onClick={handleDeleteAll} color="primary" autoFocus>
+                    <Button variant='contained' onClick={handleDeleteAll} color="primary" autoFocus>
                         Yes, Dismiss All
                     </Button>
                 </DialogActions>

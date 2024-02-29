@@ -1,18 +1,40 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Accordion, AccordionSummary, Button, TextField, Box, CardContent, Grid, Typography } from '@mui/material';
+import {
+	Accordion,
+	AccordionSummary,
+	Button,
+	TextField,
+	Box,
+	CardContent,
+	Grid,
+	Typography,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
+	Autocomplete,
+} from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
+import { states } from '../../helpers/states';
 
 function AddPharmacyForm() {
 	const nameRef = useRef();
-	const addressRef = useRef();
+	const streetRef = useRef();
+	const cityRef = useRef();
+	const zipRef = useRef();
 	const phoneNumberRef = useRef();
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const [phoneNumber, setPhoneNumber] = useState('');
+	const [state, setState] = useState('');
 
 	const { createPharmacy } = useContext(ProfileContext);
+
+	const handleStateChange = (event) => {
+		setState(event.target.value);
+	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -29,7 +51,12 @@ function AddPharmacyForm() {
 
 		const pharmacy = {
 			name: nameRef.current.value,
-			address: addressRef.current.value,
+			address: {
+				street: streetRef.current.value,
+				city: cityRef.current.value,
+				state: state,
+				zip: zipRef.current.value,
+			},
 			phoneNumber: phoneNumberRef.current.value,
 		};
 
@@ -47,7 +74,10 @@ function AddPharmacyForm() {
 		}
 
 		nameRef.current.value = '';
-		addressRef.current.value = '';
+		streetRef.current.value = '';
+		cityRef.current.value = '';
+		setState('');
+		zipRef.current.value = '';
 	};
 
 	return (
@@ -62,7 +92,41 @@ function AddPharmacyForm() {
 							<TextField inputRef={nameRef} label="Name" required fullWidth />
 						</Grid>
 						<Grid item xs={12}>
-							<TextField inputRef={addressRef} label="Address" required fullWidth />
+							<TextField inputRef={streetRef} label="Street" required fullWidth />
+						</Grid>
+						<Grid item xs={5}>
+							<TextField inputRef={cityRef} label="City" required fullWidth />
+						</Grid>
+						<Grid item xs={5}>
+							<Autocomplete
+								id="state-select"
+								options={states}
+								autoHighlight
+								autoSelect
+								getOptionLabel={(option) => option.name}
+								onInputChange={(event, newValue) => {
+									setState(newValue);
+								}}
+								renderInput={(params) => <TextField {...params} label="State" />}
+							/>
+						</Grid>
+						<Grid item xs={2}>
+							<TextField
+								inputRef={zipRef}
+								label="Zip Code"
+								required
+								fullWidth
+								inputProps={{
+									inputMode: 'numeric',
+									maxLength: 5,
+								}}
+								onKeyDown={(event) => {
+									const validKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'];
+									if (!/[0-9]/.test(event.key) && !validKeys.includes(event.key)) {
+										event.preventDefault();
+									}
+								}}
+							/>
 						</Grid>
 						<Grid item xs={12}>
 							<PhoneNumberInput ref={phoneNumberRef} value={phoneNumber} onChange={setPhoneNumber} />

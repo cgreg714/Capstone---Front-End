@@ -7,12 +7,12 @@ function MedDisplay(props) {
 
     let styles={
         medContainer: {
-            backgroundColor: "#9E1B32",
+            backgroundColor: "#E89665",
             padding: "10px",
             margin: "0 auto"
         },
         containerTitle: {
-            color: '#FFF'
+            color: '#000'
         }
     }
 

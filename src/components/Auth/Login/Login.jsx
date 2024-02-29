@@ -7,14 +7,12 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import medication from '../../../assets/medicine130x130.png';
 import { UserContext } from '../../../contexts/UserContext';
-import { ProfileContext } from '../../../contexts/ProfileContext';
 import { SnackbarContext } from '../../../contexts/SnackbarContext';
 import { jwtDecode } from 'jwt-decode';
 import { login } from '../../../api/authAPI';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import CircularProgress from '@mui/material/CircularProgress';
 import LoadingBar from '../../LoadingScreen';
 
 
@@ -171,7 +169,7 @@ function Login() {
 						Login
 					</button>
 
-					<div className={action === 'Login' ? 'submit gray' : 'submit'} onClick={handleSignUp}>
+					<div className={action === 'Login' ? 'submit' : 'submit'} onClick={handleSignUp}>
 						Go To Sign Up
 					</div>
 				</div>
