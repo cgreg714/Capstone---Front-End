@@ -30,9 +30,9 @@ function SearchAppBar() {
 					<IconButton color="inherit" onClick={toggleTheme}>
 						{theme === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
 					</IconButton>
-					<IconButton color="inherit" component={Link} to="/settings">
+					{/* <IconButton color="inherit" component={Link} to="/settings">
 						<SettingsIcon />
-					</IconButton>
+					</IconButton> */}
 				</Box>
 			</Toolbar>
 		</StyledAppBar>

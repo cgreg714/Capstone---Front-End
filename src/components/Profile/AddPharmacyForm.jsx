@@ -19,7 +19,7 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
 import { states } from '../../helpers/states';
-
+import { useTheme } from '@mui/material/styles';
 function AddPharmacyForm() {
 	const nameRef = useRef();
 	const streetRef = useRef();
@@ -29,8 +29,9 @@ function AddPharmacyForm() {
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const [phoneNumber, setPhoneNumber] = useState('');
 	const [state, setState] = useState('');
-
+	
 	const { createPharmacy } = useContext(ProfileContext);
+	const theme = useTheme();
 
 	const handleStateChange = (event) => {
 		setState(event.target.value);
@@ -81,7 +82,7 @@ function AddPharmacyForm() {
 	};
 
 	return (
-		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1 }}>
+		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1, backgroundColor: theme.palette.accordionBackground }}>
 			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
 				<Typography>Add Pharmacy</Typography>
 			</AccordionSummary>

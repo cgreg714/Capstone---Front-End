@@ -3,7 +3,7 @@ import { Avatar, TextField, Button, Grid, Box, CardContent, Accordion, Accordion
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
-
+import { useTheme } from '@mui/material/styles';
 const avatarContext = require.context('../../assets/Avatars', false, /\.png$/);
 
 const avatarImages = avatarContext.keys().map(avatarContext);
@@ -12,11 +12,12 @@ const AddProfileForm = ({ onProfileCreated }) => {
 	const firstNameRef = useRef();
 	const lastNameRef = useRef();
 	const emailRef = useRef();
-
+	
 	const { createProfile } = useContext(ProfileContext);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext); // Use SnackbarContext
-
+	
 	const [selectedAvatar, setSelectedAvatar] = useState(null);
+	const theme = useTheme();
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -54,7 +55,7 @@ const AddProfileForm = ({ onProfileCreated }) => {
 	};
 
 	return (
-		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1 }}>
+		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1, backgroundColor: theme.palette.accordionBackground }}>
 			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
 				<Typography>Add Profile</Typography>
 			</AccordionSummary>

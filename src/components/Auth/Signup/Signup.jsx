@@ -112,7 +112,7 @@ function Signup() {
 	return (
 		<>
 			<div className="medication">
-				<img src={medication} alt="Medication" />
+				<img src={medication} alt="medication" />
 			</div>
 			<header className="header">
 				<h2 className="header-title">DoseMinder</h2>

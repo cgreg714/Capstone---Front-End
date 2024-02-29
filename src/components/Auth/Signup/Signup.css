@@ -13,3 +13,15 @@
 	background-color: #d86dcf;
 	color: #000;
 }
+
+
+@media (prefers-reduced-motion: no-preference) {
+	.medication {
+		animation: spin infinite 7s linear;
+	}
+}
+
+@keyframes medication-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

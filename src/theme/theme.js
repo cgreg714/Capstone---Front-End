@@ -44,6 +44,8 @@ const lightTheme = createTheme({
 			main: '#136E57',
 		},
 		hoverGrey: '#828A8F',
+		cardBackground: '#136E57',
+		accordionBackground: '#DA5F75',
 	},
 	...styleOverrides,
 });
@@ -64,6 +66,8 @@ const darkTheme = createTheme({
 			default: '#333333',
 		},
 		hoverGrey: '#828A8F',
+		cardBackground: '#136E57',
+		accordionBackground: '#DA5F75',
 	},
 	components: {
 		...styleOverrides,

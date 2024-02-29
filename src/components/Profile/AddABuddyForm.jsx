@@ -4,6 +4,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
+import { useTheme } from '@mui/material/styles';
 
 function AddABuddyForm() {
 	const firstNameRef = useRef();
@@ -15,6 +16,7 @@ function AddABuddyForm() {
 	const [phoneNumber, setPhoneNumber] = useState('');
 
 	const { createABuddy } = useContext(ProfileContext);
+	const theme = useTheme();
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -57,7 +59,7 @@ function AddABuddyForm() {
 	};
 
 	return (
-		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1 }}>
+		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1, backgroundColor: theme.palette.accordionBackground }}>
 			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
 				<Typography>Add Buddy</Typography>
 			</AccordionSummary>

@@ -40,7 +40,7 @@ const ProfileCard = () => {
 
 	return (
 		<Grid container justifyContent="center">
-			<Grid item xs={12} md={6}>
+			<Grid item xs={8}>
 				<Card sx={{ marginTop: 2, marginBottom: 1 }}>
 					<Box position="relative">
 						<Avatar
@@ -177,6 +177,17 @@ const ProfileCard = () => {
 																<Box ml={1}>
 																	{abuddy.firstName} {abuddy.lastName}
 																</Box>
+														<Typography
+															variant="body2"
+															component="div"
+															color="text.secondary"
+															sx={{ m: 2 }}
+														>
+															<Box display="flex" alignItems="center">
+																<FaPersonHalfDress size={24} />
+																<Box ml={1}>{abuddy.relation}</Box>
+															</Box>
+														</Typography>
 															</Box>
 														</Typography>
 														<Typography
@@ -201,17 +212,6 @@ const ProfileCard = () => {
 																<Box ml={1}>
 																	{formatPhoneNumber(abuddy.phoneNumber)}
 																</Box>
-															</Box>
-														</Typography>
-														<Typography
-															variant="body2"
-															component="div"
-															color="text.secondary"
-															sx={{ m: 2 }}
-														>
-															<Box display="flex" alignItems="center">
-																<FaPersonHalfDress size={24} />
-																<Box ml={1}>{abuddy.relation}</Box>
 															</Box>
 														</Typography>
 													</div>

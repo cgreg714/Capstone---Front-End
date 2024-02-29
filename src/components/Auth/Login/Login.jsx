@@ -15,7 +15,6 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LoadingBar from '../../LoadingScreen';
 
-
 function Login() {
 	const identifierRef = useRef(null);
 	const passwordRef = useRef(null);

@@ -1,10 +1,4 @@
-import {
-	AppBar,
-	Avatar,
-	ListSubheader,
-	ListItemIcon,
-	Drawer,
-} from '@mui/material';
+import { AppBar, Avatar, ListSubheader, ListItemIcon, Drawer, Button } from '@mui/material';
 import { styled } from '@mui/system';
 
 export const drawerWidth = 240;
@@ -37,6 +31,33 @@ export const StyledListSubheader = styled(ListSubheader)({
 	color: '#000',
 });
 
+export const StyledProfileButton = styled(Button)(({
+	marginBottom: '5px',
+	width: '100%',
+	fullWidth: true,
+	color: 'black',
+	fontWeight: 'bolder',
+	fontFamily: 'Comfortaa',
+	borderRadius: 10,
+	zIndex: 1,
+	'&:hover': {
+		boxShadow: 'inset 0 -10px 10px #f3ae4b',
+	},
+}));
+
+export const StyledLogoutButton = styled(Button)(({
+    width: '100%',
+    fullWidth: true,
+    color: 'black',
+    fontWeight: 'bolder',
+    fontFamily: 'Comfortaa',
+    borderRadius: 10,
+    zIndex: 1,
+    '&:hover': {
+        boxShadow: `inset 0 -10px 10px #f3ae4b`,
+    },
+}));
+
 export const StyledListItemIcon = styled(ListItemIcon)({
 	minWidth: 0,
 	marginRight: '1.5rem',
@@ -46,8 +67,8 @@ export const StyledListItemIcon = styled(ListItemIcon)({
 
 //* Footer
 export const StyledFooter = styled('footer')({
-    position: 'relative',
-    flexShrink: 0,
+	position: 'relative',
+	flexShrink: 0,
 	width: '100%',
 	height: '2.5rem',
 });
