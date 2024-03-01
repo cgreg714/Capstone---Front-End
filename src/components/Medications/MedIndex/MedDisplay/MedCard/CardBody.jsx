@@ -1,7 +1,24 @@
-import React from 'react';
-import { Card, CardContent, CardActions, Typography, Button, List, ListItem, Box } from '@mui/material';
+import React, { useState, useContext } from 'react';
+import {
+	Card,
+	CardContent,
+	CardActions,
+	Typography,
+	Button,
+	List,
+	ListItem,
+	Box,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	TextField,
+} from '@mui/material';
+import { MedicationContext } from '../../../../../contexts/MedicationContext';
+import { useTheme } from '@mui/material/styles';
 
 function CardBody({
+	_id,
 	name,
 	description,
 	unitOfMeasurement,
@@ -11,13 +28,79 @@ function CardBody({
 	dateAdded,
 	prescriber,
 	associatedDrug,
-	medicationIntakes,
 }) {
+	const { updateMedication, deleteMedication, addQuantity } = useContext(MedicationContext);
 	const trueFrequencies = Object.keys(frequency).filter((key) => frequency[key] === true);
 	const time = new Date(frequency.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+	const theme = useTheme();
+
+	const [refillOpen, setRefillOpen] = useState(false);
+	const [refillAmount, setRefillAmount] = useState('');
+	const [deleteOpen, setDeleteOpen] = useState(false);
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedName, setEditedName] = useState(name);
+    const [editedDescription, setEditedDescription] = useState(description);
+	const [editedAssociatedDrug, setEditedAssociatedDrug] = useState(associatedDrug);
+	const [editedDose, setEditedDose] = useState(dose);
+	const [editedUnitOfMeasurement, setEditedUnitOfMeasurement] = useState(unitOfMeasurement);
+	const [editedPrescriber, setEditedPrescriber] = useState(prescriber);
+	const [editedFrequency, setEditedFrequency] = useState(frequency);
+	const [editedTime, setEditedTime] = useState(time);
+	const [editedQuantity, setEditedQuantity] = useState(quantity);
+	const [editedDateAdded, setEditedDateAdded] = useState(dateAdded);
+
+	const handleEdit = () => {
+        setIsEditing(true);
+    };
+
+    const handleSave = () => {
+        updateMedication(_id, {
+            name: editedName,
+            description: editedDescription,
+			associatedDrug: editedAssociatedDrug,
+			dose: editedDose,
+			unitOfMeasurement: editedUnitOfMeasurement,
+			prescriber: editedPrescriber,
+			frequency: editedFrequency,
+			time: editedTime,
+			quantity: editedQuantity,
+			dateAdded: editedDateAdded,
+		});
+        setIsEditing(false);
+    };
+
+	const handleDelete = () => {
+		deleteMedication(_id);
+		setDeleteOpen(false);
+	};
+
+	const handleDeleteOpen = () => {
+		setDeleteOpen(true);
+	};
+
+	const handleDeleteClose = () => {
+		setDeleteOpen(false);
+	};
+
+	const handleRefillOpen = () => {
+		setRefillOpen(true);
+	};
+
+	const handleRefillClose = () => {
+		setRefillOpen(false);
+	};
+
+	const handleRefillSubmit = async () => {
+		if (refillAmount) {
+			await addQuantity(_id, refillAmount);
+			setRefillAmount('');
+			handleRefillClose();
+		}
+	};
 
 	return (
-		<Box m={1}>
+		<Box m={1} sx={{ boxShadow: theme.palette.mode === 'dark' ? '0 6px 10px white' : '0 6px 10px black' }}>
 			<Card sx={{ minWidth: 275 }}>
 				<CardContent>
 					<Typography variant="h5" component="div">
@@ -33,22 +116,68 @@ function CardBody({
 						<ListItem>Prescriber: {prescriber}</ListItem>
 						<ListItem>Frequency: {trueFrequencies.join(', ')}</ListItem>
 						<ListItem>Time: {time}</ListItem>
-						<ListItem>Medication Intakes: </ListItem>
-                        <ListItem>{medicationIntakes}</ListItem>
-					</List>
-				</CardContent>
-				<CardActions>
-					<List>
 						<ListItem>Quantity: {quantity} Remaining</ListItem>
 						<ListItem>Date Added: {new Date(dateAdded).toLocaleDateString()}</ListItem>
 					</List>
-					{/* <ButtonGroup variant="text">
-                        <Button onClick={() => console.log('click view', { name })}>View</Button>
-                        <Button onClick={() => console.log('click edit', { name })}>Edit</Button>
-                        <Button onClick={() => console.log('click delete', { name })}>Delete</Button>
-                    </ButtonGroup> */}
+				</CardContent>
+				<CardActions>
+					<Button variant="contained" size="small" color="third" sx={{ color: 'black' }} onClick={handleEdit}>
+						Edit
+					</Button>
+					<Button
+						variant="contained"
+						size="small"
+						color="third"
+						sx={{ color: 'black' }}
+						onClick={() => handleRefillOpen(_id)}
+					>
+						Refill
+					</Button>
+					<Box sx={{ flexGrow: 1 }} />
+					<Button
+						variant="contained"
+						size="small"
+						sx={{ color: 'black' }}
+						color="primary"
+						onClick={handleDeleteOpen}
+					>
+						Delete
+					</Button>
 				</CardActions>
 			</Card>
+			<Dialog open={deleteOpen} onClose={handleDeleteClose}>
+				<DialogTitle>Confirm Deletion</DialogTitle>
+				<DialogContent>
+					<Typography>Are you sure you want to delete this medication?</Typography>
+				</DialogContent>
+				<DialogActions>
+					<Button variant="contained" onClick={handleDeleteClose} color="secondary">
+						Cancel
+					</Button>
+					<Box sx={{ flexGrow: 1 }} />
+
+					<Button variant="contained" onClick={handleDelete} color="primary">
+						Delete
+					</Button>
+				</DialogActions>
+			</Dialog>
+			<Dialog open={refillOpen} onClose={handleRefillClose}>
+				<DialogTitle>Refill Medication</DialogTitle>
+				<DialogContent>
+					<TextField
+						autoFocus
+						margin="dense"
+						label="Refill Amount"
+						type="number"
+						fullWidth
+						value={refillAmount}
+						onChange={(e) => setRefillAmount(e.target.value)}
+					/>
+					<Button variant="contained" onClick={handleRefillSubmit} color="primary">
+						Submit
+					</Button>
+				</DialogContent>
+			</Dialog>
 		</Box>
 	);
 }

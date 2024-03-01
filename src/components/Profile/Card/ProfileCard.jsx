@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Card, CardContent, TextField, Typography, Button, Box, Grid } from '@mui/material';
+import { Card, CardContent, TextField, Typography, Button, Box, Grid, AppBar, Toolbar } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import PharmacyIcon from '@mui/icons-material/LocalPharmacy';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -11,20 +11,22 @@ import { FaPersonHalfDress } from 'react-icons/fa6';
 
 import { ProfileContext } from '../../../contexts/ProfileContext';
 import { formatPhoneNumber } from '../../../helpers/phoneNumberFormat';
+import { useTheme } from '@mui/material/styles';
 
 const ProfileCard = () => {
-	const { profiles, avatarUrl, profileId, updateProfile, updatedPharmacy, updatedDoctor, updatedAbuddy } =
+	const { profiles, avatarUrl, profileId, updateProfile, updatedPharmacy, updatedDoctor, updatedAbuddy, doctors, buddies, pharmacies } =
 		useContext(ProfileContext);
 
 	const [currentProfile, setCurrentProfile] = useState();
 	const [editedProfile, setEditedProfile] = useState({});
 	const [isProfileEditMode, setIsProfileEditMode] = useState(false);
+	const theme = useTheme();
 
 	useEffect(() => {
 		const profile = profiles.find((profile) => profile._id === profileId);
 		setCurrentProfile(profile);
 		setEditedProfile(profile || {});
-	}, [profiles, profileId, updatedPharmacy, updatedDoctor, updatedAbuddy]);
+	}, [profiles, profileId, updatedPharmacy, updatedDoctor, updatedAbuddy, doctors, buddies, pharmacies]);
 
 	const handleProfileSave = () => {
 		if (editedProfile) {
@@ -39,46 +41,38 @@ const ProfileCard = () => {
 	};
 
 	return (
-		<Grid container justifyContent="center">
-			<Grid item xs={8}>
+		<Grid container spacing={2}>
+			<Grid item xs={12}>
 				<Card sx={{ marginTop: 2, marginBottom: 1 }}>
-					<Box position="relative">
-						<Avatar
-							alt="Profile Avatar"
-							src={avatarUrl}
-							sx={{ width: 100, height: 100, position: 'absolute', top: 20, right: 40 }}
-						/>
-						<CardContent>
-							{currentProfile && (
-								<Grid container>
-									{!isProfileEditMode ? (
-										<>
-											<Grid item xs={12}>
-												<Typography
-													variant="h4"
-													component="div"
-													sx={{ textAlign: 'center', mb: 1 }}
-												>
-													Hello, {currentProfile && currentProfile.firstName}{' '}
-													{currentProfile.lastName}!
-												</Typography>
-											</Grid>
-											<Grid item xs={12}>
+					<AppBar position="static" style={{ backgroundColor: theme.palette.third.main }}>
+						<Toolbar>
+							<Box sx={{ flexGrow: 1 }}>
+								<Typography variant="h6" component="div" color="#000">
+									Hello, {currentProfile && currentProfile.firstName}{' '}
+									{currentProfile && currentProfile.lastName}!
+								</Typography>
 												<Typography
 													variant="body2"
 													component="div"
-													color="text.secondary"
-													sx={{ mb: 6, textAlign: 'center' }}
+													color="#000"
 												>
-													<Box display="flex" alignItems="center" justifyContent="center">
+													<Box display="flex" alignItems="center" >
 														<MailIcon />
 														<Box ml={1} contentEditable={isProfileEditMode}>
 															{currentProfile.email}
 														</Box>
 													</Box>
 												</Typography>
-											</Grid>
-
+							</Box>
+							<Avatar alt="Profile Avatar" src={avatarUrl} sx={{ width: 75, height: 75 }} />
+						</Toolbar>
+					</AppBar>
+					<Box position="relative">
+						<CardContent>
+							{currentProfile && (
+								<Grid container>
+									{!isProfileEditMode ? (
+										<>
 											<Grid item xs={4}>
 												<Typography variant="h6" component="div">
 													Pharmacies
@@ -177,17 +171,17 @@ const ProfileCard = () => {
 																<Box ml={1}>
 																	{abuddy.firstName} {abuddy.lastName}
 																</Box>
-														<Typography
-															variant="body2"
-															component="div"
-															color="text.secondary"
-															sx={{ m: 2 }}
-														>
-															<Box display="flex" alignItems="center">
-																<FaPersonHalfDress size={24} />
-																<Box ml={1}>{abuddy.relation}</Box>
-															</Box>
-														</Typography>
+																<Typography
+																	variant="body2"
+																	component="div"
+																	color="text.secondary"
+																	sx={{ m: 2 }}
+																>
+																	<Box display="flex" alignItems="center">
+																		<FaPersonHalfDress size={24} />
+																		<Box ml={1}>{abuddy.relation}</Box>
+																	</Box>
+																</Typography>
 															</Box>
 														</Typography>
 														<Typography

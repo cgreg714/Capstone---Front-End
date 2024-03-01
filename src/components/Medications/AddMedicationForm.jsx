@@ -6,13 +6,10 @@ import {
 	Box,
 	FormControl,
 	FormLabel,
-	FormGroup,
 	FormControlLabel,
 	Checkbox,
 	RadioGroup,
 	Radio,
-	Select,
-	MenuItem,
 	Grid,
 	Autocomplete,
 	Dialog,
@@ -55,6 +52,9 @@ const AddMedicationForm = ({ handleClose }) => {
 	});
 	const [selectAllDays, setSelectAllDays] = useState(false);
 	const [frequency, setFrequency] = useState('');
+
+	const [everyXHours, setEveryXHours] = useState('');
+	const [customFrequency, setCustomFrequency] = useState('');
 
 	const [time, setTime] = useState('');
 	const units = ['kg', 'g', 'mg', 'mcg', 'L', 'ml', 'cc', 'mol', 'mmol', 'units', 'tbsp', 'tsp'];
@@ -145,7 +145,13 @@ const AddMedicationForm = ({ handleClose }) => {
 	};
 
 	const handleFrequencyChange = (event) => {
-		setFrequency((prevFrequency) => (prevFrequency === event.target.value ? '' : event.target.value));
+		if (frequency === 'everyXHours') {
+			setEveryXHours('');
+		}
+		if (frequency === 'customFrequency') {
+			setCustomFrequency('');
+		}
+		setFrequency(event.target.value);
 	};
 
 	const handleSelectAllDaysChange = (event) => {
@@ -185,7 +191,6 @@ const AddMedicationForm = ({ handleClose }) => {
 					<Grid item xs={4}>
 						<TextField
 							margin="normal"
-							required
 							fullWidth
 							id="quantity"
 							label="Quantity"
@@ -243,7 +248,7 @@ const AddMedicationForm = ({ handleClose }) => {
 						/>
 					</Grid>
 				</Grid>
-				<Grid container spacing={2} alignItems="center" sx={{ mt: .25 }}>
+				<Grid container spacing={2} alignItems="center" sx={{ mt: 0.25 }}>
 					<Grid item xs={6}>
 						<Box width={1}>
 							<DrugSearchByNameAutocomplete reset={resetAutocomplete} />
@@ -268,12 +273,45 @@ const AddMedicationForm = ({ handleClose }) => {
 							Frequency
 						</FormLabel>
 						<RadioGroup value={frequency} onChange={handleFrequencyChange} row>
-							<FormControlLabel value="none" control={<Radio />} label="None" />
 							<FormControlLabel value="once" control={<Radio />} label="One Time" />
 							<FormControlLabel value="daily" control={<Radio />} label="Daily" />
 							<FormControlLabel value="weekly" control={<Radio />} label="Weekly" />
-							<FormControlLabel value="biWeekly" control={<Radio />} label="Bi-Weekly" />
 							<FormControlLabel value="monthly" control={<Radio />} label="Monthly" />
+							<Grid container alignItems="center">
+								<Grid item>
+									<FormControlLabel value="everyXHours" control={<Radio />} label="Every X hours" />
+								</Grid>
+								<Grid item>
+									<TextField
+										margin="normal"
+										id="everyXHours"
+										label="X"
+										sx={{ ml: 1, mr: 2, width: 75 }}
+										value={everyXHours}
+										onChange={(e) => setEveryXHours(e.target.value)}
+										type="number"
+										inputProps={{ min: '0', step: '1' }}
+										disabled={frequency !== 'everyXHours'}
+									/>
+								</Grid>
+								<Grid item>
+									<FormControlLabel
+										value="customFrequency"
+										control={<Radio />}
+										label="Custom Frequency"
+									/>
+								</Grid>
+								<Grid item>
+									<TextField
+										margin="normal"
+										id="customFrequency"
+										label="Custom Frequency"
+										value={customFrequency}
+										onChange={(e) => setCustomFrequency(e.target.value)}
+										disabled={frequency !== 'customFrequency'}
+									/>
+								</Grid>
+							</Grid>
 						</RadioGroup>
 					</FormControl>
 					<FormControl component="fieldset" sx={{ mt: 3, ml: 2 }}>

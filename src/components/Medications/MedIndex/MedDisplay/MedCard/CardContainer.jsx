@@ -2,10 +2,12 @@ import React, { useContext, useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import CardBody from './CardBody';
 import { MedicationContext } from '../../../../../contexts/MedicationContext';
+import { useTheme } from '@mui/material/styles';
 
 function CardContainer() {
   const { medications } = useContext(MedicationContext);
   const [sortProperty, setSortProperty] = useState('dateAdded'); // Default sort property
+  const theme = useTheme();
 
   const handleSort = (property) => {
     setSortProperty(property);
@@ -36,15 +38,43 @@ function CardContainer() {
 
   return (
     <div>
-      <Button variant='contained' onClick={() => handleSort('dateAdded')} sx={{ mr: 2 }}>Sort by Date Added</Button>
-      <Button variant='contained' onClick={() => handleSort('timeToTake')} sx={{ mr: 2 }}>Sort by Time to Take</Button>
-      <Button variant='contained' onClick={() => handleSort('prescriber')} sx={{ mr: 2 }}>Sort by Prescriber</Button>
+      <Button 
+        variant='contained' 
+        onClick={() => handleSort('dateAdded')} 
+        sx={{ 
+          mr: 2, 
+          boxShadow: theme.palette.mode === 'dark' ? '0 3px 10px white' : '0 3px 10px black' 
+        }}
+      >
+        Sort by Date Added
+      </Button>
+      <Button 
+        variant='contained' 
+        onClick={() => handleSort('timeToTake')} 
+        sx={{ 
+          mr: 2, 
+          boxShadow: theme.palette.mode === 'dark' ? '0 3px 10px white' : '0 3px 10px black' 
+        }}
+      >
+        Sort by Time to Take
+      </Button>
+      <Button 
+        variant='contained' 
+        onClick={() => handleSort('prescriber')} 
+        sx={{ 
+          mr: 2, 
+          boxShadow: theme.palette.mode === 'dark' ? '0 3px 10px white' : '0 3px 10px black' 
+        }}
+      >
+        Sort by Prescriber
+      </Button>
       <Grid container spacing={2}>
         {
           sortedMedications.map((medication, index) => (
             <Grid item xs={6} sm={3} md={3} key={index}>
-              <Box m={1}>
+              <Box m={2}>
                 <CardBody
+                  _id={medication._id}
                   name={medication.name}
                   description={medication.description}
                   unitOfMeasurement={medication.unitOfMeasurement}
@@ -54,7 +84,6 @@ function CardContainer() {
                   dateAdded={medication.dateAdded}
                   prescriber={medication.prescriber}
                   associatedDrug={medication.associatedDrug}
-                  medicationIntakes={formatIntakes(medication.medicationIntakes).map((intake, index) => <div key={index}>{intake}</div>)}
                   />
               </Box>
             </Grid>

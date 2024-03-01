@@ -50,7 +50,9 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 		if (userId && profileId) {
 			try {
 				const newMedication = await createMedicationAPI(userId, profileId, medication);
-				setMedications((prevMedications) => [...prevMedications, newMedication]);
+				const populatedMedication = await getMedicationAPI(userId, profileId, newMedication._id);
+				getAllMedications();
+				setMedications((prevMedications) => [...prevMedications, populatedMedication]);
 				setSnackbarMessage(`Successfully created medication.`);
 				setSnackbarSeverity('success');
 				setOpenSnackbar(true);
@@ -96,13 +98,10 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 	const updateMedication = async (medId, updatedMedication) => {
 		if (userId && profileId) {
 			try {
-				const updatedMedicationData = await updateMedicationAPI(userId, profileId, medId, updatedMedication);
+				await updateMedicationAPI(userId, profileId, medId, updatedMedication);
+				const populatedMedication = await getMedicationAPI(userId, profileId, medId);
 				setMedications((prevMedications) =>
-					prevMedications.map((medication) =>
-						medication._id === medId
-							? { ...updatedMedicationData, quantity: updatedMedication.quantity }
-							: medication
-					)
+					prevMedications.map((medication) => (medication._id === medId ? populatedMedication : medication))
 				);
 				setSnackbarMessage(`Successfully updated medication.`);
 				setSnackbarSeverity('success');
@@ -149,10 +148,15 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 	const addQuantity = async (medId, quantity) => {
 		if (userId && profileId) {
 			try {
-				const updatedMedication = await addQuantityAPI(userId, profileId, medId, quantity);
+				await addQuantityAPI(userId, profileId, medId, quantity);
+				const updatedMedication = await getMedicationAPI(userId, profileId, medId);
 				setMedications((prevMedications) =>
 					prevMedications.map((medication) => (medication._id === medId ? updatedMedication : medication))
 				);
+				getAllMedications();
+				setSnackbarMessage('Successfully added quantity');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
 				setSnackbarMessage('An error occurred while adding quantity');
 				setSnackbarSeverity('error');

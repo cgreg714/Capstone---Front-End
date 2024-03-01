@@ -150,7 +150,7 @@ function MedicationTable() {
 									</div>
 								)}
 							</TableCell>
-							<TableCell>{medication.quantity}</TableCell>
+							<TableCell>{isNaN(medication.quantity) ? <s>0</s> : medication.quantity}</TableCell>
 							<TableCell>
 								<Button
 									variant="contained"

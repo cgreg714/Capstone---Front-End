@@ -47,6 +47,9 @@ const lightTheme = createTheme({
 		cardBackground: '#8DBFB3',
 		accordionBackground: '#F06060',
 	},
+	typography: {
+        fontFamily: 'Comfortaa, sans-serif',
+    },
 	...styleOverrides,
 });
 
@@ -69,6 +72,9 @@ const darkTheme = createTheme({
 		cardBackground: '#8DBFB3',
 		accordionBackground: '#F06060',
 	},
+	typography: {
+        fontFamily: 'Comfortaa, sans-serif',
+    },
 	components: {
 		...styleOverrides,
 	},

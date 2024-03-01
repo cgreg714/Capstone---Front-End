@@ -1,10 +1,7 @@
 import React from 'react';
 import { Button, Container, Col, Row, Nav, Navbar, NavDropdown, Form } from 'react-bootstrap';
 
-function MedNav({ prescribers }) {
-	// const categories = ["Prescriber", "Date Added" ];
-
-	let doctors = [null];
+function MedNav() {
 
 	const timesOfDay = ['Morning', 'Noon', 'Evening', 'Night'];
 
@@ -16,11 +13,7 @@ function MedNav({ prescribers }) {
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Nav className="me-auto">
 							<Navbar.Brand>Sort By</Navbar.Brand>
-							{/* {
-                        categories.map((category, index)=>(
-                    <Nav.Link key={index} onClick={()=>console.log('click', category)}>{category}</Nav.Link>
-                ))
-            } */}
+
 							<Nav.Link onClick={() => console.log('click date added')}>Date Added</Nav.Link>
 
 							<NavDropdown title="Time Of Day" id="basic-nav-dropdown">

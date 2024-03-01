@@ -14,12 +14,12 @@ function PharmacyCardWrapper() {
 		<Card>
 			<CardContent>
 				<Grid container spacing={2}>
+					<PharmacyCard />
 					<Grid item xs={12}>
 						<Box display="flex" justifyContent="center">
 							<AddPharmacyForm />
 						</Box>
 					</Grid>
-					<PharmacyCard />
 				</Grid>
 			</CardContent>
 		</Card>
@@ -31,12 +31,12 @@ function AbuddyCardWrapper() {
 		<Card>
 			<CardContent>
 				<Grid container spacing={2}>
+					<ABuddyCard />
 					<Grid item xs={12}>
 						<Box display="flex" justifyContent="center">
 							<AddABuddyForm />
 						</Box>
 					</Grid>
-					<ABuddyCard />
 				</Grid>
 			</CardContent>
 		</Card>
@@ -48,12 +48,12 @@ function DoctorCardWrapper() {
 		<Card>
 			<CardContent>
 				<Grid container spacing={2}>
+					<DoctorCard />
 					<Grid item xs={12}>
 						<Box display="flex" justifyContent="center">
 							<AddDoctorForm />
 						</Box>
 					</Grid>
-					<DoctorCard />
 				</Grid>
 			</CardContent>
 		</Card>
@@ -63,8 +63,13 @@ function DoctorCardWrapper() {
 function Profile() {
 	return (
 		<Grid container rowSpacing={3} columnSpacing={3}>
-			<Grid item xs={12}>
+			<Grid item xs={6}>
 				<ProfileCard />
+			</Grid>
+			<Grid item xs={6}>
+				<Box display="flex" justifyContent="center">
+					<AddProfileForm />
+				</Box>{' '}
 			</Grid>
 			<Grid item xs={6}>
 				<PharmacyCardWrapper />
@@ -74,9 +79,6 @@ function Profile() {
 			</Grid>
 			<Grid item xs={6}>
 				<AbuddyCardWrapper />
-			</Grid>
-			<Grid item xs={6}>
-				<AddProfileForm />
 			</Grid>
 		</Grid>
 	);
