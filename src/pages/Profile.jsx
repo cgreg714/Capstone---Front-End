@@ -30,7 +30,7 @@ function AbuddyCardWrapper() {
 	return (
 		<Card>
 			<CardContent>
-				<Grid container>
+				<Grid container spacing={2}>
 					<Grid item xs={12}>
 						<Box display="flex" justifyContent="center">
 							<AddABuddyForm />
@@ -47,12 +47,14 @@ function DoctorCardWrapper() {
 	return (
 		<Card>
 			<CardContent>
-				<Grid item xs={12}>
-					<Box display="flex" justifyContent="center">
-						<AddDoctorForm />
-					</Box>
+				<Grid container spacing={2}>
+					<Grid item xs={12}>
+						<Box display="flex" justifyContent="center">
+							<AddDoctorForm />
+						</Box>
+					</Grid>
+					<DoctorCard />
 				</Grid>
-				<DoctorCard />
 			</CardContent>
 		</Card>
 	);
@@ -64,16 +66,16 @@ function Profile() {
 			<Grid item xs={12}>
 				<ProfileCard />
 			</Grid>
-			<Grid item xs={12}>
+			<Grid item xs={6}>
 				<PharmacyCardWrapper />
 			</Grid>
-			<Grid item xs={12}>
+			<Grid item xs={6}>
 				<DoctorCardWrapper />
 			</Grid>
-			<Grid item xs={12}>
+			<Grid item xs={6}>
 				<AbuddyCardWrapper />
 			</Grid>
-			<Grid item xs={12}>
+			<Grid item xs={6}>
 				<AddProfileForm />
 			</Grid>
 		</Grid>

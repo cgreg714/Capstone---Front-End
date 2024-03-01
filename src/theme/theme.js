@@ -32,20 +32,20 @@ const styleOverrides = {
 const lightTheme = createTheme({
 	palette: {
 		primary: {
-			main: '#AA384C',
+			main: '#F06060',
 		},
 		secondary: {
-			main: '#9e521b',
+			main: '#F3B462',
 		},
 		background: {
 			default: '#E5E5E5',
 		},
 		third: {
-			main: '#136E57',
+			main: '#8DBFB3',
 		},
-		hoverGrey: '#828A8F',
-		cardBackground: '#136E57',
-		accordionBackground: '#DA5F75',
+		hoverGrey: '#2C3A47',
+		cardBackground: '#8DBFB3',
+		accordionBackground: '#F06060',
 	},
 	...styleOverrides,
 });
@@ -54,20 +54,20 @@ const darkTheme = createTheme({
 	palette: {
 		mode: 'dark',
 		primary: {
-			main: '#AA384C',
+			main: '#F06060',
 		},
 		secondary: {
-			main: '#9e521b',
+			main: '#F3B462',
 		},
 		third: {
-			main: '#136E57',
+			main: '#8DBFB3',
 		},
 		background: {
 			default: '#333333',
 		},
-		hoverGrey: '#828A8F',
-		cardBackground: '#136E57',
-		accordionBackground: '#DA5F75',
+		hoverGrey: '#2C3A47',
+		cardBackground: '#8DBFB3',
+		accordionBackground: '#F06060',
 	},
 	components: {
 		...styleOverrides,

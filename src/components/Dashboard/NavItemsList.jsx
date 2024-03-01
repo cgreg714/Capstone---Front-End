@@ -35,11 +35,11 @@ export const MainListItems = () => (
 			</StyledListItemIcon>
 			<ListItemText primary="Profile" />
 		</ListItemButton>
-		<ListItemButton component={Link} to="/settings">
+		{/* <ListItemButton component={Link} to="/settings">
 			<StyledListItemIcon>
 				<MdSettings />
 			</StyledListItemIcon>
 			<ListItemText primary="Settings" />
-		</ListItemButton>
+		</ListItemButton> */}
 	</React.Fragment>
 );

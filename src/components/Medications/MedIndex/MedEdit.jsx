@@ -20,7 +20,8 @@ function EditMedications() {
 		const values = [...editedMedications];
 		const fieldParts = field.split('.');
 		if (fieldParts.length === 2) {
-			values[index][fieldParts[0]][fieldParts[1]][subfield] = !values[index][fieldParts[0]][fieldParts[1]][subfield];
+			values[index][fieldParts[0]][fieldParts[1]][subfield] =
+				!values[index][fieldParts[0]][fieldParts[1]][subfield];
 		} else {
 			values[index][field][subfield] = !values[index][field][subfield];
 		}
@@ -60,7 +61,14 @@ function EditMedications() {
 	return (
 		<>
 			{editedMedications.map((medication, index) => (
-				<Box key={medication._id} mb={4} p={2} border={1} borderRadius="borderRadius" borderColor="grey.500">
+				<Box
+					key={medication._id}
+					mb={4}
+					p={2}
+					border={1}
+					borderRadius="borderRadius"
+					borderColor="grey.500"
+				>
 					<Typography variant="h6" mb={4}>
 						{medication.name} - ({medication.associatedDrug?.name})
 					</Typography>

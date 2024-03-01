@@ -7,7 +7,7 @@ export const drawerWidth = 240;
 export const StyledAppBar = styled(AppBar)({
 	position: 'sticky',
 	zIndex: 999,
-	backgroundColor: '#AA384C',
+	backgroundColor: '#F06060',
 });
 
 //* Dashboard Drawer
@@ -15,7 +15,7 @@ export const StyledDrawer = styled(Drawer)({
 	'& .MuiDrawer-paper': {
 		width: drawerWidth,
 		boxSizing: 'border-box',
-		backgroundColor: '#AA384C',
+		backgroundColor: '#F06060',
 		color: '#00000',
 		flexShrink: 0,
 	},
@@ -27,7 +27,7 @@ export const StyledDrawerAvatar = styled(Avatar)({
 });
 
 export const StyledListSubheader = styled(ListSubheader)({
-	backgroundColor: '#f3ae4b',
+	backgroundColor: '#F3B462',
 	color: '#000',
 });
 
@@ -41,7 +41,7 @@ export const StyledProfileButton = styled(Button)(({
 	borderRadius: 10,
 	zIndex: 1,
 	'&:hover': {
-		boxShadow: 'inset 0 -10px 10px #f3ae4b',
+		boxShadow: 'inset 0 -10px 10px #F3B462',
 	},
 }));
 
@@ -54,7 +54,7 @@ export const StyledLogoutButton = styled(Button)(({
     borderRadius: 10,
     zIndex: 1,
     '&:hover': {
-        boxShadow: `inset 0 -10px 10px #f3ae4b`,
+        boxShadow: `inset 0 -10px 10px #F3B462`,
     },
 }));
 
