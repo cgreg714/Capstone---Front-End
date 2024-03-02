@@ -1,9 +1,8 @@
 import React from 'react';
-import { Container, Typography, Box } from '@mui/material';
-import DisplayNav from './DisplayNav';
+import { Typography, Box } from '@mui/material';
 import CardContainer from './MedCard/CardContainer';
 
-function MedDisplay(props) {
+function MedDisplay() {
 	let styles = {
 		medContainer: {
 			backgroundColor: '#E89665',
@@ -17,11 +16,9 @@ function MedDisplay(props) {
 
 	return (
 		<Box sx={{ ...styles.medContainer, minHeight: '500px' }}>
-			{' '}
 			<Typography variant="h4" sx={styles.containerTitle}>
 				Medications
 			</Typography>
-			{/* <DisplayNav /> */}
 			<CardContainer />
 		</Box>
 	);

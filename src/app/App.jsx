@@ -7,7 +7,7 @@ import { ContextProviders } from './AppContexts';
 import { AppRoutes } from './AppRoutes';
 import { lightTheme, darkTheme } from '../theme/theme';
 import api from '../api';
-import LoadingBar from '../components/LoadingScreen';
+import LoadingScreen from '../components/LoadingScreen';
 
 function App() {
 	const [theme, setTheme] = useState('light');
@@ -35,7 +35,7 @@ function App() {
 	}, []);
 
 	if (loading) {
-		return <LoadingBar />;
+		return <LoadingScreen />;
 	}
 
 	return (

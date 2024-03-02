@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MedDisplay from './MedDisplay/DisplayContainer';
+import MedDisplay from './MedDisplay/MedDisplay';
 import EditMedications from './MedEdit';
 import { Tabs, Tab, Card } from '@mui/material';
 import AddMedicationForm from '../AddMedicationForm';
@@ -28,7 +28,6 @@ function MedIndex() {
 					borderBottom: '2px solid black',
 				}}
 			>
-				{' '}
 				<Tab value="ADD" label="Add Medication" style={{ color: '#000' }} />
 				<Tab value="DISPLAY" label="Medications" style={{ color: '#000' }} />
 				<Tab value="EDIT" label="Edit Medications" style={{ color: '#000' }} />

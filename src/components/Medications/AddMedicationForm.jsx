@@ -22,11 +22,15 @@ import { MedicationContext } from '../../contexts/MedicationContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import DrugSearchByNameAutocomplete from '../Drugs/DrugNameSearchAutocomplete';
 import { DrugContext } from '../../contexts/DrugContext';
+import { ProfileContext } from '../../contexts/ProfileContext';
 
 const AddMedicationForm = ({ handleClose }) => {
 	const { createMedication } = useContext(MedicationContext);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const { selectedDrugId, setSelectedDrugId } = useContext(DrugContext);
+	const { doctors, pharmacies } = useContext(ProfileContext);
+	const [selectedDoctor, setSelectedDoctor] = useState(null);
+	const [selectedPharmacy, setSelectedPharmacy] = useState(null);
 
 	const [resetAutocomplete, setResetAutocomplete] = useState(false);
 	const [name, setName] = useState('');
@@ -34,7 +38,6 @@ const AddMedicationForm = ({ handleClose }) => {
 	const [unitOfMeasurement, setUnitOfMeasurement] = useState('');
 	const [dose, setDose] = useState('');
 	const [quantity, setQuantity] = useState('');
-	const [prescriber, setPrescriber] = useState('');
 	const [timeOfDay, setTimeOfDay] = useState({
 		morning: false,
 		noon: false,
@@ -72,7 +75,6 @@ const AddMedicationForm = ({ handleClose }) => {
 		setUnitOfMeasurement('mg');
 		setDose('');
 		setQuantity('');
-		setPrescriber('');
 		setResetAutocomplete(true);
 		setTimeOfDay({
 			morning: false,
@@ -101,7 +103,7 @@ const AddMedicationForm = ({ handleClose }) => {
 		const localTime = new Date(`1970-01-01T${time}:00`);
 		const isoTime = localTime.toISOString();
 
-		if (!name || !quantity || !dose || !unitOfMeasurement || !prescriber || !selectedDrugId) {
+		if (!name || !quantity || !dose || !unitOfMeasurement || !selectedDrugId) {
 			setOpenDialog(true);
 			return;
 		}
@@ -113,8 +115,9 @@ const AddMedicationForm = ({ handleClose }) => {
 				unitOfMeasurement,
 				dose,
 				quantity,
-				prescriber,
 				drug: selectedDrugId,
+				doctor: selectedDoctor,
+				pharmacy: selectedPharmacy,
 				frequency: {
 					[frequency]: true,
 					dayOfTheWeek,
@@ -170,25 +173,36 @@ const AddMedicationForm = ({ handleClose }) => {
 	return (
 		<Card variant="outlined" sx={{ mt: 1, p: 2 }}>
 			<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-				<TextField
-					margin="normal"
-					required
-					fullWidth
-					id="name"
-					label="Name"
-					value={name}
-					onChange={(e) => setName(e.target.value)}
-				/>
-				<TextField
-					margin="normal"
-					fullWidth
-					id="description"
-					label="Description"
-					value={description}
-					onChange={(e) => setDescription(e.target.value)}
-				/>
 				<Grid container spacing={2}>
-					<Grid item xs={4}>
+					<Grid item xs={6}>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							id="name"
+							label="Name"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+						/>
+					</Grid>
+					<Grid item xs={6}>
+						<TextField
+							margin="normal"
+							fullWidth
+							id="description"
+							label="Description"
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+						/>
+					</Grid>
+				</Grid>
+				<Grid container spacing={2}>
+					<Grid item xs={3}>
+						<Box mt={2}>
+							<DrugSearchByNameAutocomplete reset={resetAutocomplete} />
+						</Box>
+					</Grid>
+					<Grid item xs={3}>
 						<TextField
 							margin="normal"
 							fullWidth
@@ -209,7 +223,7 @@ const AddMedicationForm = ({ handleClose }) => {
 						/>
 					</Grid>
 
-					<Grid item xs={4}>
+					<Grid item xs={3}>
 						<TextField
 							margin="normal"
 							required
@@ -230,7 +244,7 @@ const AddMedicationForm = ({ handleClose }) => {
 							inputProps={{ min: '0', step: '1' }}
 						/>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={3}>
 						<Autocomplete
 							value={unitOfMeasurement || 'mg'}
 							onChange={(event, newValue) => {
@@ -249,22 +263,23 @@ const AddMedicationForm = ({ handleClose }) => {
 					</Grid>
 				</Grid>
 				<Grid container spacing={2} alignItems="center" sx={{ mt: 0.25 }}>
-					<Grid item xs={6}>
-						<Box width={1}>
-							<DrugSearchByNameAutocomplete reset={resetAutocomplete} />
-						</Box>
+					<Grid item xs={4}>
+						<Autocomplete
+							options={doctors}
+							getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+							value={selectedDoctor}
+							onChange={(event, newValue) => setSelectedDoctor(newValue)}
+							renderInput={(params) => <TextField {...params} label="Doctor" />}
+						/>
 					</Grid>
-					<Grid item xs={6}>
-						<Box width={1}>
-							<TextField
-								required
-								fullWidth
-								id="prescriber"
-								label="Prescriber"
-								value={prescriber}
-								onChange={(e) => setPrescriber(e.target.value)}
-							/>
-						</Box>
+					<Grid item xs={4}>
+						<Autocomplete
+							options={pharmacies}
+							getOptionLabel={(option) => option.name}
+							value={selectedPharmacy}
+							onChange={(event, newValue) => setSelectedPharmacy(newValue)}
+							renderInput={(params) => <TextField {...params} label="Pharmacy" />}
+						/>
 					</Grid>
 				</Grid>
 				<Grid container spacing={2}>
@@ -277,11 +292,7 @@ const AddMedicationForm = ({ handleClose }) => {
 							<FormControlLabel value="daily" control={<Radio />} label="Daily" />
 							<FormControlLabel value="weekly" control={<Radio />} label="Weekly" />
 							<FormControlLabel value="monthly" control={<Radio />} label="Monthly" />
-							<Grid container alignItems="center">
-								<Grid item>
 									<FormControlLabel value="everyXHours" control={<Radio />} label="Every X hours" />
-								</Grid>
-								<Grid item>
 									<TextField
 										margin="normal"
 										id="everyXHours"
@@ -292,16 +303,13 @@ const AddMedicationForm = ({ handleClose }) => {
 										type="number"
 										inputProps={{ min: '0', step: '1' }}
 										disabled={frequency !== 'everyXHours'}
+										size="small"
 									/>
-								</Grid>
-								<Grid item>
 									<FormControlLabel
 										value="customFrequency"
 										control={<Radio />}
 										label="Custom Frequency"
 									/>
-								</Grid>
-								<Grid item>
 									<TextField
 										margin="normal"
 										id="customFrequency"
@@ -310,8 +318,6 @@ const AddMedicationForm = ({ handleClose }) => {
 										onChange={(e) => setCustomFrequency(e.target.value)}
 										disabled={frequency !== 'customFrequency'}
 									/>
-								</Grid>
-							</Grid>
 						</RadioGroup>
 					</FormControl>
 					<FormControl component="fieldset" sx={{ mt: 3, ml: 2 }}>
@@ -411,8 +417,7 @@ const AddMedicationForm = ({ handleClose }) => {
 				<DialogTitle>{'Missing required fields'}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						Please fill all the required fields: Name, Quantity, Dose, Unit of Measurement, Drug, and
-						Prescriber.
+						Please fill all the required fields: Name, Quantity, Dose, Unit of Measurement, and Drug.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

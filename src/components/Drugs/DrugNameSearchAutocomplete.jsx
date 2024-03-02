@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useMemo } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { DrugContext } from '../../contexts/DrugContext';
-import LoadingBar from '../../components/LoadingScreen';
+import LoadingBar from '../LoadingBar';
 import { debounce } from 'lodash';
 import { searchDrugsByName, searchDrugsByProductName } from '../../api/drugAPI';
 

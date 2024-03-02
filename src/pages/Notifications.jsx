@@ -41,9 +41,6 @@ function NotificationsPage() {
 			return 0;
 		}
 	});
-	useEffect(() => {
-		setSortDirection(sortDirection === 'desc' ? 'asc' : 'desc');
-	}, [sort]);
 
 	const handleSort = (sortType) => {
 		if (sort === sortType) {

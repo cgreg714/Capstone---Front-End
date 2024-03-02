@@ -139,7 +139,7 @@ function MedicationTable() {
 								})}
 								{medication.frequency.time && (
 									<div>
-										{`${new Date(`1970-01-01T${medication.frequency.time}Z`).toLocaleTimeString(
+										{`${new Date(`${medication.frequency.time}`).toLocaleTimeString(
 											[],
 											{
 												hour: '2-digit',

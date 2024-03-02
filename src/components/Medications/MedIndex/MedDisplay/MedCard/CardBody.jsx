@@ -38,9 +38,9 @@ function CardBody({
 	const [refillAmount, setRefillAmount] = useState('');
 	const [deleteOpen, setDeleteOpen] = useState(false);
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedName, setEditedName] = useState(name);
-    const [editedDescription, setEditedDescription] = useState(description);
+	const [isEditing, setIsEditing] = useState(false);
+	const [editedName, setEditedName] = useState(name);
+	const [editedDescription, setEditedDescription] = useState(description);
 	const [editedAssociatedDrug, setEditedAssociatedDrug] = useState(associatedDrug);
 	const [editedDose, setEditedDose] = useState(dose);
 	const [editedUnitOfMeasurement, setEditedUnitOfMeasurement] = useState(unitOfMeasurement);
@@ -51,14 +51,14 @@ function CardBody({
 	const [editedDateAdded, setEditedDateAdded] = useState(dateAdded);
 
 	const handleEdit = () => {
-        setIsEditing(true);
-    };
+		setIsEditing(true);
+	};
 
-    const handleSave = () => {
-        updateMedication(_id, {
-            name: editedName,
-            description: editedDescription,
-			associatedDrug: editedAssociatedDrug,
+	const handleSave = () => {
+		updateMedication(_id, {
+			name: editedName,
+			description: editedDescription,
+			associatedDrug: editedAssociatedDrug._id,
 			dose: editedDose,
 			unitOfMeasurement: editedUnitOfMeasurement,
 			prescriber: editedPrescriber,
@@ -67,8 +67,8 @@ function CardBody({
 			quantity: editedQuantity,
 			dateAdded: editedDateAdded,
 		});
-        setIsEditing(false);
-    };
+		setIsEditing(false);
+	};
 
 	const handleDelete = () => {
 		deleteMedication(_id);
@@ -121,9 +121,6 @@ function CardBody({
 					</List>
 				</CardContent>
 				<CardActions>
-					<Button variant="contained" size="small" color="third" sx={{ color: 'black' }} onClick={handleEdit}>
-						Edit
-					</Button>
 					<Button
 						variant="contained"
 						size="small"

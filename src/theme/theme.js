@@ -43,6 +43,12 @@ const lightTheme = createTheme({
 		third: {
 			main: '#8DBFB3',
 		},
+		fourth: {
+			main: '#424874',
+		},
+		fifth: {
+			main: '#62A66A',
+		},
 		hoverGrey: '#2C3A47',
 		cardBackground: '#8DBFB3',
 		accordionBackground: '#F06060',
@@ -63,7 +69,13 @@ const darkTheme = createTheme({
 			main: '#F3B462',
 		},
 		third: {
-			main: '#8DBFB3',
+			main: '#42766A',
+		},
+		fourth: {
+			main: '#424874',
+		},
+		fifth: {
+			main: '#62A66A',
 		},
 		background: {
 			default: '#333333',

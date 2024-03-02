@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 
-const PhoneNumberInput = React.forwardRef(({ value, onChange }, ref) => {
+const PhoneNumberInput = React.forwardRef(({ value, onChange, sx, size }, ref) => {
     const handleChange = (event) => {
         let newValue = event.target.value.replace(/\D/g, ''); // remove all non-digits
         if (newValue.length > 10) newValue = newValue.slice(0, 10); // max 10 digits
@@ -30,10 +30,12 @@ const PhoneNumberInput = React.forwardRef(({ value, onChange }, ref) => {
             }
         };
         const inputElement = ref.current;
-        inputElement.addEventListener('keydown', handleKeyDown);
-        return () => {
-            inputElement.removeEventListener('keydown', handleKeyDown);
-        };
+        if (inputElement) {
+            inputElement.addEventListener('keydown', handleKeyDown);
+            return () => {
+                inputElement.removeEventListener('keydown', handleKeyDown);
+            };
+        }
     }, [ref]);
 
     return (
@@ -44,6 +46,8 @@ const PhoneNumberInput = React.forwardRef(({ value, onChange }, ref) => {
             fullWidth
             placeholder="(   )    -"
             inputRef={ref}
+            sx={sx}
+            size={size}
         />
     );
 });

@@ -1,6 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Accordion, AccordionSummary, Button, TextField, Box, CardContent, Grid, Typography } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Card, Button, TextField, Box, CardContent, Grid, Typography } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
@@ -59,26 +58,24 @@ function AddABuddyForm() {
 	};
 
 	return (
-		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1, backgroundColor: theme.palette.accordionBackground }}>
-			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
-				<Typography>Add Buddy</Typography>
-			</AccordionSummary>
+		<Card sx={{ backgroundColor: theme.palette.secondary.main }}>
+			<Typography sx={{ textAlign: 'center', mt: 2 }}>Add Emergency Contact</Typography>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 					<Grid container spacing={2}>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							<TextField inputRef={firstNameRef} label="First Name" required fullWidth />
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							<TextField inputRef={lastNameRef} label="Last Name" required fullWidth />
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item xs={4}>
 							<TextField inputRef={relationRef} label="Relation" required fullWidth />
 						</Grid>
 						<Grid item xs={6}>
 							<TextField inputRef={emailRef} label="Email" required fullWidth />
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item xs={6}>
 							<PhoneNumberInput ref={phoneNumberRef} value={phoneNumber} onChange={setPhoneNumber} />
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -96,15 +93,15 @@ function AddABuddyForm() {
 										backgroundColor: (theme) => theme.palette.hoverGrey,
 									},
 								}}
-								color="secondary"
+								color="fifth"
 							>
-								Add Buddy
+								Add Emergency Contact
 							</Button>
 						</Grid>
 					</Grid>
 				</Box>
 			</CardContent>
-		</Accordion>
+		</Card>
 	);
 }
 

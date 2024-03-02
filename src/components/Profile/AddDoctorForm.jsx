@@ -1,6 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Accordion, AccordionSummary, Button, TextField, Box, CardContent, Grid, Typography } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Card, Button, TextField, Box, CardContent, Grid, Typography } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
@@ -11,10 +10,10 @@ function AddDoctorForm() {
 	const phoneNumberRef = useRef();
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const [phoneNumber, setPhoneNumber] = useState('');
-	
+
 	const { createDoctor } = useContext(ProfileContext);
 	const theme = useTheme();
-	
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
@@ -53,10 +52,8 @@ function AddDoctorForm() {
 	};
 
 	return (
-		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1, backgroundColor: theme.palette.accordionBackground }}>
-			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
-				<Typography>Add Doctor</Typography>
-			</AccordionSummary>
+		<Card sx={{ backgroundColor: theme.palette.secondary.main }}>
+			<Typography sx={{ textAlign: 'center', mt: 2 }}>Add Doctor</Typography>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 					<Grid container spacing={2}>
@@ -84,7 +81,7 @@ function AddDoctorForm() {
 										backgroundColor: (theme) => theme.palette.hoverGrey,
 									},
 								}}
-								color="secondary"
+								color="third"
 							>
 								Add Doctor
 							</Button>
@@ -92,7 +89,7 @@ function AddDoctorForm() {
 					</Grid>
 				</Box>
 			</CardContent>
-		</Accordion>
+		</Card>
 	);
 }
 

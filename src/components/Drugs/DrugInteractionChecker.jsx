@@ -2,7 +2,6 @@ import React, { useContext, useState, useCallback } from 'react';
 import { Autocomplete, TextField, Card, CardContent, CardHeader, Grid, Typography, Button, Box } from '@mui/material';
 import { DrugContext } from '../../contexts/DrugContext';
 import { getInteractionBetweenTwoDrugs } from '../../api/drugAPI';
-import './DInteractions.css';
 import { MedicationContext } from '../../contexts/MedicationContext';
 import { useTheme } from '@mui/material/styles';
 

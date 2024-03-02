@@ -61,40 +61,24 @@ function EditMedications() {
 	return (
 		<>
 			{editedMedications.map((medication, index) => (
-				<Box
-					key={medication._id}
-					mb={4}
-					p={2}
-					border={1}
-					borderRadius="borderRadius"
-					borderColor="grey.500"
-				>
+				<Box key={medication._id} mb={4} p={2} border={1} borderRadius="borderRadius" borderColor="grey.500">
 					<Typography variant="h6" mb={4}>
 						{medication.name} - ({medication.associatedDrug?.name})
 					</Typography>
 					<form onSubmit={() => handleSubmit(index)}>
 						<Grid container spacing={2}>
-							<Grid item xs={4}>
+							<Grid item xs={3}>
 								<Box mb={2} display="flex" justifyContent="center">
 									<TextField
 										name="name"
 										label="Name"
+										fullWidth
 										value={medication.name}
 										onChange={(event) => handleInputChange(index, event)}
 									/>
 								</Box>
 							</Grid>
-							<Grid item xs={4}>
-								<Box mb={2} display="flex" justifyContent="center">
-									<TextField
-										name="prescriber"
-										label="Prescriber"
-										value={medication.prescriber}
-										onChange={(event) => handleInputChange(index, event)}
-									/>
-								</Box>
-							</Grid>
-							<Grid item xs={4}>
+							<Grid item xs={3}>
 								<Box mb={2}>
 									<TextField
 										name="time"
@@ -105,6 +89,20 @@ function EditMedications() {
 											hour12: true,
 										})}
 										onChange={(event) => handleTimeChange(index, event)}
+									/>
+								</Box>
+							</Grid>
+							<Grid item xs={3}>
+								<Box mb={2} display="flex" justifyContent="center">
+									<TextField
+										name="dateAdded"
+										label="Date Added"
+										type="date"
+										value={new Date(medication.dateAdded).toISOString().split('T')[0]}
+										onChange={(event) => handleInputChange(index, event)}
+										InputLabelProps={{
+											shrink: true,
+										}}
 									/>
 								</Box>
 							</Grid>

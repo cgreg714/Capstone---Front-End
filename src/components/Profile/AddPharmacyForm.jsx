@@ -1,20 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
-import {
-	Accordion,
-	AccordionSummary,
-	Button,
-	TextField,
-	Box,
-	CardContent,
-	Grid,
-	Typography,
-	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
-	Autocomplete,
-} from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Card, Button, TextField, Box, CardContent, Grid, Typography, Autocomplete } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
@@ -29,13 +14,9 @@ function AddPharmacyForm() {
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const [phoneNumber, setPhoneNumber] = useState('');
 	const [state, setState] = useState('');
-	
+
 	const { createPharmacy } = useContext(ProfileContext);
 	const theme = useTheme();
-
-	const handleStateChange = (event) => {
-		setState(event.target.value);
-	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -82,15 +63,16 @@ function AddPharmacyForm() {
 	};
 
 	return (
-		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1, backgroundColor: theme.palette.accordionBackground }}>
-			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
-				<Typography>Add Pharmacy</Typography>
-			</AccordionSummary>
+		<Card sx={{ backgroundColor: theme.palette.secondary.main }}>
+			<Typography sx={{ textAlign: 'center', mt: 2 }}>Add Pharmacy</Typography>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 					<Grid container spacing={2}>
-						<Grid item xs={12}>
+						<Grid item xs={6}>
 							<TextField inputRef={nameRef} label="Name" required fullWidth />
+						</Grid>
+						<Grid item xs={6}>
+							<PhoneNumberInput ref={phoneNumberRef} value={phoneNumber} onChange={setPhoneNumber} />
 						</Grid>
 						<Grid item xs={12}>
 							<TextField inputRef={streetRef} label="Street" required fullWidth />
@@ -114,7 +96,7 @@ function AddPharmacyForm() {
 						<Grid item xs={2}>
 							<TextField
 								inputRef={zipRef}
-								label="Zip Code"
+								label="Zip"
 								required
 								fullWidth
 								inputProps={{
@@ -128,9 +110,6 @@ function AddPharmacyForm() {
 									}
 								}}
 							/>
-						</Grid>
-						<Grid item xs={12}>
-							<PhoneNumberInput ref={phoneNumberRef} value={phoneNumber} onChange={setPhoneNumber} />
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
 							<Button
@@ -147,7 +126,7 @@ function AddPharmacyForm() {
 										backgroundColor: (theme) => theme.palette.hoverGrey,
 									},
 								}}
-								color="secondary"
+								color="third"
 							>
 								Add Pharmacy
 							</Button>
@@ -155,7 +134,7 @@ function AddPharmacyForm() {
 					</Grid>
 				</Box>
 			</CardContent>
-		</Accordion>
+		</Card>
 	);
 }
 
