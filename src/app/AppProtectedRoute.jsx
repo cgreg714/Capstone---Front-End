@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { ProfileContext } from '../contexts/ProfileContext';
 import LoadingScreen from '../components/LoadingScreen';
 
 export const ProtectedRoute = ({ children }) => {
 	const navigate = useNavigate();
-	const location = useLocation();
 	const { userId, isLoading: isAuthLoading, isCheckingToken, logout } = useContext(UserContext);
 	const { profileId, setProfileId, profiles, isLoading: isProfileLoading } = useContext(ProfileContext);
 

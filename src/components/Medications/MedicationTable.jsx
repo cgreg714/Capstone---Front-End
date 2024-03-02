@@ -19,6 +19,7 @@ import { MedicationContext } from '../../contexts/MedicationContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import MedicationIntakeForm from './MedicationIntakeForm';
 import AddMedicationForm from './AddMedicationForm';
+import { useTheme } from '@mui/material/styles';
 
 function MedicationTable() {
 	const { medications, getAllMedications, addQuantity } = useContext(MedicationContext);
@@ -30,6 +31,8 @@ function MedicationTable() {
 	const [refillOpen, setRefillOpen] = useState(false);
 	const [refillAmount, setRefillAmount] = useState('');
 	const [addOpen, setAddOpen] = useState(false);
+
+	const theme = useTheme();
 
 	const handleAddMedicationOpen = () => {
 		setAddOpen(true);
@@ -81,12 +84,12 @@ function MedicationTable() {
 	return (
 		<TableContainer component={Paper}>
 			<Table>
-				<TableHead>
-					<TableRow>
+				<TableHead sx={{ backgroundColor: (theme) => theme.palette.secondary.main }}>
+					<TableRow sx={{ backgroundColor: (theme) => theme.palette.third.main }}>
 						<TableCell colSpan={8}>
 							<Box display="flex" justifyContent="space-between" alignItems="center">
 								<Typography variant="h6">Medications</Typography>
-								<Button variant="contained" color="primary" onClick={handleAddMedicationOpen}>
+								<Button variant="contained" color="fifth" onClick={handleAddMedicationOpen}>
 									Add Medication
 								</Button>
 							</Box>
@@ -139,14 +142,11 @@ function MedicationTable() {
 								})}
 								{medication.frequency.time && (
 									<div>
-										{`${new Date(`${medication.frequency.time}`).toLocaleTimeString(
-											[],
-											{
-												hour: '2-digit',
-												minute: '2-digit',
-												hour12: true,
-											}
-										)}`}
+										{`${new Date(`${medication.frequency.time}`).toLocaleTimeString([], {
+											hour: '2-digit',
+											minute: '2-digit',
+											hour12: true,
+										})}`}
 									</div>
 								)}
 							</TableCell>

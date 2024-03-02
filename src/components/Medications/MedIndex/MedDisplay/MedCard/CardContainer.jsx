@@ -70,24 +70,30 @@ function CardContainer() {
       </Button>
       <Grid container spacing={2}>
         {
-          sortedMedications.map((medication, index) => (
-            <Grid item xs={6} sm={3} md={3} key={index}>
-              <Box m={2}>
-                <CardBody
-                  _id={medication._id}
-                  name={medication.name}
-                  description={medication.description}
-                  unitOfMeasurement={medication.unitOfMeasurement}
-                  dose={medication.dose}
-                  frequency={medication.frequency}
-                  quantity={medication.quantity}
-                  dateAdded={medication.dateAdded}
-                  prescriber={medication.prescriber}
-                  associatedDrug={medication.associatedDrug}
+          sortedMedications.map((medication, index) => {
+            console.log('Doctor:', medication);
+            console.log('Pharmacy:', medication.pharmacy.pharmacy);
+
+            return (
+              <Grid item xs={6} sm={3} md={3} key={index}>
+                <Box m={2}>
+                  <CardBody
+                    _id={medication._id}
+                    name={medication.name}
+                    description={medication.description}
+                    associatedDrug={medication.associatedDrug}
+                    dose={medication.dose}
+                    unitOfMeasurement={medication.unitOfMeasurement}
+                    doctor={medication.doctor}
+                    pharmacy={medication.pharmacy}
+                    frequency={medication.frequency}
+                    quantity={medication.quantity}
+                    dateAdded={medication.dateAdded}
                   />
-              </Box>
-            </Grid>
-          ))
+                </Box>
+              </Grid>
+            );
+          })
         }
       </Grid>
     </div>

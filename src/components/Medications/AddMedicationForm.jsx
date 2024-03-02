@@ -139,10 +139,6 @@ const AddMedicationForm = ({ handleClose }) => {
 		}
 	};
 
-	const handleTimeOfDayChange = (event) => {
-		setTimeOfDay({ ...timeOfDay, [event.target.name]: event.target.checked });
-	};
-
 	const handleDayOfTheWeekChange = (event) => {
 		setDayOfTheWeek({ ...dayOfTheWeek, [event.target.name]: event.target.checked });
 	};

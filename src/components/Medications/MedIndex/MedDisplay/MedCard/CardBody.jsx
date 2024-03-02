@@ -26,7 +26,8 @@ function CardBody({
 	frequency,
 	quantity,
 	dateAdded,
-	prescriber,
+	doctor,
+	pharmacy,
 	associatedDrug,
 }) {
 	const { updateMedication, deleteMedication, addQuantity } = useContext(MedicationContext);
@@ -37,14 +38,16 @@ function CardBody({
 	const [refillOpen, setRefillOpen] = useState(false);
 	const [refillAmount, setRefillAmount] = useState('');
 	const [deleteOpen, setDeleteOpen] = useState(false);
-
+	
+	/* eslint-disable */
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedName, setEditedName] = useState(name);
 	const [editedDescription, setEditedDescription] = useState(description);
 	const [editedAssociatedDrug, setEditedAssociatedDrug] = useState(associatedDrug);
 	const [editedDose, setEditedDose] = useState(dose);
 	const [editedUnitOfMeasurement, setEditedUnitOfMeasurement] = useState(unitOfMeasurement);
-	const [editedPrescriber, setEditedPrescriber] = useState(prescriber);
+	const [editedDoctor, setEditedDoctor] = useState(doctor);
+	const [editedPharmacy, setEditedPharmacy] = useState(pharmacy);
 	const [editedFrequency, setEditedFrequency] = useState(frequency);
 	const [editedTime, setEditedTime] = useState(time);
 	const [editedQuantity, setEditedQuantity] = useState(quantity);
@@ -61,7 +64,8 @@ function CardBody({
 			associatedDrug: editedAssociatedDrug._id,
 			dose: editedDose,
 			unitOfMeasurement: editedUnitOfMeasurement,
-			prescriber: editedPrescriber,
+			doctor: editedDoctor,
+			pharmacy: editedPharmacy,
 			frequency: editedFrequency,
 			time: editedTime,
 			quantity: editedQuantity,
@@ -113,7 +117,8 @@ function CardBody({
 						<ListItem>
 							{associatedDrug.name} - {dose} {unitOfMeasurement}{' '}
 						</ListItem>
-						<ListItem>Prescriber: {prescriber}</ListItem>
+						<ListItem>Doctor: {doctor}</ListItem>
+						<ListItem>Pharmacy: {pharmacy}</ListItem>
 						<ListItem>Frequency: {trueFrequencies.join(', ')}</ListItem>
 						<ListItem>Time: {time}</ListItem>
 						<ListItem>Quantity: {quantity} Remaining</ListItem>

@@ -4,9 +4,9 @@ import { UserProvider } from '../contexts/UserContext';
 import { DrugProvider } from '../contexts/DrugContext';
 import { SnackbarProvider } from '../contexts/SnackbarContext';
 
-export const ContextProviders = ({ children, error, setError, theme, toggleTheme }) => (
+export const ContextProviders = ({ children, error, setError, theme, setTheme }) => (
 	<ErrorContext.Provider value={{ error, setError }}>
-		<ThemeContext.Provider value={{ theme, toggleTheme }}>
+		<ThemeContext.Provider value={{ theme, setTheme }}>
 			<SnackbarProvider>
 				<DrugProvider>
 					<UserProvider>{children}</UserProvider>

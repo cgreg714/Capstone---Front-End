@@ -3,12 +3,12 @@
 .container {
 	display: flex;
 	flex-direction: column;
+    justify-content: center;
+	align-items: center;
+	height: 100vh;
+	text-align: center;
 	width: 480px;
 	margin: auto;
-	background: #fff;
-	padding-bottom: 10px;
-	align-items: center;
-    justify-content: center;
 }
 
 .header {
@@ -45,7 +45,6 @@
 .medication {
 	display: flex;
 	flex-direction: column;
-	padding-top: 50px;
 	align-items: center;
 	justify-content: center;
 	object-fit: scale-down;

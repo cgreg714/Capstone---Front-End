@@ -15,8 +15,9 @@ function DrugInteractionChecker() {
 		...medications.map((med) => ({ ...med, type: 'Medication' })),
 		...drugs.map((drug) => ({ ...drug, type: 'Drug' })),
 	];
-	const theme = useTheme();
 
+	// eslint-disable-next-line
+	const theme = useTheme();
 	// eslint-disable-next-line
 	const [selectedMedication, setSelectedMedication] = useState(null);
 	// eslint-disable-next-line

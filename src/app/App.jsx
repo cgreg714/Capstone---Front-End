@@ -41,7 +41,7 @@ function App() {
 	return (
 		<ThemeProvider theme={theme === 'dark' ? lightTheme : darkTheme}>
 			<CssBaseline />
-			<ContextProviders error={error} setError={setError} theme={theme} toggleTheme={toggleTheme}>
+			<ContextProviders error={error} setError={setError} theme={theme} setTheme={toggleTheme}>
 				<LocalizationProvider dateAdapter={AdapterDateFns}>
 					<Router>
 						<AppRoutes />
