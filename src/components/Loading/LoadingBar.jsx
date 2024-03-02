@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import './LoadingBar.css';
-import medicineImage from '../assets/medicine130x130.png';
+import medicineImage from '../../assets/medicine130x130.png';
 
 const LoadingBar = () => {
     const theme = useTheme();

@@ -7,7 +7,7 @@ import { ContextProviders } from './AppContexts';
 import { AppRoutes } from './AppRoutes';
 import { lightTheme, darkTheme } from '../theme/theme';
 import api from '../api';
-import LoadingScreen from '../components/LoadingScreen';
+import LoadingScreen from '../components/Loading/LoadingScreen';
 
 function App() {
 	const [theme, setTheme] = useState('light');

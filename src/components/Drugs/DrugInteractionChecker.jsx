@@ -51,6 +51,8 @@ function DrugInteractionChecker() {
 			<Card
 				sx={{
 					border: '3px solid #000',
+					maxHeight: '100vh',
+					overflow: 'auto',
 				}}
 			>
 				<CardHeader
@@ -155,8 +157,10 @@ function DrugInteractionChecker() {
 								backgroundColor: (theme) => theme.palette.primary.main,
 								border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
 								zIndex: 1,
+								boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
+
 								'&:hover': {
-									boxShadow: (theme) => `0 0 10px ${theme.palette.secondary.main}`,
+									boxShadow: (theme) => `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
 								},
 							}}
 						>
@@ -221,15 +225,16 @@ function DrugInteractionChecker() {
 							onClick={clearSelection}
 							sx={{
 								border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-								width: '25%',
+								width: '30%',
 								color: 'black',
 								borderRadius: 5,
 								fontWeight: 'bolder',
 								fontFamily: 'Comfortaa',
 								backgroundColor: (theme) => theme.palette.primary.main,
 								zIndex: 1,
+								boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
 								'&:hover': {
-									boxShadow: (theme) => `0 0 10px ${theme.palette.secondary.main}`,
+									boxShadow: (theme) => `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
 								},
 							}}
 						>

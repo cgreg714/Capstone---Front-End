@@ -12,8 +12,9 @@ import { login } from '../../../api/authAPI';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import LoadingBar from '../../LoadingScreen';
+import LoadingBar from '../../Loading/LoadingScreen';
 import { motion } from 'framer-motion';
+import { useTheme } from '@emotion/react';
 
 function Login() {
 	const identifierRef = useRef(null);
@@ -27,6 +28,7 @@ function Login() {
 	const [loading, setLoading] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
+	const theme = useTheme();
 
 	useEffect(() => {
 		let decodedToken;
@@ -102,7 +104,9 @@ function Login() {
 
 	return (
 		<div className="container">
-			<Card sx={{ margin: '50px', borderRadius: '10px', boxShadow: '-10px 10px 10px rgba(0, 0, 0, 0.15)' }}>				<CardContent>
+			<Card sx={{ margin: '50px', borderRadius: '10px', boxShadow: '-10px 10px 10px rgba(0, 0, 0, 0.15)' }}>
+				{' '}
+				<CardContent>
 					<div className="medication">
 						<img src={medication} alt="medication" />
 					</div>
@@ -169,18 +173,25 @@ function Login() {
 								</FormControl>
 							</Box>
 						</Box>
-						Forgotten Password:
-						<motion.div
-							whileHover={{
-								scale: 1.1,
-								color: 'rgb(255, 215, 0)',
-								transition: { duration: 0.5, yoyo: Infinity },
-							}}
-							style={{ color: 'rgb(255, 192, 203)', textDecoration: 'inherit', cursor: 'pointer' }}
-							onClick={() => navigate('/forgot-password')}
-						>
-							Click Here!
-						</motion.div>
+						<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+							<div>Forgotten Password:</div>
+							<motion.div
+								whileHover={{
+									scale: 1.1,
+									color: theme.palette.secondary.main,
+									transition: { duration: 0.5, yoyo: Infinity },
+								}}
+								style={{
+									color: theme.palette.primary.main,
+									textDecoration: 'inherit',
+									cursor: 'pointer',
+									marginLeft: '5px',
+								}}
+								onClick={() => navigate('/forgot-password')}
+							>
+								Click Here!
+							</motion.div>
+						</div>
 						<div className="submit-container">
 							<button className="submit" type="submit">
 								Login

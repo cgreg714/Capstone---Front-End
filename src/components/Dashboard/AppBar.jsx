@@ -13,7 +13,7 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 import ProfileMenu from '../Profile/ProfilePictureMenu';
 
 function SearchAppBar() {
-	const { theme, toggleTheme } = useContext(ThemeContext);
+	const { theme, setTheme } = useContext(ThemeContext);
 	const { notifications } = useContext(ProfileContext);
 
 	return (
@@ -27,7 +27,7 @@ function SearchAppBar() {
 					</IconButton>
 					<ProfileMenu />
 					<Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
-					<IconButton color="inherit" onClick={toggleTheme}>
+					<IconButton color="inherit" onClick={setTheme}>
 						{theme === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
 					</IconButton>
 					{/* <IconButton color="inherit" component={Link} to="/settings">

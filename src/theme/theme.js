@@ -51,7 +51,6 @@ const lightTheme = createTheme({
 		},
 		hoverGrey: '#2C3A47',
 		cardBackground: '#8DBFB3',
-		accordionBackground: '#F06060',
 	},
 	typography: {
         fontFamily: 'Comfortaa, sans-serif',
@@ -82,7 +81,6 @@ const darkTheme = createTheme({
 		},
 		hoverGrey: '#2C3A47',
 		cardBackground: '#8DBFB3',
-		accordionBackground: '#F06060',
 	},
 	typography: {
         fontFamily: 'Comfortaa, sans-serif',

@@ -88,12 +88,16 @@ function AddABuddyForm() {
 									fontWeight: 'bolder',
 									fontFamily: 'Comfortaa',
 									borderRadius: 20,
+									backgroundColor: (theme) => theme.palette.fifth.main,
+									boxShadow: (theme) =>
+										`0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
 									zIndex: 1,
 									'&:hover': {
-										backgroundColor: (theme) => theme.palette.hoverGrey,
+										backgroundColor: (theme) => theme.palette.fifth.main,
+										boxShadow: (theme) =>
+											`inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
 									},
 								}}
-								color="fifth"
 							>
 								Add Emergency Contact
 							</Button>

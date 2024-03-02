@@ -30,7 +30,7 @@ function debounce(func, wait) {
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
 	};
-};
+}
 
 function Signup() {
 	const usernameRef = useRef();
@@ -51,7 +51,7 @@ function Signup() {
 	const [passwordsMatch, setPasswordsMatch] = useState(false);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const { theme, setTheme } = useContext(ThemeContext);
-const [prevPasswordStrength, setPrevPasswordStrength] = useState(0);
+	const [prevPasswordStrength, setPrevPasswordStrength] = useState(0);
 
 	const handleSignup = async (e) => {
 		e.preventDefault();
@@ -80,7 +80,7 @@ const [prevPasswordStrength, setPrevPasswordStrength] = useState(0);
 			setSnackbarMessage(errorMessage);
 		}
 	};
-	
+
 	const handlePasswordChange = (event) => {
 		const password = event.target.value;
 		setIsLengthMet(password.length >= 12);
@@ -91,13 +91,13 @@ const [prevPasswordStrength, setPrevPasswordStrength] = useState(0);
 		setPrevPasswordStrength(passwordStrength);
 		setPasswordStrength(result.score);
 		setPasswordsMatch(password === confirmPasswordRef.current.value);
-		if (passwordRef.current.value.length > 0 && passwordRef.current.value.length < 4) {
+		if (passwordRef.current.value.length > 0 && passwordRef.current.value.length <= 4) {
 			setPasswordStrength(1);
 		}
 	};
-	
+
 	const debouncedHandlePasswordChange = debounce(handlePasswordChange, 100);
-	
+
 	const handleConfirmPasswordChange = (event) => {
 		setPasswordsMatch(passwordRef.current.value === event.target.value);
 	};
@@ -118,28 +118,37 @@ const [prevPasswordStrength, setPrevPasswordStrength] = useState(0);
 		}
 	};
 
-const PasswordStrengthBar = () => {
-	const color = getPasswordStrengthColor();
-	const controls = useAnimation();
+	const PasswordStrengthBar = () => {
+		const color = getPasswordStrengthColor();
+		const controls = useAnimation();
 
-	useEffect(() => {
-		controls.set({ width: `${prevPasswordStrength * 25}%` });
-		controls.start({ width: `${passwordStrength * 25}%` });
-	}, [passwordStrength, controls]);
+		useEffect(() => {
+			controls.set({ width: `${prevPasswordStrength * 25}%` });
+			controls.start({ width: `${passwordStrength * 25}%` });
+		}, [controls]);
 
-	return (
-		<>
-			<p>Password Strength</p>
-			<div style={{ height: '10px', width: '80%', backgroundColor: 'grey', marginLeft: '7%' }}>
-				<motion.div
-					style={{ height: '10px', backgroundColor: color }}
-					animate={controls}
-					transition={{ duration: 0.5 }}
-				/>
-			</div>
-		</>
-	);
-};
+		return (
+			<>
+				<p>Password Strength</p>
+				<div
+					style={{
+						height: '10px',
+						width: '80%',
+						backgroundColor: 'lightgrey',
+						boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.15)',
+						borderRadius: 4,
+						marginLeft: '7%',
+					}}
+				>
+					<motion.div
+						style={{ height: '10px', backgroundColor: color, borderRadius: 4 }}
+						animate={controls}
+						transition={{ duration: 0.5 }}
+					/>
+				</div>
+			</>
+		);
+	};
 	const handleLogin = () => {
 		navigate('/login');
 	};
@@ -155,12 +164,43 @@ const PasswordStrengthBar = () => {
 							className="medication"
 							style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto', marginBottom: '25px' }}
 						/>
-						<Typography variant="h4" mt={4}>
-							DoseMinder
-						</Typography>
-						<IconButton onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-    {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-</IconButton>
+						<Box
+							sx={{
+								textAlign: 'center',
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+						>
+							<Typography variant="h4" mt={4}>
+								DoseMinder
+							</Typography>
+							<Switch
+								checked={theme === 'dark'}
+								onChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+								icon={
+									<Box
+										component="span"
+										sx={{
+											verticalAlign: 'middle',
+											transform: 'translateY(-5px)',
+											marginLeft: '-6px',
+										}}
+									>
+										<Brightness7Icon style={{ fontSize: 30 }} />
+									</Box>
+								}
+								checkedIcon={
+									<Box
+										component="span"
+										sx={{ verticalAlign: 'middle', transform: 'translateY(-5px)' }}
+									>
+										<Brightness4Icon style={{ fontSize: 30 }} />
+									</Box>
+								}
+								sx={{ marginLeft: 2, marginTop: 5 }}
+							/>
+						</Box>
 						<Typography variant="h6" mb={2}>
 							Sign Up
 						</Typography>
@@ -288,7 +328,6 @@ const PasswordStrengthBar = () => {
 											display: 'flex',
 											flexDirection: 'column',
 											alignItems: 'center',
-											'& > :not(style)': { m: 1 },
 										}}
 									>
 										<div style={{ width: '400px', margin: '0 auto' }}>
@@ -407,7 +446,12 @@ const PasswordStrengthBar = () => {
 										}}
 									>
 										{passwordsMatch ? (
-											<p>
+											<p
+												style={{
+													textShadow:
+														'0 0 10px #00ff00, 0 0 10px #00ff00, 0 0 30px #00ff00, 0 0 20px #00ff00',
+												}}
+											>
 												Passwords match{' '}
 												<RiCheckboxCircleLine
 													color="green"
@@ -415,7 +459,12 @@ const PasswordStrengthBar = () => {
 												/>
 											</p>
 										) : (
-											<p>
+											<p
+												style={{
+													textShadow:
+														'0 0 10px #ff0000, 0 0 10px #ff0000, 0 0 30px #ff0000, 0 0 20px #ff0000',
+												}}
+											>
 												Passwords do not match{' '}
 												<CiCircleRemove
 													color="red"
@@ -427,18 +476,17 @@ const PasswordStrengthBar = () => {
 								</Grid>
 							</Grid>
 						</Grid>
-					</Box>
+						<Box sx={{ textAlign: 'center' }}>
+							<div className="submit-container">
+								<button className="submit gray hoverable" onClick={handleLogin}>
+									Go To Login
+								</button>
 
-					<Box sx={{ textAlign: 'center' }}>
-						<div className="submit-container">
-							<button className="submit gray hoverable" onClick={handleLogin}>
-								Go To Login
-							</button>
-
-							<button className="submit hoverable" type="submit">
-								Sign Up
-							</button>
-						</div>
+								<button className="submit hoverable" type="submit">
+									Sign Up
+								</button>
+							</div>
+						</Box>
 					</Box>
 				</Box>
 				<footer>

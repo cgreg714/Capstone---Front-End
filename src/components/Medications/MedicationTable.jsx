@@ -32,6 +32,7 @@ function MedicationTable() {
 	const [refillAmount, setRefillAmount] = useState('');
 	const [addOpen, setAddOpen] = useState(false);
 
+	// eslint-disable-next-line
 	const theme = useTheme();
 
 	const handleAddMedicationOpen = () => {

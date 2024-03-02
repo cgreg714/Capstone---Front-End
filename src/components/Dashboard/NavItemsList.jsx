@@ -5,12 +5,14 @@ import ListItemText from '@mui/material/ListItemText';
 import { BiSolidDashboard } from 'react-icons/bi';
 import { MdMedication, MdSettings } from 'react-icons/md';
 import { PiPillDuotone } from 'react-icons/pi';
-import { CgProfile } from "react-icons/cg";
+import { CgProfile } from 'react-icons/cg';
 import { StyledListSubheader, StyledListItemIcon } from '../../styles/mainLayoutStyles';
 
 export const MainListItems = () => (
 	<React.Fragment>
-		<StyledListSubheader component="div">Dashboard</StyledListSubheader>
+		{/* <StyledListSubheader component="div" style={{ textAlign: 'center' }}>
+			DoseMinder
+		</StyledListSubheader> */}
 		<ListItemButton component={Link} to="/dashboard">
 			<StyledListItemIcon>
 				<BiSolidDashboard />

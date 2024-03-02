@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { ProfileContext } from '../contexts/ProfileContext';
-import LoadingScreen from '../components/LoadingScreen';
+import LoadingScreen from '../components/Loading/LoadingScreen';
 
 export const ProtectedRoute = ({ children }) => {
 	const navigate = useNavigate();
