@@ -11,6 +11,8 @@ import medication from '../../../assets/medicine130x130.png';
 import { signup } from '../../../api/authAPI';
 import zxcvbn from 'zxcvbn';
 import IconButton from '@mui/material/IconButton';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { SnackbarContext } from '../../../contexts/SnackbarContext';
@@ -156,12 +158,9 @@ const PasswordStrengthBar = () => {
 						<Typography variant="h4" mt={4}>
 							DoseMinder
 						</Typography>
-						<Switch
-							checked={theme === 'dark'}
-							onChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-							name="themeSwitch"
-							inputProps={{ 'aria-label': 'toggle theme' }}
-						/>
+						<IconButton onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+    {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+</IconButton>
 						<Typography variant="h6" mb={2}>
 							Sign Up
 						</Typography>
