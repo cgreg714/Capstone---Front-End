@@ -6,7 +6,7 @@ import LoadingBar from '../Loading/LoadingBar';
 import { debounce } from 'lodash';
 import { searchDrugsByName, searchDrugsByProductName } from '../../api/drugAPI';
 
-function DrugSearchByNameAutocomplete({ reset }) {
+function DrugSearchByNameAutocomplete({ reset, onDrugSelected }) {
 	const { isLoading, setSelectedDrugId } = useContext(DrugContext);
 	const [inputValue, setInputValue] = useState('');
 	const [drugsList, setDrugsList] = useState([]);
@@ -26,7 +26,7 @@ function DrugSearchByNameAutocomplete({ reset }) {
 		} else {
 			setDrugsList([]);
 		}
-	}, 300);
+	}, 200);
 
 	useEffect(() => {
 		if (reset) {
@@ -45,13 +45,13 @@ function DrugSearchByNameAutocomplete({ reset }) {
 	return (
 		<Autocomplete
 			options={options}
-            getOptionLabel={(option) => {
-                if (option.products && option.products.some(product => product.name.toLowerCase().startsWith(inputValue.toLowerCase()))) {
-                    return option.name;
-                } else {
-                    return '';
-                }
-            }}
+			getOptionLabel={(option) => {
+				if (option.products && option.products.some(product => product.name.toLowerCase().startsWith(inputValue.toLowerCase()))) {
+					return option.name;
+				} else {
+					return '';
+				}
+			}}
 			onInputChange={(event, newInputValue) => {
 				setInputValue(newInputValue);
 			}}
@@ -59,6 +59,9 @@ function DrugSearchByNameAutocomplete({ reset }) {
 			onChange={(event, newValue) => {
 				setSelectedDrug(newValue);
 				setSelectedDrugId(newValue?._id);
+				if (typeof onDrugSelected === 'function') {
+					onDrugSelected(newValue?._id);
+				}
 			}}
 			renderInput={(params) => <TextField {...params} label="Drug" variant="outlined" />}
 			autoSelect

@@ -69,8 +69,8 @@ function CardContainer() {
                     associatedDrug={medication.associatedDrug}
                     dose={medication.dose}
                     unitOfMeasurement={medication.unitOfMeasurement}
-                    doctor={medication.doctor}
-                    pharmacy={medication.pharmacy}
+                    doctor={`${medication.doctor.firstName} ${medication.doctor.lastName}`}
+                    pharmacy={medication.pharmacy.name}
                     frequency={medication.frequency}
                     quantity={medication.quantity}
                     dateAdded={medication.dateAdded}

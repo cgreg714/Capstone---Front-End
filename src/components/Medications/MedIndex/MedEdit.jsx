@@ -2,11 +2,14 @@ import React, { useContext, useState, useEffect } from 'react';
 import { MedicationContext } from '../../../contexts/MedicationContext';
 import { TextField, Button, Checkbox, FormControlLabel, Box, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import DrugSearchByNameAutocomplete from '../../Drugs/DrugNameSearchAutocomplete';
+import { DrugContext } from '../../../contexts/DrugContext';
 
 function EditMedications() {
 	const { medications, updateMedication, deleteMedication } = useContext(MedicationContext);
 	const [editedMedications, setEditedMedications] = useState([]);
 	const theme = useTheme();
+	const { setSelectedDrugId } = useContext(DrugContext);
 
 	useEffect(() => {
 		setEditedMedications(medications);
@@ -39,8 +42,20 @@ function EditMedications() {
 		setEditedMedications(values);
 	};
 
-	const handleSubmit = (index) => {
-		updateMedication(medications[index]._id, editedMedications[index]);
+	const handleDrugSelected = (index, newDrugId) => {
+		const values = [...editedMedications];
+		values[index].associatedDrug._id = newDrugId;
+		setEditedMedications(values);
+	};
+
+	const handleSubmit = (index, event) => {
+		event.preventDefault();
+		let medicationToUpdate = { ...editedMedications[index] };
+		if (medicationToUpdate.associatedDrug && medicationToUpdate.associatedDrug._id) {
+			medicationToUpdate.associatedDrug = medicationToUpdate.associatedDrug._id;
+		}
+		setSelectedDrugId(medicationToUpdate.associatedDrug);
+		updateMedication(medications[index]._id, medicationToUpdate);
 	};
 
 	const handleDelete = (index) => {
@@ -88,7 +103,7 @@ function EditMedications() {
 					<Typography variant="h6" mb={4}>
 						{medication.name} - ({medication.associatedDrug?.name})
 					</Typography>
-					<form onSubmit={() => handleSubmit(index)}>
+					<form onSubmit={(event) => handleSubmit(index, event)}>
 						<Grid container spacing={2}>
 							<Grid item xs={3}>
 								<Box mb={2} display="flex" justifyContent="center">
@@ -100,6 +115,12 @@ function EditMedications() {
 										onChange={(event) => handleInputChange(index, event)}
 									/>
 								</Box>
+							</Grid>
+							<Grid item xs={3}>
+								<DrugSearchByNameAutocomplete
+									selectedDrugId={medication.associatedDrug._id}
+									onDrugSelected={(newDrugId) => handleDrugSelected(index, newDrugId)}
+								/>
 							</Grid>
 							<Grid item xs={3}>
 								<Box mb={2}>
@@ -130,7 +151,6 @@ function EditMedications() {
 								</Box>
 							</Grid>
 						</Grid>
-
 						<Grid container spacing={2}>
 							<Grid item xs={4}>
 								<TextField
@@ -219,7 +239,6 @@ function EditMedications() {
 								/>
 							</Grid>
 						</Grid>
-
 						<Grid container spacing={2}>
 							<Grid item xs={3}>
 								<FormControlLabel

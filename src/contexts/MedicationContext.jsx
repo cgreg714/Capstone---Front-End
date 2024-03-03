@@ -98,10 +98,6 @@ export const MedicationProvider = React.memo(({ children, userId, profileId }) =
 	const updateMedication = async (medId, updatedMedication) => {
 		if (userId && profileId) {
 			try {
-				console.log("🚀 ~ file: MedicationContext.jsx:114 ~ updateMedication ~ userId:", userId)
-				console.log("🚀 ~ file: MedicationContext.jsx:114 ~ updateMedication ~ profileId:", profileId)
-				console.log("🚀 ~ file: MedicationContext.jsx:114 ~ updateMedication ~ medId:", medId)
-				console.log("🚀 ~ file: MedicationContext.jsx:114 ~ updateMedication ~ updatedMedication:", updatedMedication)
 				await updateMedicationAPI(userId, profileId, medId, updatedMedication);
 				const populatedMedication = await getMedicationAPI(userId, profileId, medId);
 				setMedications((prevMedications) =>
