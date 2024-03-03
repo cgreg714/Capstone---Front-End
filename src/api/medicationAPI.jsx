@@ -54,6 +54,10 @@ export const getMedication = async (userId, profileId, medId) => {
 };
 
 export const updateMedication = async (userId, profileId, medId, updatedMedication) => {
+    console.log("🚀 ~ file: medicationAPI.jsx:57 ~ updateMedication ~ userId:", userId)
+    console.log("🚀 ~ file: medicationAPI.jsx:57 ~ updateMedication ~ profileId:", profileId)
+    console.log("🚀 ~ file: medicationAPI.jsx:57 ~ updateMedication ~ medId:", medId)
+    console.log("🚀 ~ file: medicationAPI.jsx:57 ~ updateMedication ~ updatedMedication:", updatedMedication)
     try {
         const response = await api.patch(`/user/${userId}/profile/${profileId}/medications/${medId}`, updatedMedication);
         return response.data;

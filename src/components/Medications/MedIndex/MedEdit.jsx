@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { MedicationContext } from '../../../contexts/MedicationContext';
 import { TextField, Button, Checkbox, FormControlLabel, Box, Grid, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 function EditMedications() {
 	const { medications, updateMedication, deleteMedication } = useContext(MedicationContext);
 	const [editedMedications, setEditedMedications] = useState([]);
+	const theme = useTheme();
 
 	useEffect(() => {
 		setEditedMedications(medications);
@@ -12,7 +14,16 @@ function EditMedications() {
 
 	const handleInputChange = (index, event) => {
 		const values = [...editedMedications];
-		values[index][event.target.name] = event.target.value;
+		if (event.target.name === 'dateAdded') {
+			const newDate = new Date(event.target.value);
+			if (isNaN(newDate)) {
+				values[index][event.target.name] = new Date().toISOString().split('T')[0];
+			} else {
+				values[index][event.target.name] = event.target.value;
+			}
+		} else {
+			values[index][event.target.name] = event.target.value;
+		}
 		setEditedMedications(values);
 	};
 
@@ -61,7 +72,19 @@ function EditMedications() {
 	return (
 		<>
 			{editedMedications.map((medication, index) => (
-				<Box key={medication._id} mb={4} p={2} border={1} borderRadius="borderRadius" borderColor="grey.500">
+				<Box
+					key={medication._id}
+					mb={4}
+					p={2}
+					border={1}
+					borderRadius={4}
+					borderColor="grey.500"
+					sx={{
+						m: 4,
+						minWidth: 275,
+						boxShadow: theme.palette.mode === 'dark' ? '0 6px 10px white' : '0 6px 10px black',
+					}}
+				>
 					<Typography variant="h6" mb={4}>
 						{medication.name} - ({medication.associatedDrug?.name})
 					</Typography>
@@ -310,22 +333,22 @@ function EditMedications() {
 							</Grid>
 						</Grid>
 						<Grid container spacing={2} justifyContent={'space-between'}>
-							<Grid item xs={3}>
+							<Grid item>
 								<Box mt={2}>
 									<Button
 										type="submit"
 										variant="contained"
-										sx={{ backgroundColor: '#136E57', color: '#fff' }}
+										sx={{ backgroundColor: theme.palette.third.main, color: '#fff' }}
 									>
 										Update
 									</Button>
 								</Box>
 							</Grid>
-							<Grid item xs={3}>
+							<Grid item>
 								<Box mt={2}>
 									<Button
 										variant="contained"
-										sx={{ backgroundColor: '#9E1B32', color: '#fff', ml: 2 }}
+										sx={{ backgroundColor: theme.palette.primary.main }}
 										onClick={() => handleDelete(index)}
 									>
 										Delete

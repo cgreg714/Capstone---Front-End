@@ -4,6 +4,8 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
 import { useTheme } from '@mui/material/styles';
+import { Styled3DButton } from '../../styles/mainLayoutStyles';
+
 function AddDoctorForm() {
 	const firstNameRef = useRef();
 	const lastNameRef = useRef();
@@ -52,7 +54,7 @@ function AddDoctorForm() {
 	};
 
 	return (
-		<Card sx={{ backgroundColor: theme.palette.secondary.main }}>
+		<Card sx={{ maxWidth: 500, backgroundColor: theme.palette.secondary.main }}>
 			<Typography sx={{ textAlign: 'center', mt: 2 }}>Add Doctor</Typography>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -67,27 +69,9 @@ function AddDoctorForm() {
 							<PhoneNumberInput ref={phoneNumberRef} value={phoneNumber} onChange={setPhoneNumber} />
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Button
-								type="submit"
-								variant="contained"
-								sx={{
-									width: '50%',
-									color: 'black',
-									fontWeight: 'bolder',
-									fontFamily: 'Comfortaa',
-									borderRadius: 20,
-									backgroundColor: (theme) => theme.palette.fifth.main,
-									boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-									zIndex: 1,
-									'&:hover': {
-										backgroundColor: (theme) => theme.palette.fifth.main,
-										boxShadow: (theme) => `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-
-									},
-								}}
-							>
+						<Styled3DButton type="submit" variant="contained" color="secondary">
 								Add Doctor
-							</Button>
+							</Styled3DButton>
 						</Grid>
 					</Grid>
 				</Box>

@@ -19,6 +19,7 @@ import { SnackbarContext } from '../../../contexts/SnackbarContext';
 import { Switch } from '@mui/material';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 import { useAnimation, motion } from 'framer-motion';
+import { useTheme } from '@mui/material/styles';
 
 function debounce(func, wait) {
 	let timeout;
@@ -51,6 +52,8 @@ function Signup() {
 	const [passwordsMatch, setPasswordsMatch] = useState(false);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const { theme, setTheme } = useContext(ThemeContext);
+	const themes = useTheme();
+
 	const [prevPasswordStrength, setPrevPasswordStrength] = useState(0);
 
 	const handleSignup = async (e) => {
@@ -183,19 +186,21 @@ function Signup() {
 										component="span"
 										sx={{
 											verticalAlign: 'middle',
-											transform: 'translateY(-5px)',
+											transform: 'translateY(-6px)',
 											marginLeft: '-6px',
 										}}
 									>
-										<Brightness7Icon style={{ fontSize: 30 }} />
+										<Brightness7Icon
+											style={{ fontSize: 32, color: themes.palette.secondary.main }}
+										/>
 									</Box>
 								}
 								checkedIcon={
 									<Box
 										component="span"
-										sx={{ verticalAlign: 'middle', transform: 'translateY(-5px)' }}
+										sx={{ verticalAlign: 'middle', transform: 'translateY(-6px)' }}
 									>
-										<Brightness4Icon style={{ fontSize: 30 }} />
+										<Brightness4Icon style={{ fontSize: 32 }} />
 									</Box>
 								}
 								sx={{ marginLeft: 2, marginTop: 5 }}

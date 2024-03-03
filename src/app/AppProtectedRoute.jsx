@@ -30,10 +30,12 @@ export const ProtectedRoute = ({ children }) => {
 				} else if (profiles && profiles.length === 0) {
 					navigate('/add-profile');
 					setIsLoading(false);
+				} else if (profiles && profiles.length === 1) {
+					navigate('/dashboard');
+					setIsLoading(false);
 				} else {
 					navigate('/profile-selection');
 					setIsLoading(false);
-
 				}
 			}
 		};

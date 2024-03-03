@@ -30,7 +30,7 @@ const ProfileMenu = () => {
 			</IconButton>
 			<Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
 				<ProfileSelector onClose={handleClose} />
-				<Box display="flex" justifyContent="center">
+				<Box display="flex" justifyContent="center" mb={1}>
 					<StyledProfileButton
 						variant="contained"
 						color="third"
@@ -38,7 +38,7 @@ const ProfileMenu = () => {
 						to="/profile"
 						onClick={handleClose}
 					>
-						Profile Settings
+						Profile
 					</StyledProfileButton>
 				</Box>
 				<Box display="flex" justifyContent="center">

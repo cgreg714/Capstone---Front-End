@@ -59,7 +59,7 @@ const AddMedicationForm = ({ handleClose }) => {
 	const [everyXHours, setEveryXHours] = useState('');
 	const [customFrequency, setCustomFrequency] = useState('');
 
-	const [time, setTime] = useState('');
+	const [time, setTime] = useState('10:00');
 	const units = ['kg', 'g', 'mg', 'mcg', 'L', 'ml', 'cc', 'mol', 'mmol', 'units', 'tbsp', 'tsp'];
 
 	const [openDialog, setOpenDialog] = useState(false);
@@ -167,8 +167,8 @@ const AddMedicationForm = ({ handleClose }) => {
 	};
 
 	return (
-		<Card variant="outlined" sx={{ mt: 1, p: 2 }}>
-			<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+		<Card variant="outlined" sx={{ p: 2 }}>
+			<Box component="form" onSubmit={handleSubmit} noValidate>
 				<Grid container spacing={2}>
 					<Grid item xs={6}>
 						<TextField
@@ -260,6 +260,24 @@ const AddMedicationForm = ({ handleClose }) => {
 				</Grid>
 				<Grid container spacing={2} alignItems="center" sx={{ mt: 0.25 }}>
 					<Grid item xs={4}>
+						<FormControl component="fieldset" sx={{ ml: 2 }}>
+							<TextField
+								id="time"
+								type="time"
+								value={time}
+								label="Time"
+								sx={{ minWidth: 125 }}
+								onChange={handleTimeChange}
+								InputLabelProps={{
+									shrink: true,
+								}}
+								inputProps={{
+									step: 300,
+								}}
+							/>
+						</FormControl>
+					</Grid>
+					<Grid item xs={4}>
 						<Autocomplete
 							options={doctors}
 							getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
@@ -278,9 +296,9 @@ const AddMedicationForm = ({ handleClose }) => {
 						/>
 					</Grid>
 				</Grid>
-				<Grid container spacing={2}>
-					<FormControl component="fieldset" sx={{ mt: 3, ml: 2 }}>
-						<FormLabel component="legend" sx={{ fontSize: '1.5rem' }}>
+				<Grid container spacing={2} mt={3}>
+					<FormControl component="fieldset" sx={{ ml: 2 }}>
+						<FormLabel component="legend" sx={{ fontSize: '1.5rem', mb: -2 }}>
 							Frequency
 						</FormLabel>
 						<RadioGroup value={frequency} onChange={handleFrequencyChange} row>
@@ -288,32 +306,29 @@ const AddMedicationForm = ({ handleClose }) => {
 							<FormControlLabel value="daily" control={<Radio />} label="Daily" />
 							<FormControlLabel value="weekly" control={<Radio />} label="Weekly" />
 							<FormControlLabel value="monthly" control={<Radio />} label="Monthly" />
-									<FormControlLabel value="everyXHours" control={<Radio />} label="Every X hours" />
-									<TextField
-										margin="normal"
-										id="everyXHours"
-										label="X"
-										sx={{ ml: 1, mr: 2, width: 75 }}
-										value={everyXHours}
-										onChange={(e) => setEveryXHours(e.target.value)}
-										type="number"
-										inputProps={{ min: '0', step: '1' }}
-										disabled={frequency !== 'everyXHours'}
-										size="small"
-									/>
-									<FormControlLabel
-										value="customFrequency"
-										control={<Radio />}
-										label="Custom Frequency"
-									/>
-									<TextField
-										margin="normal"
-										id="customFrequency"
-										label="Custom Frequency"
-										value={customFrequency}
-										onChange={(e) => setCustomFrequency(e.target.value)}
-										disabled={frequency !== 'customFrequency'}
-									/>
+							<FormControlLabel value="everyXHours" control={<Radio />} label="Every X hours" />
+							<TextField
+								margin="normal"
+								id="everyXHours"
+								label="X"
+								sx={{ ml: 1, mr: 2, width: 75 }}
+								value={everyXHours}
+								onChange={(e) => setEveryXHours(e.target.value)}
+								type="number"
+								inputProps={{ min: '0', step: '1' }}
+								disabled={frequency !== 'everyXHours'}
+								size="small"
+							/>
+							<FormControlLabel value="customFrequency" control={<Radio />} label="Custom" />
+							<TextField
+								margin="normal"
+								id="customFrequency"
+								sx={{ ml: 1, width: 125 }}
+								label="Custom"
+								value={customFrequency}
+								onChange={(e) => setCustomFrequency(e.target.value)}
+								disabled={frequency !== 'customFrequency'}
+							/>
 						</RadioGroup>
 					</FormControl>
 					<FormControl component="fieldset" sx={{ mt: 3, ml: 2 }}>
@@ -364,25 +379,6 @@ const AddMedicationForm = ({ handleClose }) => {
 							))}
 						</Grid>
 					</FormControl>
-
-					<Grid item xs={2}>
-						<FormControl component="fieldset" sx={{ mt: 1, ml: 2 }}>
-							<FormLabel component="legend">Specific Time</FormLabel>
-							<TextField
-								id="time"
-								type="time"
-								value={time}
-								sx={{ minWidth: 120 }}
-								onChange={handleTimeChange}
-								InputLabelProps={{
-									shrink: true,
-								}}
-								inputProps={{
-									step: 300,
-								}}
-							/>
-						</FormControl>
-					</Grid>
 				</Grid>
 				{/* <FormControl component="fieldset" sx={{ mt: 3 }}>
 					<FormLabel component="legend">Time of Day</FormLabel>
@@ -401,9 +397,21 @@ const AddMedicationForm = ({ handleClose }) => {
 				<Box display="flex" justifyContent="center">
 					<Button
 						type="submit"
-						color="success"
+						color="fifth"
 						variant="contained"
-						sx={{ width: '75%', mt: 3, mb: 2, borderRadius: 5 }}
+						sx={{
+							width: '50%',
+							mt: 2,
+							mb: 1,
+							borderRadius: 5,
+							backgroundColor: (theme) => theme.palette.fifth.main,
+							zIndex: 1,
+							boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
+							'&:hover': {
+								boxShadow: (theme) =>
+									`inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
+							},
+						}}
 					>
 						Add Medication
 					</Button>

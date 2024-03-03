@@ -10,13 +10,17 @@ import api from '../api';
 import LoadingScreen from '../components/Loading/LoadingScreen';
 
 function App() {
-	const [theme, setTheme] = useState('light');
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 
-	const toggleTheme = () => {
-		setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-	};
+    const toggleTheme = () => {
+        setTheme((prevTheme) => {
+            const newTheme = prevTheme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            return newTheme;
+        });
+    };
 
 	useEffect(() => {
 		const checkToken = async () => {
@@ -39,7 +43,7 @@ function App() {
 	}
 
 	return (
-		<ThemeProvider theme={theme === 'dark' ? lightTheme : darkTheme}>
+		<ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
 			<CssBaseline />
 			<ContextProviders error={error} setError={setError} theme={theme} setTheme={toggleTheme}>
 				<LocalizationProvider dateAdapter={AdapterDateFns}>

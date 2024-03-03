@@ -13,9 +13,9 @@ const DoctorCard = () => {
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
 	const [editedDoctor, setEditedDoctor] = useState(null);
 	const [isDoctorEditMode, setIsDoctorEditMode] = useState(false);
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [doctorIdToDelete, setDoctorIdToDelete] = useState(null);
-    const theme = useTheme();
+	const [dialogOpen, setDialogOpen] = useState(false);
+	const [doctorIdToDelete, setDoctorIdToDelete] = useState(null);
+	const theme = useTheme();
 
 	const handleDoctorEdit = (doctor) => {
 		setSelectedDoctor(doctor);
@@ -35,23 +35,23 @@ const DoctorCard = () => {
 		setEditedDoctor(null);
 		setSelectedDoctor(null);
 	};
-	
-    const handleOpenDialog = (doctorId) => {
-        setDoctorIdToDelete(doctorId);
-        setDialogOpen(true);
-    };
 
-    const handleCloseDialog = () => {
-        setDialogOpen(false);
-    };
+	const handleOpenDialog = (doctorId) => {
+		setDoctorIdToDelete(doctorId);
+		setDialogOpen(true);
+	};
 
-    const handleConfirmDialog = () => {
-        if (doctorIdToDelete) {
-            deleteDoctor(doctorIdToDelete);
-            setDialogOpen(false);
-            setDoctorIdToDelete(null);
-        }
-    };
+	const handleCloseDialog = () => {
+		setDialogOpen(false);
+	};
+
+	const handleConfirmDialog = () => {
+		if (doctorIdToDelete) {
+			deleteDoctor(doctorIdToDelete);
+			setDialogOpen(false);
+			setDoctorIdToDelete(null);
+		}
+	};
 
 	return (
 		<Grid container spacing={2} sx={{ marginLeft: 5 }}>
@@ -121,7 +121,7 @@ const DoctorCard = () => {
 											}}
 											color="primary"
 											fullWidth
-                                            onClick={() => handleOpenDialog(doctor._id)}
+											onClick={() => handleOpenDialog(doctor._id)}
 										>
 											Delete
 										</Button>
@@ -132,7 +132,7 @@ const DoctorCard = () => {
 									<TextField
 										label="First Name"
 										value={editedDoctor.firstName}
-										size='small'
+										size="small"
 										sx={{ mb: 2 }}
 										onChange={(e) =>
 											setEditedDoctor({ ...editedDoctor, firstName: e.target.value })
@@ -141,58 +141,59 @@ const DoctorCard = () => {
 									<TextField
 										label="Last Name"
 										value={editedDoctor.lastName}
-										size='small'
+										size="small"
 										sx={{ mb: 2 }}
-
 										onChange={(e) => setEditedDoctor({ ...editedDoctor, lastName: e.target.value })}
 									/>
 									<TextField
 										label="Phone Number"
 										value={editedDoctor.phoneNumber}
-										size='small'
+										size="small"
 										sx={{ mb: 2 }}
 										onChange={(e) =>
 											setEditedDoctor({ ...editedDoctor, phoneNumber: e.target.value })
 										}
 									/>
-									<Button
-										variant="contained"
-										sx={{
-											width: '50%',
-											color: 'black',
-											fontWeight: 'bolder',
-											fontFamily: 'Comfortaa',
-											borderRadius: 20,
-											zIndex: 1,
-											'&:hover': {
-												backgroundColor: (theme) => theme.palette.hoverGrey,
-											},
-										}}
-										color="secondary"
-										fullWidth
-										onClick={handleDoctorSave}
-									>
-										Save
-									</Button>
-									<Button
-										variant="contained"
-										sx={{
-											width: '50%',
-											color: 'black',
-											fontWeight: 'bolder',
-											fontFamily: 'Comfortaa',
-											borderRadius: 20,
-											zIndex: 1,
-											'&:hover': {
-												backgroundColor: (theme) => theme.palette.hoverGrey,
-											},
-										}}
-										color="secondary"
-										fullWidth
-										onClick={handleDoctorCancel}
-									>
-										Cancel
-									</Button>
+									<Box display="flex" justifyContent="space-between">
+										<Button
+											variant="contained"
+											sx={{
+												width: '45%',
+												color: 'black',
+												fontWeight: 'bolder',
+												fontFamily: 'Comfortaa',
+												borderRadius: 20,
+												zIndex: 1,
+												'&:hover': {
+													backgroundColor: (theme) => theme.palette.hoverGrey,
+												},
+											}}
+											color="fifth"
+											fullWidth
+											onClick={handleDoctorSave}
+										>
+											Save
+										</Button>
+										<Button
+											variant="contained"
+											sx={{
+												width: '45%',
+												color: 'black',
+												fontWeight: 'bolder',
+												fontFamily: 'Comfortaa',
+												borderRadius: 20,
+												zIndex: 1,
+												'&:hover': {
+													backgroundColor: (theme) => theme.palette.hoverGrey,
+												},
+											}}
+											color="primary"
+											fullWidth
+											onClick={handleDoctorCancel}
+										>
+											Cancel
+										</Button>
+									</Box>
 								</>
 							)}
 						</CardContent>

@@ -1,9 +1,10 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Avatar, TextField, Button, Grid, Box, CardContent, Accordion, AccordionSummary, Typography } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Avatar, TextField, Button, Grid, Box, CardContent, Card, CardHeader } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import { useTheme } from '@mui/material/styles';
+import { Styled3DButton } from '../../styles/mainLayoutStyles';
+
 const avatarContext = require.context('../../assets/Avatars', false, /\.png$/);
 
 const avatarImages = avatarContext.keys().map(avatarContext);
@@ -12,10 +13,10 @@ const AddProfileForm = ({ onProfileCreated }) => {
 	const firstNameRef = useRef();
 	const lastNameRef = useRef();
 	const emailRef = useRef();
-	
+
 	const { createProfile } = useContext(ProfileContext);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext); // Use SnackbarContext
-	
+
 	const [selectedAvatar, setSelectedAvatar] = useState(null);
 	const theme = useTheme();
 
@@ -55,10 +56,8 @@ const AddProfileForm = ({ onProfileCreated }) => {
 	};
 
 	return (
-		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1, backgroundColor: theme.palette.accordionBackground }}>
-			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
-				<Typography>Add Profile</Typography>
-			</AccordionSummary>
+		<Card sx={{ maxWidth: 1000, backgroundColor: theme.palette.secondary.main }}>
+			<CardHeader title="Add Profile" titleTypographyProps={{ align: 'center' }} />{' '}
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
 					<Grid container spacing={2}>
@@ -107,32 +106,14 @@ const AddProfileForm = ({ onProfileCreated }) => {
 							</Box>
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Button
-								type="submit"
-								variant="contained"
-								sx={{
-									width: '50%',
-									color: 'black',
-									fontWeight: 'bolder',
-									fontFamily: 'Comfortaa',
-									borderRadius: 20,
-									backgroundColor: (theme) => theme.palette.primary.main,
-									boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-									zIndex: 1,
-									'&:hover': {
-										backgroundColor: (theme) => theme.palette.fourth.main,
-										boxShadow: (theme) => `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-
-									},
-								}}
-							>
+							<Styled3DButton type="submit" variant="contained" color="secondary">
 								Add Profile
-							</Button>
+							</Styled3DButton>
 						</Grid>
 					</Grid>
 				</Box>
 			</CardContent>
-		</Accordion>
+		</Card>
 	);
 };
 

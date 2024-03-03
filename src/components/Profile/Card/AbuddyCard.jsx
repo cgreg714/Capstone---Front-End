@@ -66,15 +66,15 @@ const ABuddyCard = () => {
 				<Grid item xs={6} key={buddy._id}>
 					<Card
 						sx={{
-							maxWidth: 250,
+							maxWidth: '75%',
 							marginTop: 2,
 							marginBottom: 1,
-							backgroundColor: theme.palette.cardBackground,
+							backgroundColor: theme.palette.third.main,
 						}}
 					>
 						<CardContent>
 							{!isBuddyEditMode || selectedBuddy._id !== buddy._id ? (
-								<div>
+								<>
 									<Typography variant="h5" component="div">
 										<Box display="flex" alignItems="center" sx={{ marginBottom: 2 }}>
 											<BuddyIcon />
@@ -150,9 +150,9 @@ const ABuddyCard = () => {
 											Delete
 										</Button>
 									</Box>
-								</div>
+								</>
 							) : (
-								<div>
+								<>
 									<TextField
 										label="First Name"
 										value={editedBuddy.firstName}
@@ -234,7 +234,7 @@ const ABuddyCard = () => {
 											Cancel
 										</Button>
 									</Box>
-								</div>
+								</>
 							)}
 						</CardContent>
 					</Card>

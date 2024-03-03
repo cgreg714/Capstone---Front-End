@@ -14,7 +14,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LoadingBar from '../../Loading/LoadingScreen';
 import { motion } from 'framer-motion';
-import { useTheme } from '@emotion/react';
+import { useTheme } from '@mui/material/styles';
 
 function Login() {
 	const identifierRef = useRef(null);

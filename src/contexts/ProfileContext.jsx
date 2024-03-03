@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
-import LoadingBar from '../components/Loading/LoadingBar';
+import LoadingScreen from '../components/Loading/LoadingScreen';
 import { MedicationProvider } from './MedicationContext';
 import {
 	getAllProfiles as getAllProfilesAPI,
@@ -508,7 +508,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			}}
 		>
 			{isLoading ? (
-				<LoadingBar />
+				<LoadingScreen />
 			) : (
 				<MedicationProvider userId={userId} profileId={profileId}>
 					{children}

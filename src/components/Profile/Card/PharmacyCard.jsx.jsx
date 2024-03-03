@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { Card, CardContent, TextField, Typography, Button, Box, Grid } from '@mui/material';
 import PharmacyIcon from '@mui/icons-material/LocalPharmacy';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -7,21 +7,24 @@ import { formatPhoneNumber } from '../../../helpers/phoneNumberFormat';
 import { ProfileContext } from '../../../contexts/ProfileContext';
 import { useTheme } from '@mui/material/styles';
 import ConfirmationDialog from './ConfirmationDialog';
+import PhoneNumberInput from '../PhoneNumberInput';
 
 const PharmacyCard = () => {
 	const { pharmacies, updatePharmacy, deletePharmacy } = useContext(ProfileContext);
 
-	// Assuming pharmacies is an array, we need to select one pharmacy to edit
 	const [selectedPharmacy, setSelectedPharmacy] = useState(null);
 	const [editedPharmacy, setEditedPharmacy] = useState(null);
 	const [isPharmacyEditMode, setIsPharmacyEditMode] = useState(false);
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [pharmacyIdToDelete, setPharmacyIdToDelete] = useState(null);
 	const theme = useTheme();
+	const [phoneNumber, setPhoneNumber] = useState('');
+	const phoneNumberInputRef = useRef(null);
 
 	const handlePharmacyEdit = (pharmacy) => {
 		setSelectedPharmacy(pharmacy);
 		setEditedPharmacy({ ...pharmacy });
+		setPhoneNumber(pharmacy.phoneNumber);
 		setIsPharmacyEditMode(true);
 	};
 
@@ -56,14 +59,15 @@ const PharmacyCard = () => {
 	};
 
 	return (
-		<Grid container sx={{ marginLeft: 5 }}>
+		<Grid container spacing={2} sx={{ marginLeft: 5 }}>
 			{pharmacies.map((pharmacy, index) => (
 				<Grid item xs={6} key={pharmacy._id}>
 					<Card
 						sx={{
-							maxWidth: 300,
+							maxWidth: '75%',
 							marginTop: 2,
-							backgroundColor: theme.palette.cardBackground,
+							marginBottom: 1,
+							backgroundColor: theme.palette.third.main,
 						}}
 					>
 						<CardContent>
@@ -144,46 +148,105 @@ const PharmacyCard = () => {
 									<TextField
 										label="Name"
 										value={editedPharmacy.name}
+										sx={{ mb: 2 }}
 										onChange={(e) => setEditedPharmacy({ ...editedPharmacy, name: e.target.value })}
 									/>
-									<Button
-										variant="contained"
-										sx={{
-											width: '50%',
-											color: 'black',
-											fontWeight: 'bolder',
-											fontFamily: 'Comfortaa',
-											borderRadius: 20,
-											zIndex: 1,
-											'&:hover': {
-												backgroundColor: (theme) => theme.palette.hoverGrey,
-											},
+									<PhoneNumberInput
+										value={phoneNumber}
+										onChange={(value) => {
+											setPhoneNumber(value);
+											setEditedPharmacy({ ...editedPharmacy, phoneNumber: value });
 										}}
-										color="secondary"
-										fullWidth
-										onClick={handlePharmacySave}
-									>
-										Save
-									</Button>
-									<Button
-										variant="contained"
-										sx={{
-											width: '50%',
-											color: 'black',
-											fontWeight: 'bolder',
-											fontFamily: 'Comfortaa',
-											borderRadius: 20,
-											zIndex: 1,
-											'&:hover': {
-												backgroundColor: (theme) => theme.palette.hoverGrey,
-											},
-										}}
-										color="secondary"
-										fullWidth
-										onClick={handlePharmacyCancel}
-									>
-										Cancel
-									</Button>
+										ref={phoneNumberInputRef}
+										sx={{ mb: 2 }}
+										size="small"
+									/>
+
+									<TextField
+										label="Street"
+										value={editedPharmacy.address.street}
+										sx={{ mb: 2 }}
+										onChange={(e) =>
+											setEditedPharmacy({
+												...editedPharmacy,
+												address: { ...editedPharmacy.address, street: e.target.value },
+											})
+										}
+									/>
+									<TextField
+										label="City"
+										value={editedPharmacy.address.city}
+										sx={{ mb: 2 }}
+										onChange={(e) =>
+											setEditedPharmacy({
+												...editedPharmacy,
+												address: { ...editedPharmacy.address, city: e.target.value },
+											})
+										}
+									/>
+									<TextField
+										label="State"
+										value={editedPharmacy.address.state}
+										sx={{ mb: 2 }}
+										onChange={(e) =>
+											setEditedPharmacy({
+												...editedPharmacy,
+												address: { ...editedPharmacy.address, state: e.target.value },
+											})
+										}
+									/>
+									<TextField
+										label="Zip"
+										value={editedPharmacy.address.zip}
+										sx={{ mb: 2 }}
+										onChange={(e) =>
+											setEditedPharmacy({
+												...editedPharmacy,
+												address: { ...editedPharmacy.address, zip: e.target.value },
+											})
+										}
+									/>
+
+									<Box display="flex" justifyContent="space-between">
+										<Button
+											variant="contained"
+											sx={{
+												width: '45%',
+												color: 'black',
+												fontWeight: 'bolder',
+												fontFamily: 'Comfortaa',
+												borderRadius: 20,
+												zIndex: 1,
+												'&:hover': {
+													backgroundColor: (theme) => theme.palette.hoverGrey,
+												},
+											}}
+											color="fifth"
+											fullWidth
+											onClick={handlePharmacySave}
+										>
+											Save
+										</Button>
+										<Button
+											variant="contained"
+											sx={{
+												width: '45%',
+												color: 'black',
+												fontWeight: 'bolder',
+												fontFamily: 'Comfortaa',
+												borderRadius: 20,
+												zIndex: 1,
+												'&:hover': {
+													backgroundColor: (theme) => theme.palette.hoverGrey,
+												},
+											}}
+											color="primary"
+											fullWidth
+											onClick={handlePharmacyCancel}
+										>
+											Cancel
+										</Button>
+									</Box>
 								</>
 							)}
 						</CardContent>

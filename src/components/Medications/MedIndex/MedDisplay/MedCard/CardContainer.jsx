@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { Grid, Box, Button } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import CardBody from './CardBody';
 import { MedicationContext } from '../../../../../contexts/MedicationContext';
 import { useTheme } from '@mui/material/styles';
 
 function CardContainer() {
   const { medications } = useContext(MedicationContext);
-  const [sortProperty, setSortProperty] = useState('dateAdded'); // Default sort property
+  console.log("🚀 ~ file: CardContainer.jsx:9 ~ CardContainer ~ medications:", medications)
+  const [sortProperty, setSortProperty] = useState('dateAdded');
   const theme = useTheme();
 
   const handleSort = (property) => {
@@ -24,7 +25,7 @@ function CardContainer() {
   });
 
   return (
-    <div>
+    <>
       <Button 
         variant='contained' 
         onClick={() => handleSort('dateAdded')} 
@@ -58,12 +59,9 @@ function CardContainer() {
       <Grid container spacing={2}>
         {
           sortedMedications.map((medication, index) => {
-            console.log('Doctor:', medication);
-            console.log('Pharmacy:', medication.pharmacy.pharmacy);
 
             return (
-              <Grid item xs={6} sm={3} md={3} key={index}>
-                <Box m={2}>
+              <Grid item xs={6} key={index}>
                   <CardBody
                     _id={medication._id}
                     name={medication.name}
@@ -77,13 +75,12 @@ function CardContainer() {
                     quantity={medication.quantity}
                     dateAdded={medication.dateAdded}
                   />
-                </Box>
               </Grid>
             );
           })
         }
       </Grid>
-    </div>
+    </>
   )
 }
 

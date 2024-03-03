@@ -7,7 +7,7 @@ export const drawerWidth = 240;
 export const StyledAppBar = styled(AppBar)({
 	position: 'sticky',
 	zIndex: 999,
-	backgroundColor: '#F06060',
+	backgroundColor: '#F3B462',
 });
 
 //* Dashboard Drawer
@@ -15,10 +15,13 @@ export const StyledDrawer = styled(Drawer)({
 	'& .MuiDrawer-paper': {
 		width: drawerWidth,
 		boxSizing: 'border-box',
-		backgroundColor: '#F06060',
-		color: '#00000',
+		backgroundColor: '#F3B462',
+		color: '#000000 !important',
 		flexShrink: 0,
 	},
+	'& .MuiDrawer-paper .MuiTypography-root': {
+        color: '#000000 !important',
+    },
 });
 
 export const StyledDrawerAvatar = styled(Avatar)({
@@ -33,8 +36,7 @@ export const StyledListSubheader = styled(ListSubheader)({
 
 export const StyledProfileButton = styled(Button)(({
 	marginBottom: '5px',
-	width: '100%',
-	fullWidth: true,
+	width: '80%',
 	color: 'black',
 	fontWeight: 'bolder',
 	fontFamily: 'Comfortaa',
@@ -46,8 +48,7 @@ export const StyledProfileButton = styled(Button)(({
 }));
 
 export const StyledLogoutButton = styled(Button)(({
-    width: '100%',
-    fullWidth: true,
+    width: '80%',
     color: 'black',
     fontWeight: 'bolder',
     fontFamily: 'Comfortaa',
@@ -72,3 +73,17 @@ export const StyledFooter = styled('footer')({
 	width: '100%',
 	height: '2.5rem',
 });
+export const Styled3DButton = styled(Button)(({ theme }) => ({
+	width: '50%',
+	color: 'black',
+	fontWeight: 'bolder',
+	fontFamily: 'Comfortaa',
+	borderRadius: 20,
+	backgroundColor: theme.palette.fifth.main,
+	boxShadow: `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+	zIndex: 1,
+	'&:hover': {
+		backgroundColor: theme.palette.fifth.main,
+		boxShadow: `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+	},
+}));

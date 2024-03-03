@@ -37,9 +37,6 @@ const lightTheme = createTheme({
 		secondary: {
 			main: '#F3B462',
 		},
-		background: {
-			default: '#E5E5E5',
-		},
 		third: {
 			main: '#8DBFB3',
 		},
@@ -48,6 +45,9 @@ const lightTheme = createTheme({
 		},
 		fifth: {
 			main: '#62A66A',
+		},
+		background: {
+			default: '#E5E5E5',
 		},
 		hoverGrey: '#2C3A47',
 		cardBackground: '#8DBFB3',
@@ -71,13 +71,13 @@ const darkTheme = createTheme({
 			main: '#42766A',
 		},
 		fourth: {
-			main: '#424874',
+			main: '#59619B',
 		},
 		fifth: {
 			main: '#62A66A',
 		},
 		background: {
-			default: '#333333',
+			default: '#363732',
 		},
 		hoverGrey: '#2C3A47',
 		cardBackground: '#8DBFB3',

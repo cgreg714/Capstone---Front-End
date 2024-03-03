@@ -18,7 +18,7 @@ function MedIndex() {
 	};
 
 	return (
-		<Card sx={{ border: '3px solid black', borderRadius: 2 }}>
+		<Card sx={{ border: '3px solid black', borderRadius: 2, maxWidth: 1000 }}>
 			<Tabs
 				value={page}
 				onChange={handleChange}

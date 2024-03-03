@@ -1,11 +1,14 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import CardContainer from './MedCard/CardContainer';
 
 function MedDisplay() {
+	const theme = useTheme();
+
 	let styles = {
 		medContainer: {
-			backgroundColor: '#E89665',
+			backgroundColor: theme.palette.secondary.main,
 			padding: '10px',
 			margin: '0 auto',
 		},

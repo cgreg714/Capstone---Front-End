@@ -104,8 +104,8 @@ function CardBody({
 	};
 
 	return (
-		<Box m={1} sx={{ boxShadow: theme.palette.mode === 'dark' ? '0 6px 10px white' : '0 6px 10px black' }}>
-			<Card sx={{ minWidth: 275 }}>
+		<Box>
+			<Card sx={{ m: 4, minWidth: 275, boxShadow: theme.palette.mode === 'dark' ? '0 6px 10px white' : '0 6px 10px black' }}>
 				<CardContent>
 					<Typography variant="h5" component="div">
 						{name}

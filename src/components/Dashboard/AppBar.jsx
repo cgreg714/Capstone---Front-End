@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import { Toolbar, IconButton, Badge, Divider, Box } from '@mui/material';
+// eslint-disable-next-line
 import {
 	Notifications as NotificationsIcon,
+	// eslint-disable-next-line
 	Settings as SettingsIcon,
 	Brightness4 as Brightness4Icon,
 	Brightness7 as Brightness7Icon,

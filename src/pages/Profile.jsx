@@ -4,7 +4,7 @@ import ProfileCard from '../components/Profile/Card/ProfileCard';
 import ABuddyCard from '../components/Profile/Card/AbuddyCard';
 import DoctorCard from '../components/Profile/Card/DoctorCard';
 import PharmacyCard from '../components/Profile/Card/PharmacyCard.jsx';
-import AddProfileFormTwo from '../components/Profile/AddProfileFormTwo.jsx';
+import AddProfileForm from '../components/Profile/AddProfileForm.jsx';
 import AddDoctorForm from '../components/Profile/AddDoctorForm.jsx';
 import AddABuddyForm from '../components/Profile/AddABuddyForm.jsx';
 import AddPharmacyForm from '../components/Profile/AddPharmacyForm.jsx';
@@ -13,10 +13,10 @@ import { useTheme } from '@mui/material/styles';
 function PharmacyCardWrapper() {
 	return (
 		<Grid container>
-			<Grid item xs={5}>
+			<Grid item xs={6}>
 				<AddPharmacyForm />
 			</Grid>
-			<Grid item xs={7}>
+			<Grid item xs={6}>
 				<PharmacyCard />
 			</Grid>
 		</Grid>
@@ -108,7 +108,7 @@ function Profile() {
 						<AbuddyCardWrapper />
 					</TabPanel>
 					<TabPanel value={value} index={4}>
-						<AddProfileFormTwo />
+						<AddProfileForm />
 					</TabPanel>
 				</Card>
 			</Grid>
