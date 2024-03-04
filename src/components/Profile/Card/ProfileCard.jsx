@@ -10,17 +10,28 @@ import AddABuddyForm from '../AddABuddyForm';
 const ProfileCards = () => {
 	const { doctors, abuddies, profiles, profileId, doctorId, aBuddyId, updateProfile, updateDoctor, updateABuddy } = useContext(ProfileContext);
 
+    console.log(doctors)
+
 	const currentProfile = profiles.find((profile) => profile._id === profileId);
 	const currentDoctor = doctors.find((doctor) => doctor._id === doctorId)
 	const currentBuddy = abuddies.find((abuddies) => abuddies._id === aBuddyId)
+    console.log(abuddies)
 
     const [editedProfile, setEditedProfile] = useState(currentProfile || {});
-	const [editedDoctor, setEditedDoctor] = useState(currentDoctor || {});
-	const [editedABuddy, setEditedABuddy] = useState(currentBuddy || {});
+	const [editedDoctor, setEditedDoctor] = useState(doctors || {});
+	const [editedABuddy, setEditedABuddy] = useState(abuddies || {});
+
+    const [selectedDoctor, setSelectedDoctor] = useState(null);
 
     const [isProfileEditMode, setIsProfileEditMode] = useState(false);
 	const [isDoctorEditMode, setIsDoctorEditMode] = useState(false);
 	const [isABuddyEditMode, setIsABuddyEditMode] = useState(false)
+
+    // const handleDoctorEdit = (doctor) => {
+	// 	setSelectedDoctor(doctor);
+	// };
+
+    updateDoctor(selectedDoctor._id, editedDoctor);
 
 	const handleProfileSave = () => {
         if (editedProfile) {
@@ -28,15 +39,21 @@ const ProfileCards = () => {
             setIsProfileEditMode(false);
         }
     };
-	const handleDoctorSave = (doctorId, editedDoctor) => {
-		if(editedDoctor) {
-			updateDoctor(doctorId, editedDoctor);
-			setIsDoctorEditMode(false);
-		}
-    };
-	const handleABuddySave = (aBuddyId, editedABuddy) => {
+
+    const handleDoctorEdit = (doctor) => {
+		setSelectedDoctor(doctor);
+	};
+
+	// const handleDoctorSave = (doctorId, editedDoctor) => {
+    //     console.log(doctorId)
+	// 	if(editedDoctor) {
+	// 		updateDoctor(doctorId, editedDoctor);
+	// 		setIsDoctorEditMode(false);
+	// 	}
+    // };
+	const handleABuddySave = (editedABuddy) => {
 		if (editedABuddy) {
-			updateABuddy(aBuddyId, editedABuddy);
+			updateABuddy(editedABuddy);
 			setIsABuddyEditMode(false)
 		}
     };
@@ -75,18 +92,39 @@ const ProfileCards = () => {
                                 <div>
                                     <TextField
                                         label="First Name"
-                                        value={editedProfile.firstName}
-                                        onChange={(e) => setEditedProfile({ ...editedProfile, firstName: e.target.value })}
+                                        onChange={(e) => {
+                                            const {value} = e.target;
+                                            setEditedProfile(prevState => {
+                                                if (value.trim() !== '') {
+                                                    return { ...prevState, firstName: value}; } else {
+                                                        return prevState;
+                                                    }
+                                                });
+                                        }}
                                     />
                                     <TextField
                                         label="Last Name"
-                                        value={editedProfile.lastName}
-                                        onChange={(e) => setEditedProfile({ ...editedProfile, lastName: e.target.value })}
+                                        onChange={(e) => {
+                                            const {value} = e.target;
+                                            setEditedProfile(prevState => {
+                                                if (value.trim() !== '') {
+                                                    return { ...prevState, lastName: value}; } else {
+                                                        return prevState;
+                                                    }
+                                                });
+                                        }}
                                     />
                                     <TextField
                                         label="Email"
-                                        value={editedProfile.email}
-                                        onChange={(e) => setEditedProfile({ ...editedProfile, email: e.target.value })}
+                                        onChange={(e) => {
+                                            const {value} = e.target;
+                                            setEditedProfile(prevState => {
+                                                if (value.trim() !== '') {
+                                                    return { ...prevState, email: value}; } else {
+                                                        return prevState;
+                                                    }
+                                                });
+                                        }}
                                     />
                                     <Button onClick={handleProfileSave}>Save</Button>
                                     <Button onClick={handleProfileCancel}>Cancel</Button>
@@ -111,7 +149,8 @@ const ProfileCards = () => {
 			<Typography variant="h4" component="div" sx={{ marginTop: 4 }}>
 				Doctors
 			</Typography>
-			{doctors.map((doctor) => (
+
+			{currentProfile.doctors.map((doctor) => (
                 <Card key={doctor._id} sx={{ maxWidth: 250, marginTop: 2, marginBottom: 1 }}>
                     <CardContent>
                         {!isDoctorEditMode ? (
@@ -127,19 +166,20 @@ const ProfileCards = () => {
                                 <TextField
                                     label="First Name"
                                     value={editedDoctor.firstName}
-                                    onChange={(e) => setEditedDoctor({ ...editedDoctor, firstName: e.target.value })}
+                                    onChange={(e) => handleDoctorEdit({ ...editedDoctor, firstName: e.target.value })}
                                 />
                                 <TextField
                                     label="Last Name"
                                     value={editedDoctor.lastName}
-                                    onChange={(e) => setEditedDoctor({ ...editedDoctor, lastName: e.target.value })}
+                                    onChange={(e) => handleDoctorEdit({ ...editedDoctor, lastName: e.target.value })}
                                 />
                                 <TextField
                                     label="Phone Number"
                                     value={editedDoctor.phoneNumber}
-                                    onChange={(e) => setEditedDoctor({ ...editedDoctor, phoneNumber: e.target.value })}
+                                    onChange={(e) => handleDoctorEdit({ ...editedDoctor, phoneNumber: e.target.value })}
                                 />
-                                <Button onClick={handleDoctorSave}>Save</Button>
+                                <Button>Save</Button>
+                                {/* onClick={() => handleDoctorEdit(doctor)} */}
                                 <Button onClick={handleDoctorCancel}>Cancel</Button>
                             </div>
                         )}

@@ -28,6 +28,7 @@ export const getDoctor = async (userId, profileId, doctorId) => {
 };
 
 export const updateDoctor = async (userId, profileId, doctorId, updatedDoctor) => {
+    console.log(userId, profileId, doctorId, updatedDoctor)
     try {
         const response = await api.patch(`/user/${userId}/profile/${profileId}/doctors/${doctorId}`, updatedDoctor);
         return response.data;

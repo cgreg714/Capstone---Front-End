@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext';
 
 export default function Settings() {
+
+    const {userId, user} = useContext(UserContext)
+
+    console.log(user)
 
 	const [active, setActive] = useState('GeneralCard')
 
