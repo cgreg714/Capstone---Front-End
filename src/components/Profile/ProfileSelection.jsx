@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useCallback } from 'react';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { Card, CardContent, Typography, Avatar, Box, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 
 const ProfileSelectionPage = () => {
 	const { profiles, setProfileId, getProfile } = useContext(ProfileContext);
 	const navigate = useNavigate();
+	const theme = useTheme();
 
 	const handleProfileSelect = useCallback(
 		(profileId) => {
@@ -25,7 +27,7 @@ const ProfileSelectionPage = () => {
 
 	return (
 		<Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
-			<Card>
+			<Card sx={{ backgroundColor: theme.palette.secondary.main }}>
 				<CardContent>
 					<Typography variant="h4" component="div" align="center" gutterBottom>
 						Select Profile
@@ -44,7 +46,7 @@ const ProfileSelectionPage = () => {
 									},
 								}}
 							>
-								<Card sx={{ backgroundColor: '#717171' }}>
+								<Card sx={{ backgroundColor: theme.palette.primary.main }}>
 									<Grid container direction="column" alignItems="center">
 										<Avatar
 											src={profile.avatar}

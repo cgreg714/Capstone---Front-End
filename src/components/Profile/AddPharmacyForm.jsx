@@ -1,18 +1,23 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Accordion, AccordionSummary, Button, TextField, Box, CardContent, Grid, Typography } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Card, TextField, Box, CardContent, Grid, Typography, Autocomplete } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
-
+import { states } from '../../helpers/states';
+import { useTheme } from '@mui/material/styles';
+import { Styled3DButton } from '../../styles/mainLayoutStyles';
 function AddPharmacyForm() {
 	const nameRef = useRef();
-	const addressRef = useRef();
+	const streetRef = useRef();
+	const cityRef = useRef();
+	const zipRef = useRef();
 	const phoneNumberRef = useRef();
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const [phoneNumber, setPhoneNumber] = useState('');
+	const [state, setState] = useState('');
 
 	const { createPharmacy } = useContext(ProfileContext);
+	const theme = useTheme();
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -29,7 +34,12 @@ function AddPharmacyForm() {
 
 		const pharmacy = {
 			name: nameRef.current.value,
-			address: addressRef.current.value,
+			address: {
+				street: streetRef.current.value,
+				city: cityRef.current.value,
+				state: state,
+				zip: zipRef.current.value,
+			},
 			phoneNumber: phoneNumberRef.current.value,
 		};
 
@@ -47,50 +57,77 @@ function AddPharmacyForm() {
 		}
 
 		nameRef.current.value = '';
-		addressRef.current.value = '';
+		streetRef.current.value = '';
+		cityRef.current.value = '';
+		setState('');
+		zipRef.current.value = '';
 	};
 
 	return (
-		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1 }}>
-			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
-				<Typography>Add Pharmacy</Typography>
-			</AccordionSummary>
+		<Card
+			sx={{
+				maxWidth: 500,
+				backgroundColor: theme.palette.secondary.main,
+				boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
+				borderRadius: 4,
+			}}
+		>
+			<Typography sx={{ textAlign: 'center', mt: 2 }}>Add Pharmacy</Typography>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 					<Grid container spacing={2}>
-						<Grid item xs={12}>
+						<Grid item xs={6}>
 							<TextField inputRef={nameRef} label="Name" required fullWidth />
 						</Grid>
-						<Grid item xs={12}>
-							<TextField inputRef={addressRef} label="Address" required fullWidth />
-						</Grid>
-						<Grid item xs={12}>
+						<Grid item xs={6}>
 							<PhoneNumberInput ref={phoneNumberRef} value={phoneNumber} onChange={setPhoneNumber} />
 						</Grid>
-						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Button
-								type="submit"
-								variant="contained"
-								sx={{
-									width: '50%',
-									color: 'black',
-									fontWeight: 'bolder',
-									fontFamily: 'Comfortaa',
-									borderRadius: 20,
-									zIndex: 1,
-									'&:hover': {
-										backgroundColor: (theme) => theme.palette.hoverGrey,
-									},
+						<Grid item xs={12}>
+							<TextField inputRef={streetRef} label="Street" required fullWidth />
+						</Grid>
+						<Grid item xs={5}>
+							<TextField inputRef={cityRef} label="City" required fullWidth />
+						</Grid>
+						<Grid item xs={5}>
+							<Autocomplete
+								id="state-select"
+								options={states}
+								autoHighlight
+								autoSelect
+								getOptionLabel={(option) => option.name}
+								onInputChange={(event, newValue) => {
+									setState(newValue);
 								}}
-								color="secondary"
-							>
+								renderInput={(params) => <TextField {...params} label="State" />}
+							/>
+						</Grid>
+						<Grid item xs={2}>
+							<TextField
+								inputRef={zipRef}
+								label="Zip"
+								required
+								fullWidth
+								inputProps={{
+									inputMode: 'numeric',
+									maxLength: 5,
+								}}
+								onKeyDown={(event) => {
+									const validKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'];
+									if (!/[0-9]/.test(event.key) && !validKeys.includes(event.key)) {
+										event.preventDefault();
+									}
+								}}
+							/>
+						</Grid>
+						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+							<Styled3DButton type="submit" variant="contained" color="secondary">
 								Add Pharmacy
-							</Button>
+							</Styled3DButton>
 						</Grid>
 					</Grid>
 				</Box>
 			</CardContent>
-		</Accordion>
+		</Card>
 	);
 }
 

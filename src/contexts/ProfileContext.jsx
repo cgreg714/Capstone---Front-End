@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
+import LoadingScreen from '../components/Loading/LoadingScreen';
 import { MedicationProvider } from './MedicationContext';
 import {
 	getAllProfiles as getAllProfilesAPI,
@@ -63,7 +64,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					setProfileId(profileData._id);
 					setAvatarUrl(profileData.avatar);
 				} catch (error) {
-					setSnackbarMessage('Failed to fetch profile');
+					setSnackbarMessage('Failed to fetch profile.');
 					setSnackbarSeverity('error');
 					setOpenSnackbar(true);
 				}
@@ -77,7 +78,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			const notificationsData = await getAllNotificationsAPI(userId, profileId);
 			setNotifications(notificationsData);
 		} catch (error) {
-			setSnackbarMessage('Failed to fetch notifications');
+			setSnackbarMessage('Failed to fetch notifications.');
 			setSnackbarSeverity('error');
 			setOpenSnackbar(true);
 		}
@@ -94,7 +95,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const profilesData = await getAllProfilesAPI(userId);
 				setProfiles(profilesData);
 			} catch (error) {
-				setSnackbarMessage('Failed to fetch profiles');
+				setSnackbarMessage('Failed to fetch profiles.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -107,14 +108,12 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			return;
 		}
 
-		getProfile(profileId);
-
 		const getAllDoctors = async () => {
 			try {
 				const doctorsData = await getAllDoctorsAPI(userId, profileId);
 				setDoctors(doctorsData);
 			} catch (error) {
-				setSnackbarMessage('Failed to fetch doctors');
+				setSnackbarMessage('Failed to fetch doctors.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -125,7 +124,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const abuddiesData = await getAllABuddiesAPI(userId, profileId);
 				setABuddies(abuddiesData);
 			} catch (error) {
-				setSnackbarMessage('Failed to fetch abuddies');
+				setSnackbarMessage('Failed to fetch buddies.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -136,7 +135,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const pharmaciesData = await getAllPharmaciesAPI(userId, profileId);
 				setPharmacies(pharmaciesData);
 			} catch (error) {
-				setSnackbarMessage('Failed to fetch pharmacies');
+				setSnackbarMessage('Failed to fetch pharmacies.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -146,6 +145,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 		getAllABuddies();
 		getAllDoctors();
 		getAllNotifications();
+		getProfile(profileId);
 	}, [userId, profileId, getProfile, getAllNotifications, setSnackbarMessage, setSnackbarSeverity, setOpenSnackbar]);
 
 	const createProfile = async (profile) => {
@@ -156,7 +156,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setProfileId(newProfile._id);
 				localStorage.setItem('profileId', newProfile._id);
 			} catch (error) {
-				setSnackbarMessage('Failed to create profile');
+				setSnackbarMessage('Failed to create profile.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -171,7 +171,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					prevProfiles.map((profile) => (profile._id === profileId ? updatedProfileData : profile))
 				);
 			} catch (error) {
-				setSnackbarMessage('Failed to update profile');
+				setSnackbarMessage('Failed to update profile.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -183,8 +183,11 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			try {
 				await deleteProfileAPI(userId, profileId);
 				setProfiles((prevProfiles) => prevProfiles.filter((profile) => profile._id !== profileId));
+				setSnackbarMessage('Successfully deleted profile.');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
-				setSnackbarMessage('Failed to delete profile');
+				setSnackbarMessage('Failed to delete profile.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -197,7 +200,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const newDoctor = await createDoctorAPI(userId, profileId, doctor);
 				setDoctors((prevDoctors) => [...prevDoctors, newDoctor]);
 			} catch (error) {
-				setSnackbarMessage('Failed to create doctor');
+				setSnackbarMessage('Failed to create doctor.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -212,7 +215,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					prevDoctors.map((doctor) => (doctor._id === doctorId ? doctorData : doctor))
 				);
 			} catch (error) {
-				setSnackbarMessage('Failed to fetch doctor');
+				setSnackbarMessage('Failed to fetch doctor.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -226,8 +229,11 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setDoctors((prevDoctors) =>
 					prevDoctors.map((doctor) => (doctor._id === doctorId ? updatedDoctorData : doctor))
 				);
+				setSnackbarMessage('Successfully updated doctor.');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
-				setSnackbarMessage('Failed to update doctor');
+				setSnackbarMessage('Failed to update doctor.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -239,8 +245,11 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			try {
 				await deleteDoctorAPI(userId, profileId, doctorId);
 				setDoctors((prevDoctors) => prevDoctors.filter((doctor) => doctor._id !== doctorId));
+				setSnackbarMessage('Successfully deleted doctor.');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
-				setSnackbarMessage('Failed to delete doctor');
+				setSnackbarMessage('Failed to delete doctor.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -253,7 +262,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const newABuddy = await createABuddyAPI(userId, profileId, aBuddy);
 				setABuddies((prevABuddies) => [...prevABuddies, newABuddy]);
 			} catch (error) {
-				setSnackbarMessage('Failed to create abuddy');
+				setSnackbarMessage('Failed to create buddy.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -268,7 +277,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					prevABuddies.map((aBuddy) => (aBuddy._id === aBuddyId ? aBuddyData : aBuddy))
 				);
 			} catch (error) {
-				setSnackbarMessage('Failed to fetch abuddy');
+				setSnackbarMessage('Failed to fetch buddy.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -282,8 +291,11 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setABuddies((prevABuddies) =>
 					prevABuddies.map((aBuddy) => (aBuddy._id === aBuddyId ? updatedABuddyData : aBuddy))
 				);
+				setSnackbarMessage('Successfully updated buddy.');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
-				setSnackbarMessage('Failed to update abuddy');
+				setSnackbarMessage('Failed to update buddy.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -295,8 +307,11 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			try {
 				await deleteABuddyAPI(userId, profileId, aBuddyId);
 				setABuddies((prevABuddies) => prevABuddies.filter((aBuddy) => aBuddy._id !== aBuddyId));
+				setSnackbarMessage('Successfully deleted buddy.');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
-				setSnackbarMessage('Failed to delete abuddy');
+				setSnackbarMessage('Failed to delete buddy.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -310,7 +325,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					const newNotification = await createNotificationAPI(userId, profileId, notification);
 					setNotifications((prevNotifications) => [...prevNotifications, newNotification]);
 				} catch (error) {
-					setSnackbarMessage('Failed to create notification');
+					setSnackbarMessage('Failed to create notification.');
 					setSnackbarSeverity('error');
 					setOpenSnackbar(true);
 				}
@@ -329,7 +344,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					)
 				);
 			} catch (error) {
-				setSnackbarMessage('Failed to fetch notification');
+				setSnackbarMessage('Failed to fetch notification.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -351,7 +366,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 					)
 				);
 			} catch (error) {
-				setSnackbarMessage('Failed to update notification');
+				setSnackbarMessage('Failed to update notification.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -365,8 +380,11 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setNotifications((prevNotifications) =>
 					prevNotifications.filter((notification) => notification._id !== notificationId)
 				);
+				setSnackbarMessage('Successfully deleted notification.');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
-				setSnackbarMessage('Failed to delete notification');
+				setSnackbarMessage('Failed to delete notification.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -378,8 +396,11 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 			try {
 				await deleteAllNotificationsAPI(userId, profileId);
 				setNotifications([]);
+				setSnackbarMessage('Successfully deleted all notifications.');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
-				setSnackbarMessage('Failed to delete all notifications');
+				setSnackbarMessage('Failed to delete all notifications.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
@@ -392,12 +413,12 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				const newPharmacy = await createPharmacyAPI(userId, profileId, pharmacy);
 				setPharmacies((prevPharmacies) => [...prevPharmacies, newPharmacy]);
 			} catch (error) {
-				setSnackbarMessage('Failed to create pharmacy');
+				setSnackbarMessage('Failed to create pharmacy.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
 		}
-	}
+	};
 
 	const getPharmacy = async (pharmacyId) => {
 		if (userId && profileId) {
@@ -412,7 +433,7 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setOpenSnackbar(true);
 			}
 		}
-	}
+	};
 
 	const updatePharmacy = async (pharmacyId, updatedPharmacy) => {
 		if (userId && profileId) {
@@ -421,26 +442,32 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				setPharmacies((prevPharmacies) =>
 					prevPharmacies.map((pharmacy) => (pharmacy._id === pharmacyId ? updatedPharmacyData : pharmacy))
 				);
+				setSnackbarMessage('Successfully updated pharmacy.');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
-				setSnackbarMessage('Failed to update pharmacy');
+				setSnackbarMessage('Failed to update pharmacy.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
 		}
-	}
+	};
 
 	const deletePharmacy = async (pharmacyId) => {
 		if (userId && profileId) {
 			try {
 				await deletePharmacyAPI(userId, profileId, pharmacyId);
 				setPharmacies((prevPharmacies) => prevPharmacies.filter((pharmacy) => pharmacy._id !== pharmacyId));
+				setSnackbarMessage('Successfully deleted pharmacy.');
+				setSnackbarSeverity('success');
+				setOpenSnackbar(true);
 			} catch (error) {
-				setSnackbarMessage('Failed to delete pharmacy');
+				setSnackbarMessage('Failed to delete pharmacy.');
 				setSnackbarSeverity('error');
 				setOpenSnackbar(true);
 			}
 		}
-	}
+	};
 
 	return (
 		<ProfileContext.Provider
@@ -480,9 +507,13 @@ export const ProfileProvider = React.memo(({ children, userId }) => {
 				deleteAllNotifications,
 			}}
 		>
-			<MedicationProvider userId={userId} profileId={profileId}>
-				{children}
-			</MedicationProvider>
+			{isLoading ? (
+				<LoadingScreen />
+			) : (
+				<MedicationProvider userId={userId} profileId={profileId}>
+					{children}
+				</MedicationProvider>
+			)}
 		</ProfileContext.Provider>
 	);
 });

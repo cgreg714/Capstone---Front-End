@@ -7,16 +7,20 @@ import { ContextProviders } from './AppContexts';
 import { AppRoutes } from './AppRoutes';
 import { lightTheme, darkTheme } from '../theme/theme';
 import api from '../api';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingScreen from '../components/Loading/LoadingScreen';
 
 function App() {
-	const [theme, setTheme] = useState('light');
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 
-	const toggleTheme = () => {
-		setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-	};
+    const toggleTheme = () => {
+        setTheme((prevTheme) => {
+            const newTheme = prevTheme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            return newTheme;
+        });
+    };
 
 	useEffect(() => {
 		const checkToken = async () => {
@@ -35,13 +39,13 @@ function App() {
 	}, []);
 
 	if (loading) {
-		return <LoadingSpinner />;
+		return <LoadingScreen />;
 	}
 
 	return (
-		<ThemeProvider theme={theme === 'dark' ? lightTheme : darkTheme}>
+		<ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
 			<CssBaseline />
-			<ContextProviders error={error} setError={setError} theme={theme} toggleTheme={toggleTheme}>
+			<ContextProviders error={error} setError={setError} theme={theme} setTheme={toggleTheme}>
 				<LocalizationProvider dateAdapter={AdapterDateFns}>
 					<Router>
 						<AppRoutes />

@@ -1,59 +1,73 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { DrugContext } from '../../contexts/DrugContext';
-import LoadingBar from '../../components/LoadingScreen';
+import LoadingBar from '../Loading/LoadingBar';
 import { debounce } from 'lodash';
-import { searchDrugsByName } from '../../api/drugAPI';
+import { searchDrugsByName, searchDrugsByProductName } from '../../api/drugAPI';
 
-function DrugSearchByNameAutocomplete({ reset }) {
-    const { isLoading, setSelectedDrugId } = useContext(DrugContext);
-    const [inputValue, setInputValue] = useState('');
-    const [drugsList, setDrugsList] = useState([]);
-    const [selectedDrug, setSelectedDrug] = useState(null);
+function DrugSearchByNameAutocomplete({ reset, onDrugSelected }) {
+	const { isLoading, setSelectedDrugId } = useContext(DrugContext);
+	const [inputValue, setInputValue] = useState('');
+	const [drugsList, setDrugsList] = useState([]);
+	const [selectedDrug, setSelectedDrug] = useState(null);
 
-    const debouncedSearch = debounce(async (searchValue) => {
-        if (searchValue) {
-            const results = await searchDrugsByName(searchValue);
-            const filteredResults = results.filter(drug => drug.name.toLowerCase().startsWith(searchValue.toLowerCase()));
-            setDrugsList(filteredResults);
-        } else {
-            setDrugsList([]);
-        }
-    }, 300);
+	const options = useMemo(() => drugsList, [drugsList]);
 
-    useEffect(() => {
-        if (reset) {
-            setSelectedDrugId(null);
-        }
-    }, [reset, setSelectedDrugId]);
+	const debouncedSearch = debounce(async (searchValue) => {
+		if (searchValue) {
+			const resultsByName = await searchDrugsByName(searchValue);
+			const resultsByProductName = await searchDrugsByProductName(searchValue);
+			const results = [...resultsByName, ...resultsByProductName];
+			const uniqueResults = Array.from(new Set(results.map((drug) => drug.name))).map((name) => {
+				return results.find((drug) => drug.name === name);
+			});
+			setDrugsList(uniqueResults);
+		} else {
+			setDrugsList([]);
+		}
+	}, 200);
 
-    useEffect(() => {
-        debouncedSearch(inputValue);
-    }, [inputValue, debouncedSearch]);
+	useEffect(() => {
+		if (reset) {
+			setSelectedDrugId(null);
+		}
+	}, [reset, setSelectedDrugId]);
 
-    if (isLoading) {
-        return <LoadingBar />;
-    }
+	useEffect(() => {
+		debouncedSearch(inputValue);
+	}, [inputValue, debouncedSearch]);
 
-    return (
-        <Autocomplete
-            options={drugsList}
-            getOptionLabel={(option) => option.name}
-            style={{ width: 300 }}
-            onInputChange={(event, newInputValue) => {
-                setInputValue(newInputValue);
-            }}
-            value={drugsList.find(drug => drug._id === selectedDrug?._id) || null}
-            onChange={(event, newValue) => {
-                setSelectedDrug(newValue);
-                setSelectedDrugId(newValue?._id);
-            }}
-            renderInput={(params) => <TextField {...params} label="Search for Drug" variant="outlined" />}
-            autoSelect
-            autoHighlight
-        />
-    );
+	if (isLoading) {
+		return <LoadingBar />;
+	}
+
+	return (
+		<Autocomplete
+			options={options}
+			getOptionLabel={(option) => {
+				if (option.products && option.products.some(product => product.name.toLowerCase().startsWith(inputValue.toLowerCase()))) {
+					return option.name;
+				} else {
+					return '';
+				}
+			}}
+			onInputChange={(event, newInputValue) => {
+				setInputValue(newInputValue);
+			}}
+			value={drugsList.find((drug) => drug._id === selectedDrug?._id) || null}
+			onChange={(event, newValue) => {
+				setSelectedDrug(newValue);
+				setSelectedDrugId(newValue?._id);
+				if (typeof onDrugSelected === 'function') {
+					onDrugSelected(newValue?._id);
+				}
+			}}
+			renderInput={(params) => <TextField {...params} label="Drug" variant="outlined" />}
+			autoSelect
+			autoHighlight
+		/>
+	);
 }
 
 export default DrugSearchByNameAutocomplete;

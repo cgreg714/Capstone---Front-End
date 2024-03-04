@@ -1,22 +1,20 @@
 import './Login.css';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { FormControl, InputAdornment, InputLabel, Input, Box } from '@mui/material';
+import { FormControl, InputAdornment, InputLabel, Input, Box, Card, CardContent, Typography } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import medication from '../../../assets/medicine130x130.png';
 import { UserContext } from '../../../contexts/UserContext';
-import { ProfileContext } from '../../../contexts/ProfileContext';
 import { SnackbarContext } from '../../../contexts/SnackbarContext';
 import { jwtDecode } from 'jwt-decode';
 import { login } from '../../../api/authAPI';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import CircularProgress from '@mui/material/CircularProgress';
-import LoadingBar from '../../LoadingScreen';
-
+import LoadingBar from '../../Loading/LoadingScreen';
+import { motion } from 'framer-motion';
+import { useTheme } from '@mui/material/styles';
 
 function Login() {
 	const identifierRef = useRef(null);
@@ -27,9 +25,10 @@ function Login() {
 	// eslint-disable-next-line
 	const [action, setAction] = useState('Login');
 	const { setUserId, fetchUser } = useContext(UserContext);
-    const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
+	const theme = useTheme();
 
 	useEffect(() => {
 		let decodedToken;
@@ -90,96 +89,125 @@ function Login() {
 			setSnackbarMessage(error.message);
 			setSnackbarSeverity('error');
 			setOpenSnackbar(true);
-        } finally {
-            setLoading(false);
-        }
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const handleSignUp = () => {
 		navigate('/signup');
 	};
 
-    if (loading) {
-        return <LoadingBar />;
-    }
+	if (loading) {
+		return <LoadingBar />;
+	}
 
 	return (
-		<>
-			<div className="medication">
-				<img src={medication} alt="medication" />
-			</div>
-			<header className="header">
-				<h2 className="header-title">DoseMinder</h2>
-				<h4 className="header-subtitle">Login</h4>
-			</header>
-			<Box component="form" onSubmit={handleLogin}>
-				<Box className="inputs">
-					<Box sx={{ '& > :not(style)': { m: 1 } }}>
-						<FormControl variant="standard">
-							<InputLabel htmlFor="username" style={{ marginLeft: '40px' }}>
-								Username/Email
-							</InputLabel>
-							<Input
-								id="username-with-icon"
-								startAdornment={
-									<InputAdornment position="start">
-										<AccountCircle />
-									</InputAdornment>
-								}
-								style={{ width: '400px', height: '50px', marginLeft: '40px', background: '#828A8F' }}
-								inputRef={identifierRef}
-							/>
-						</FormControl>
-					</Box>
-
-					<Box sx={{ '& > :not(style)': { m: 1 } }}>
-						<FormControl variant="standard">
-							<InputLabel htmlFor="password" style={{ marginLeft: '40px' }}>
-								Password
-							</InputLabel>
-							<Input
-								id="password"
-								type={showPassword ? 'text' : 'password'}
-								startAdornment={
-									<InputAdornment position="start">
-										<LockIcon />
-									</InputAdornment>
-								}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={() => setShowPassword(!showPassword)}
-										>
-											{showPassword ? <VisibilityOff /> : <Visibility />}
-										</IconButton>
-									</InputAdornment>
-								}
-								style={{ width: '400px', height: '50px', marginLeft: '40px', background: '#828A8F' }}
-								inputRef={passwordRef}
-							/>
-						</FormControl>
-					</Box>
-				</Box>
-
-				<div className="forgot-password">
-					Forgot your password? <Link to="/forgot-password">Click Here!</Link>
-				</div>
-
-				<div className="submit-container">
-					<button className="submit" type="submit">
-						Login
-					</button>
-
-					<div className={action === 'Login' ? 'submit gray' : 'submit'} onClick={handleSignUp}>
-						Go To Sign Up
+		<div className="container">
+			<Card sx={{ margin: '50px', borderRadius: '10px', boxShadow: '-10px 10px 10px rgba(0, 0, 0, 0.15)' }}>
+				{' '}
+				<CardContent>
+					<div className="medication">
+						<img src={medication} alt="medication" />
 					</div>
-				</div>
-			</Box>
-			<footer className="copyright">
-				<p>© Project Doseminder 2024</p>
-			</footer>
-		</>
+					<Typography variant="h4" mt={4}>
+						DoseMinder
+					</Typography>
+					<Typography variant="h6" mb={2}>
+						Login
+					</Typography>
+					<Box component="form" onSubmit={handleLogin}>
+						<Box className="inputs">
+							<Box sx={{ '& > :not(style)': { m: 1 } }}>
+								<FormControl variant="standard">
+									<InputLabel htmlFor="username" style={{ marginLeft: '40px' }}>
+										Username/Email
+									</InputLabel>
+									<Input
+										id="username-with-icon"
+										startAdornment={
+											<InputAdornment position="start">
+												<AccountCircle />
+											</InputAdornment>
+										}
+										style={{
+											width: '400px',
+											height: '50px',
+											marginLeft: '40px',
+										}}
+										inputRef={identifierRef}
+									/>
+								</FormControl>
+							</Box>
+
+							<Box sx={{ '& > :not(style)': { m: 1 } }}>
+								<FormControl variant="standard">
+									<InputLabel htmlFor="password" style={{ marginLeft: '40px' }}>
+										Password
+									</InputLabel>
+									<Input
+										id="password"
+										type={showPassword ? 'text' : 'password'}
+										startAdornment={
+											<InputAdornment position="start">
+												<LockIcon />
+											</InputAdornment>
+										}
+										endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={() => setShowPassword(!showPassword)}
+												>
+													{showPassword ? <VisibilityOff /> : <Visibility />}
+												</IconButton>
+											</InputAdornment>
+										}
+										style={{
+											width: '400px',
+											height: '50px',
+											marginLeft: '40px',
+										}}
+										inputRef={passwordRef}
+									/>
+								</FormControl>
+							</Box>
+						</Box>
+						<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+							<div>Forgotten Password:</div>
+							<motion.div
+								whileHover={{
+									scale: 1.1,
+									color: theme.palette.secondary.main,
+									transition: { duration: 0.5, yoyo: Infinity },
+								}}
+								style={{
+									color: theme.palette.primary.main,
+									textDecoration: 'inherit',
+									cursor: 'pointer',
+									marginLeft: '5px',
+								}}
+								onClick={() => navigate('/forgot-password')}
+							>
+								Click Here!
+							</motion.div>
+						</div>
+						<div className="submit-container">
+							<button className="submit" type="submit">
+								Login
+							</button>
+
+							<div className={action === 'Login' ? 'submit' : 'submit'} onClick={handleSignUp}>
+								Go To Sign Up
+							</div>
+						</div>
+					</Box>
+				</CardContent>
+				<footer className="copyright">
+					<p>© Project Doseminder 2024</p>
+				</footer>
+			</Card>
+		</div>
 	);
 }
 

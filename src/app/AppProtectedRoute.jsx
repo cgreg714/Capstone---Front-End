@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 import { ProfileContext } from '../contexts/ProfileContext';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingScreen from '../components/Loading/LoadingScreen';
 
 export const ProtectedRoute = ({ children }) => {
 	const navigate = useNavigate();
@@ -23,11 +23,15 @@ export const ProtectedRoute = ({ children }) => {
 			if (!isAuthLoading && !userId) {
 				logout();
 				navigate('/login');
+				setIsLoading(false);
 			} else if (!isAuthLoading && !isProfileLoading && userId) {
 				if (profileId) {
 					setIsLoading(false);
 				} else if (profiles && profiles.length === 0) {
 					navigate('/add-profile');
+					setIsLoading(false);
+				} else if (profiles && profiles.length === 1) {
+					navigate('/dashboard');
 					setIsLoading(false);
 				} else {
 					navigate('/profile-selection');
@@ -40,7 +44,7 @@ export const ProtectedRoute = ({ children }) => {
 	}, [userId, navigate, isAuthLoading, logout, profileId, profiles, isProfileLoading]);
 
 	if (isLoading || isCheckingToken || !userId) {
-		return <LoadingSpinner />;
+		return <LoadingScreen />;
 	}
 
 	return children;

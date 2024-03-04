@@ -1,9 +1,10 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Accordion, AccordionSummary, Button, TextField, Box, CardContent, Grid, Typography } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Card, TextField, Box, CardContent, Grid, Typography } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
+import { useTheme } from '@mui/material/styles';
+import { Styled3DButton } from '../../styles/mainLayoutStyles';
 
 function AddABuddyForm() {
 	const firstNameRef = useRef();
@@ -15,6 +16,7 @@ function AddABuddyForm() {
 	const [phoneNumber, setPhoneNumber] = useState('');
 
 	const { createABuddy } = useContext(ProfileContext);
+	const theme = useTheme();
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -57,52 +59,42 @@ function AddABuddyForm() {
 	};
 
 	return (
-		<Accordion disableGutters sx={{ maxWidth: 600, mt: 2, mb: 1 }}>
-			<AccordionSummary expandIcon={<ArrowDropDownIcon />}>
-				<Typography>Add Buddy</Typography>
-			</AccordionSummary>
+		<Card
+			sx={{
+				maxWidth: 500,
+				backgroundColor: theme.palette.secondary.main,
+				boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
+				borderRadius: 4,
+			}}
+		>
+			<Typography sx={{ textAlign: 'center', mt: 2 }}>Add Emergency Contact</Typography>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 					<Grid container spacing={2}>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							<TextField inputRef={firstNameRef} label="First Name" required fullWidth />
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={4}>
 							<TextField inputRef={lastNameRef} label="Last Name" required fullWidth />
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item xs={4}>
 							<TextField inputRef={relationRef} label="Relation" required fullWidth />
 						</Grid>
 						<Grid item xs={6}>
 							<TextField inputRef={emailRef} label="Email" required fullWidth />
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item xs={6}>
 							<PhoneNumberInput ref={phoneNumberRef} value={phoneNumber} onChange={setPhoneNumber} />
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Button
-								type="submit"
-								variant="contained"
-								sx={{
-									width: '50%',
-									color: 'black',
-									fontWeight: 'bolder',
-									fontFamily: 'Comfortaa',
-									borderRadius: 20,
-									zIndex: 1,
-									'&:hover': {
-										backgroundColor: (theme) => theme.palette.hoverGrey,
-									},
-								}}
-								color="secondary"
-							>
-								Add Buddy
-							</Button>
+							<Styled3DButton type="submit" variant="contained" color="secondary">
+								Add Emergency Contact
+							</Styled3DButton>
 						</Grid>
 					</Grid>
 				</Box>
 			</CardContent>
-		</Accordion>
+		</Card>
 	);
 }
 

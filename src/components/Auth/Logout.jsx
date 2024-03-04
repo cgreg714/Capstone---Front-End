@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
 import { logout } from '../../api/authAPI';
 import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
+import { StyledLogoutButton } from '../../styles/mainLayoutStyles';
 
 const LogoutButton = () => {
 	const { setUser } = useContext(UserContext);
@@ -27,24 +27,9 @@ const LogoutButton = () => {
 	};
 
 	return (
-		<Button
-			variant="contained"
-			sx={{
-				minWidth: 120,
-				color: 'black',
-				fontWeight: 'bolder',
-				fontFamily: 'Comfortaa',
-				borderRadius: 20,
-				zIndex: 1,
-				'&:hover': {
-					backgroundColor: (theme) => theme.palette.hoverGrey,
-				},
-			}}
-			color="secondary"
-			onClick={handleLogout}
-		>
+		<StyledLogoutButton variant="contained" color="primary" onClick={handleLogout}>
 			Log Out
-		</Button>
+		</StyledLogoutButton>
 	);
 };
 
