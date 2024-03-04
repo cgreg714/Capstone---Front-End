@@ -59,10 +59,12 @@ const AddMedicationForm = ({ handleClose }) => {
 	const [everyXHours, setEveryXHours] = useState('');
 	const [customFrequency, setCustomFrequency] = useState('');
 
-	const [time, setTime] = useState('10:00');
+	const [time, setTime] = useState('');
 	const units = ['kg', 'g', 'mg', 'mcg', 'L', 'ml', 'cc', 'mol', 'mmol', 'units', 'tbsp', 'tsp'];
 
 	const [openDialog, setOpenDialog] = useState(false);
+
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const handleTimeChange = (event) => {
 		setTime(event.target.value);
@@ -98,6 +100,7 @@ const AddMedicationForm = ({ handleClose }) => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		setIsSubmitting(true);
 
 		// Convert the local time to UTC
 		const localTime = new Date(`1970-01-01T${time}:00`);
@@ -119,7 +122,7 @@ const AddMedicationForm = ({ handleClose }) => {
 				doctor: selectedDoctor,
 				pharmacy: selectedPharmacy,
 				frequency: {
-					[frequency]: true,
+					...(frequency === 'customFrequency' ? { customFrequency } : { [frequency]: true }),
 					dayOfTheWeek,
 					timeOfDay,
 					time: isoTime,
@@ -136,6 +139,8 @@ const AddMedicationForm = ({ handleClose }) => {
 			setSnackbarMessage(`Error creating medication. ${error.message}`);
 			setSnackbarSeverity('error');
 			setOpenSnackbar(true);
+		} finally {
+			setIsSubmitting(false);
 		}
 	};
 
@@ -317,7 +322,7 @@ const AddMedicationForm = ({ handleClose }) => {
 								type="number"
 								inputProps={{ min: '0', step: '1' }}
 								disabled={frequency !== 'everyXHours'}
-								size="small"
+								// size="small"
 							/>
 							<FormControlLabel value="customFrequency" control={<Radio />} label="Custom" />
 							<TextField
@@ -399,6 +404,7 @@ const AddMedicationForm = ({ handleClose }) => {
 						type="submit"
 						color="fifth"
 						variant="contained"
+						disabled={isSubmitting}
 						sx={{
 							width: '50%',
 							mt: 2,
@@ -413,7 +419,7 @@ const AddMedicationForm = ({ handleClose }) => {
 							},
 						}}
 					>
-						Add Medication
+						{isSubmitting ? 'Adding...' : 'Add Medication'}
 					</Button>
 				</Box>
 			</Box>

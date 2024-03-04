@@ -24,6 +24,8 @@ function EditMedications() {
 			} else {
 				values[index][event.target.name] = event.target.value;
 			}
+		} else if (event.target.name === 'customFrequency' || event.target.name === 'everyXHours') {
+			values[index]['frequency'][event.target.name] = event.target.value;
 		} else {
 			values[index][event.target.name] = event.target.value;
 		}
@@ -74,13 +76,17 @@ function EditMedications() {
 
 	const handleTimeChange = (index, event) => {
 		const values = [...editedMedications];
-		const timeParts = event.target.value.split(':');
-		const hours = parseInt(timeParts[0]);
-		const minutes = parseInt(timeParts[1]);
-		const time = new Date(values[index].frequency.time);
-		time.setHours(hours);
-		time.setMinutes(minutes);
-		values[index].frequency.time = time.toISOString();
+		if (event.target.value === '') {
+			values[index].frequency.time = '';
+		} else {
+			const timeParts = event.target.value.split(':');
+			const hours = parseInt(timeParts[0]);
+			const minutes = parseInt(timeParts[1]);
+			const time = new Date(values[index].frequency.time);
+			time.setHours(hours);
+			time.setMinutes(minutes);
+			values[index].frequency.time = time.toISOString();
+		}
 		setEditedMedications(values);
 	};
 
@@ -105,7 +111,7 @@ function EditMedications() {
 					</Typography>
 					<form onSubmit={(event) => handleSubmit(index, event)}>
 						<Grid container spacing={2}>
-							<Grid item xs={3}>
+							<Grid item xs={6}>
 								<Box mb={2} display="flex" justifyContent="center">
 									<TextField
 										name="name"
@@ -116,6 +122,17 @@ function EditMedications() {
 									/>
 								</Box>
 							</Grid>
+							<Grid item xs={6}>
+								<TextField
+									name="description"
+									label="Description"
+									value={medication.description}
+									onChange={(event) => handleInputChange(index, event)}
+									fullWidth
+								/>
+							</Grid>
+						</Grid>
+						<Grid container spacing={2}>
 							<Grid item xs={3}>
 								<DrugSearchByNameAutocomplete
 									selectedDrugId={medication.associatedDrug._id}
@@ -123,15 +140,48 @@ function EditMedications() {
 								/>
 							</Grid>
 							<Grid item xs={3}>
+								<TextField
+									name="quantity"
+									label="Quantity"
+									value={medication.quantity}
+									onChange={(event) => handleInputChange(index, event)}
+									fullWidth
+								/>
+							</Grid>
+							<Grid item xs={3}>
+								<TextField
+									name="dose"
+									label="Dose"
+									value={medication.dose}
+									onChange={(event) => handleInputChange(index, event)}
+									fullWidth
+								/>
+							</Grid>
+							<Grid item xs={3}>
+								<TextField
+									name="unitOfMeasurement"
+									label="Unit of Measurement"
+									value={medication.unitOfMeasurement}
+									onChange={(event) => handleInputChange(index, event)}
+									fullWidth
+								/>
+							</Grid>
+						</Grid>
+						<Grid container spacing={2} mt={2}>
+							<Grid item xs={3}>
 								<Box mb={2}>
 									<TextField
 										name="time"
 										label="Time"
-										value={new Date(medication.frequency.time).toLocaleTimeString('en-US', {
-											hour: '2-digit',
-											minute: '2-digit',
-											hour12: true,
-										})}
+										value={
+											medication.frequency.time
+												? new Date(medication.frequency.time).toLocaleTimeString('en-US', {
+														hour: '2-digit',
+														minute: '2-digit',
+														hour12: true,
+												  })
+												: ''
+										}
 										onChange={(event) => handleTimeChange(index, event)}
 									/>
 								</Box>
@@ -150,36 +200,27 @@ function EditMedications() {
 									/>
 								</Box>
 							</Grid>
-						</Grid>
-						<Grid container spacing={2}>
-							<Grid item xs={4}>
+							<Grid item xs={3}>
 								<TextField
-									name="quantity"
-									label="Quantity"
-									value={medication.quantity}
+									name="customFrequency"
+									label="Custom Frequency"
+									value={medication.frequency.customFrequency}
 									onChange={(event) => handleInputChange(index, event)}
 									fullWidth
 								/>
 							</Grid>
-							<Grid item xs={4}>
+							<Grid item xs={3}>
 								<TextField
-									name="dose"
-									label="Dose"
-									value={medication.dose}
-									onChange={(event) => handleInputChange(index, event)}
-									fullWidth
-								/>
-							</Grid>
-							<Grid item xs={4}>
-								<TextField
-									name="unitOfMeasurement"
-									label="Unit of Measurement"
-									value={medication.unitOfMeasurement}
+									name="everyXHours"
+									label="Every X Hours"
+									type="number"
+									value={medication.frequency.everyXHours}
 									onChange={(event) => handleInputChange(index, event)}
 									fullWidth
 								/>
 							</Grid>
 						</Grid>
+
 						<Grid container spacing={2}>
 							<Grid item xs={2}>
 								<Box mb={2}>
@@ -214,17 +255,6 @@ function EditMedications() {
 										/>
 									}
 									label="Weekly"
-								/>
-							</Grid>
-							<Grid item xs={3}>
-								<FormControlLabel
-									control={
-										<Checkbox
-											checked={medication.frequency.biWeekly}
-											onChange={() => handleCheckboxChange(index, 'frequency', 'biWeekly')}
-										/>
-									}
-									label="BiWeekly"
 								/>
 							</Grid>
 							<Grid item xs={2}>

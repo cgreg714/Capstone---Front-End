@@ -32,7 +32,15 @@ const ProfileCard = () => {
 	return (
 		<Grid container spacing={2}>
 			<Grid item xs={12}>
-				<Card sx={{ marginTop: 2, marginBottom: 1, backgroundColor: theme.palette.primary.main }}>
+				<Card
+					sx={{
+						marginTop: 2,
+						marginBottom: 1,
+						backgroundColor: theme.palette.primary.main,
+						boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
+						borderRadius: 4,
+					}}
+				>
 					<AppBar position="static" style={{ backgroundColor: theme.palette.third.main }}>
 						<Toolbar>
 							<Box sx={{ flexGrow: 1 }}>
@@ -57,15 +65,15 @@ const ProfileCard = () => {
 						<CardContent>
 							{currentProfile && (
 								<Grid container>
-									<Grid item xs={4}>
-										<Typography variant="h6" component="div">
+									<Grid item xs={5}>
+										<Typography variant="h5" component="div" mb={1}>
 											Pharmacies
 										</Typography>
 										{currentProfile &&
 											currentProfile.pharmacy &&
 											currentProfile.pharmacy.map((pharmacy, index) => (
 												<div key={index}>
-													<Typography variant="h6" component="div" sx={{ marginBottom: 1 }}>
+													<Typography variant="h7" component="div">
 														<Box display="flex" alignItems="center">
 															<PharmacyIcon />
 															<Box ml={1}>{pharmacy.name}</Box>
@@ -100,15 +108,15 @@ const ProfileCard = () => {
 											))}
 									</Grid>
 
-									<Grid item xs={4}>
-										<Typography variant="h6" component="div">
+									<Grid item xs={3}>
+										<Typography variant="h5" component="div" mb={1}>
 											Doctors
 										</Typography>
 										{currentProfile &&
 											currentProfile.doctors &&
 											currentProfile.doctors.map((doctor, index) => (
 												<div key={index}>
-													<Typography variant="h6" component="div" sx={{ marginBottom: 1 }}>
+													<Typography variant="h7" component="div">
 														<Box display="flex" alignItems="center">
 															<DoctorIcon />
 															<Box ml={1}>
@@ -132,14 +140,14 @@ const ProfileCard = () => {
 									</Grid>
 
 									<Grid item xs={4}>
-										<Typography variant="h6" component="div">
+										<Typography variant="h5" component="div" mb={1}>
 											Emergency Contacts
 										</Typography>
 										{currentProfile &&
 											currentProfile.abuddies &&
 											currentProfile.abuddies.map((abuddy, index) => (
 												<div key={index}>
-													<Typography variant="h6" component="div" sx={{ marginBottom: 1 }}>
+													<Typography variant="h7" component="div">
 														<Box display="flex" alignItems="center">
 															<BuddyIcon />
 															<Box ml={1}>
@@ -149,9 +157,8 @@ const ProfileCard = () => {
 																variant="body2"
 																component="div"
 																color="text.secondary"
-																sx={{ m: 2 }}
 															>
-																<Box display="flex" alignItems="center">
+																<Box display="flex" alignItems="center" ml={2}>
 																	<FaPersonHalfDress size={24} />
 																	<Box ml={1}>{abuddy.relation}</Box>
 																</Box>

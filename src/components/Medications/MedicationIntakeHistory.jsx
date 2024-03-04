@@ -5,6 +5,7 @@ import {
 	Box,
 	Card,
 	CardContent,
+	CardHeader,
 	Divider,
 	Accordion,
 	AccordionSummary,
@@ -14,7 +15,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const MedicationHistory = () => {
-	 // eslint-disable-next-line
+	// eslint-disable-next-line
 	const { medications, updateIntake, deleteIntake } = useContext(MedicationContext);
 
 	// Flatten medications and intakes into a single array
@@ -50,84 +51,96 @@ const MedicationHistory = () => {
 	}, {});
 
 	return (
-		<Box>
-			{Object.entries(groupedMedications).map(([month, days]) => {
-				const [year, monthIndex] = month.split('-');
-				return (
-					<Accordion key={month} sx={{ bgcolor: '#717171' }}>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-							<Typography variant="h5">
-								{new Date(year, monthIndex - 1).toLocaleDateString(undefined, {
-									year: 'numeric',
-									month: 'long',
-								})}
-							</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							{Object.entries(days).map(([day, medications]) => (
-								<Box key={day}>
-									<Typography variant="h6">
-										{new Date(day).toLocaleDateString(undefined, {
+		<Card>
+			<CardHeader title="Medication Intakes" />
+			<CardContent>
+				<Box>
+					{Object.entries(groupedMedications).map(([month, days]) => {
+						const [year, monthIndex] = month.split('-');
+						return (
+							<Accordion key={month} sx={{ bgcolor: '#717171' }}>
+								<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+									<Typography variant="h5">
+										{new Date(year, monthIndex - 1).toLocaleDateString(undefined, {
 											year: 'numeric',
 											month: 'long',
-											day: 'numeric',
 										})}
 									</Typography>
-									<Divider />
-									{medications.map((medication, index) => (
-										<Box key={`${medication.intakeId}-${index}`} mb={2}>
-											<Card>
-												<CardContent>
-													<Box
-														display="flex"
-														justifyContent="space-between"
-														alignItems="center"
-													>
-														<Box flexGrow={1}>
-															<Typography variant="h6">
-																{medication.name} -{' '}
-																{medication.associatedDrug
-																	? medication.associatedDrug.name
-																	: 'No Drug'}
-															</Typography>
-															<Typography variant="body2" color="text.secondary">
-																{medication.dose} mg - {medication.intakeQuantity}
-																{medication.intakeQuantity > 1
-																	? 'Pills'
-																	: 'Pill'} -{' '}
-																{new Date(medication.takenAt).toLocaleTimeString([], {
-																	hour: '2-digit',
-																	minute: '2-digit',
-																})}
-															</Typography>
-														</Box>
-														<Button
-															variant="contained"
-															color="primary"
-															onClick={() => {
-																if (
-																	window.confirm(
-																		'Are you sure you want to delete this intake?'
-																	)
-																) {
-																	deleteIntake(medication._id, medication.intakeId);
-																}
-															}}
-														>
-															Delete
-														</Button>
-													</Box>
-												</CardContent>
-											</Card>
+								</AccordionSummary>
+								<AccordionDetails>
+									{Object.entries(days).map(([day, medications]) => (
+										<Box key={day}>
+											<Typography variant="h6">
+												{new Date(day).toLocaleDateString(undefined, {
+													year: 'numeric',
+													month: 'long',
+													day: 'numeric',
+												})}
+											</Typography>
+											<Divider />
+											{medications.map((medication, index) => (
+												<Box key={`${medication.intakeId}-${index}`} mb={2}>
+													<Card>
+														<CardContent>
+															<Box
+																display="flex"
+																justifyContent="space-between"
+																alignItems="center"
+															>
+																<Box flexGrow={1}>
+																	<Typography variant="h6">
+																		{medication.name} -{' '}
+																		{medication.associatedDrug
+																			? medication.associatedDrug.name
+																			: 'No Drug'}
+																	</Typography>
+																	<Typography variant="body2" color="text.secondary">
+																		{medication.dose} mg -{' '}
+																		{medication.intakeQuantity}{' '}
+																		{medication.intakeQuantity > 1 
+																			? 'Pills'
+																			: 'Pill'}{' '}
+																		-{' '}
+																		{new Date(
+																			medication.takenAt
+																		).toLocaleTimeString([], {
+																			hour: '2-digit',
+																			minute: '2-digit',
+																		})}
+																	</Typography>
+																</Box>
+																<Button
+																	variant="contained"
+																	color="primary"
+																	onClick={() => {
+																		if (
+																			window.confirm(
+																				'Are you sure you want to delete this intake?'
+																			)
+																		) {
+																			deleteIntake(
+																				medication._id,
+																				medication.intakeId
+																			);
+																		}
+																	}}
+																>
+																	Delete
+																</Button>
+															</Box>
+														</CardContent>
+													</Card>
+												</Box>
+											))}
 										</Box>
 									))}
-								</Box>
-							))}
-						</AccordionDetails>
-					</Accordion>
-				);
-			})}
-		</Box>
+								</AccordionDetails>
+							</Accordion>
+						);
+					})}
+				</Box>
+			</CardContent>
+		</Card>
 	);
 };
 

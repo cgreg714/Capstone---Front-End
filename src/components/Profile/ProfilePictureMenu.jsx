@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Avatar, IconButton, Menu, Box, Button } from '@mui/material';
+import { Avatar, IconButton, Menu, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import LogoutButton from '../Auth/Logout';
 import ProfileSelector from './SwitchProfileButton';

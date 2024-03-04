@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
 import { logout } from '../../api/authAPI';
 import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';

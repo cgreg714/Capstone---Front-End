@@ -1,5 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Avatar, TextField, Button, Grid, Box, CardContent, Card, CardHeader } from '@mui/material';
+import { Avatar, TextField, Grid, Box, CardContent, Card, CardHeader } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import { useTheme } from '@mui/material/styles';
@@ -56,7 +56,14 @@ const AddProfileForm = ({ onProfileCreated }) => {
 	};
 
 	return (
-		<Card sx={{ maxWidth: 1000, backgroundColor: theme.palette.secondary.main }}>
+		<Card
+			sx={{
+				maxWidth: 1000,
+				backgroundColor: theme.palette.secondary.main,
+				boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
+				borderRadius: 4,
+			}}
+		>
 			<CardHeader title="Add Profile" titleTypographyProps={{ align: 'center' }} />{' '}
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">

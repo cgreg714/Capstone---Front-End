@@ -64,3 +64,24 @@ export const deleteProfile = async (userId, profileId) => {
         }
     }
 };
+
+export const uploadAvatar = async (userId, profileId, avatarFile) => {
+    try {
+        const formData = new FormData();
+        formData.append('avatar', avatarFile);
+
+        const response = await api.post(`/user/${userId}/profile/${profileId}/avatar`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
+    }
+};

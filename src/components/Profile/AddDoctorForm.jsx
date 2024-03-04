@@ -1,5 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Card, Button, TextField, Box, CardContent, Grid, Typography } from '@mui/material';
+import { Card, TextField, Box, CardContent, Grid, Typography } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
@@ -54,7 +54,14 @@ function AddDoctorForm() {
 	};
 
 	return (
-		<Card sx={{ maxWidth: 500, backgroundColor: theme.palette.secondary.main }}>
+		<Card
+			sx={{
+				maxWidth: 500,
+				backgroundColor: theme.palette.secondary.main,
+				boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
+				borderRadius: 4,
+			}}
+		>
 			<Typography sx={{ textAlign: 'center', mt: 2 }}>Add Doctor</Typography>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -69,7 +76,7 @@ function AddDoctorForm() {
 							<PhoneNumberInput ref={phoneNumberRef} value={phoneNumber} onChange={setPhoneNumber} />
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-						<Styled3DButton type="submit" variant="contained" color="secondary">
+							<Styled3DButton type="submit" variant="contained" color="secondary">
 								Add Doctor
 							</Styled3DButton>
 						</Grid>

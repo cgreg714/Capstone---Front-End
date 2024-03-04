@@ -113,23 +113,33 @@ function MedicationTable() {
 						<TableRow key={index}>
 							<TableCell>{medication.name}</TableCell>
 							<TableCell>{medication.associatedDrug && medication.associatedDrug.name}</TableCell>
-							<TableCell sx={{ width: '150px' }}>{new Date(medication.dateAdded).toLocaleDateString()}</TableCell>
-							<TableCell sx={{ width: '150px' }}>{`${medication.dose} ${medication.unitOfMeasurement}`}</TableCell>
 							<TableCell sx={{ width: '150px' }}>
-								{Object.values(medication.frequency.dayOfTheWeek).every(val => val) ? 'Everyday' :
-									['weekly', 'biWeekly', 'monthly', 'daily', 'once'].map((interval) => {
-										if (medication.frequency[interval]) {
-											return (
-												<div key={interval}>
-													{interval.charAt(0).toUpperCase() + interval.slice(1)}
-												</div>
-											);
-										}
-										return null;
-									})
-								}
+								{new Date(medication.dateAdded).toLocaleDateString()}
+							</TableCell>
+							<TableCell
+								sx={{ width: '150px' }}
+							>{`${medication.dose} ${medication.unitOfMeasurement}`}</TableCell>
+							<TableCell sx={{ width: '150px' }}>
+								{medication.frequency.customFrequency && (
+									<div>{medication.frequency.customFrequency}</div>
+								)}
+								{Object.values(medication.frequency.dayOfTheWeek).every((val) => val)
+									? 'Everyday'
+									: ['weekly', 'biWeekly', 'monthly', 'daily', 'once'].map((interval) => {
+											if (medication.frequency[interval]) {
+												return (
+													<div key={interval}>
+														{interval.charAt(0).toUpperCase() + interval.slice(1)}
+													</div>
+												);
+											}
+											return null;
+									  })}
 								{Object.entries(medication.frequency.dayOfTheWeek).map(([day, value]) => {
-									if (value && !Object.values(medication.frequency.dayOfTheWeek).every(val => val)) {
+									if (
+										value &&
+										!Object.values(medication.frequency.dayOfTheWeek).every((val) => val)
+									) {
 										return <div key={day}>{day.charAt(0).toUpperCase() + day.slice(1)}</div>;
 									}
 									return null;
@@ -154,7 +164,9 @@ function MedicationTable() {
 									</div>
 								)}
 							</TableCell>
-							<TableCell sx={{ paddingLeft: '50px', width: '150px' }}>{isNaN(medication.quantity) ? <s>0</s> : medication.quantity}</TableCell>
+							<TableCell sx={{ paddingLeft: '50px', width: '150px' }}>
+								{isNaN(medication.quantity) ? <s>0</s> : medication.quantity}
+							</TableCell>
 							<TableCell>
 								<Button
 									variant="contained"

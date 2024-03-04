@@ -1,5 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Card, Button, TextField, Box, CardContent, Grid, Typography, Autocomplete } from '@mui/material';
+import { Card, TextField, Box, CardContent, Grid, Typography, Autocomplete } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
@@ -64,7 +64,14 @@ function AddPharmacyForm() {
 	};
 
 	return (
-		<Card sx={{ maxWidth: 500, backgroundColor: theme.palette.secondary.main }}>
+		<Card
+			sx={{
+				maxWidth: 500,
+				backgroundColor: theme.palette.secondary.main,
+				boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
+				borderRadius: 4,
+			}}
+		>
 			<Typography sx={{ textAlign: 'center', mt: 2 }}>Add Pharmacy</Typography>
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>

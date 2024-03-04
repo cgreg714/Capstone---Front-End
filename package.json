@@ -46,6 +46,8 @@
 
     "react-autosuggest": "^10.1.0",
 
+    "react-avatar-editor": "^13.0.2",
+
     "react-bootstrap": "^2.10.1",
 
     "react-dom": "^18.2.0",

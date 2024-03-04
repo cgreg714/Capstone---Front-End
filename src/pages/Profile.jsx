@@ -13,10 +13,10 @@ import { useTheme } from '@mui/material/styles';
 function PharmacyCardWrapper() {
 	return (
 		<Grid container>
-			<Grid item xs={6}>
+			<Grid item xs={5}>
 				<AddPharmacyForm />
 			</Grid>
-			<Grid item xs={6}>
+			<Grid item xs={7}>
 				<PharmacyCard />
 			</Grid>
 		</Grid>
@@ -26,10 +26,10 @@ function PharmacyCardWrapper() {
 function AbuddyCardWrapper() {
 	return (
 		<Grid container>
-			<Grid item xs={6}>
+			<Grid item xs={5}>
 				<AddABuddyForm />
 			</Grid>
-			<Grid item xs={6}>
+			<Grid item xs={7}>
 				<ABuddyCard />
 			</Grid>
 		</Grid>
@@ -39,10 +39,10 @@ function AbuddyCardWrapper() {
 function DoctorCardWrapper() {
 	return (
 		<Grid container>
-			<Grid item xs={6}>
+			<Grid item xs={5}>
 				<AddDoctorForm />
 			</Grid>
-			<Grid item xs={6}>
+			<Grid item xs={7}>
 				<DoctorCard />
 			</Grid>
 		</Grid>
@@ -74,9 +74,9 @@ function Profile() {
 	};
 
 	return (
-		<Grid container rowSpacing={3} columnSpacing={3}>
+		<Grid container rowSpacing={3}>
 			<Grid item xs={12}>
-				<Card sx={{ border: '3px solid black', borderRadius: 2 }}>
+				<Card sx={{ border: '3px solid black', borderRadius: 4 }}>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 						<Tabs
 							value={value}

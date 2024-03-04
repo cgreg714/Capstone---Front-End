@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { Card, CardContent, TextField, Typography, Button, Box, Grid } from '@mui/material';
 import DoctorIcon from '@mui/icons-material/LocalHospital';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -6,6 +6,7 @@ import { formatPhoneNumber } from '../../../helpers/phoneNumberFormat';
 import { ProfileContext } from '../../../contexts/ProfileContext';
 import { useTheme } from '@mui/material/styles';
 import ConfirmationDialog from './ConfirmationDialog';
+import PhoneNumberInput from '../PhoneNumberInput';
 
 const DoctorCard = () => {
 	const { doctors, updateDoctor, deleteDoctor } = useContext(ProfileContext);
@@ -16,10 +17,13 @@ const DoctorCard = () => {
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [doctorIdToDelete, setDoctorIdToDelete] = useState(null);
 	const theme = useTheme();
+	const [phoneNumber, setPhoneNumber] = useState('');
+	const phoneNumberInputRef = useRef(null);
 
 	const handleDoctorEdit = (doctor) => {
 		setSelectedDoctor(doctor);
 		setEditedDoctor({ ...doctor });
+		setPhoneNumber(doctor.phoneNumber);
 		setIsDoctorEditMode(true);
 	};
 
@@ -54,15 +58,17 @@ const DoctorCard = () => {
 	};
 
 	return (
-		<Grid container spacing={2} sx={{ marginLeft: 5 }}>
+		<Grid container spacing={2}>
 			{doctors.map((doctor, index) => (
 				<Grid item xs={6} key={doctor._id}>
 					<Card
 						sx={{
-							maxWidth: 250,
+							maxWidth: 300,
 							marginTop: 2,
 							marginBottom: 1,
 							backgroundColor: theme.palette.third.main,
+							boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
+							borderRadius: 4,
 						}}
 					>
 						<CardContent>
@@ -86,7 +92,6 @@ const DoctorCard = () => {
 										<Box ml={1}>{formatPhoneNumber(doctor.phoneNumber)}</Box>
 									</Box>
 									<Box display="flex" justifyContent="space-between" sx={{ marginBottom: -2 }}>
-										{' '}
 										<Button
 											variant="contained"
 											sx={{
@@ -145,14 +150,15 @@ const DoctorCard = () => {
 										sx={{ mb: 2 }}
 										onChange={(e) => setEditedDoctor({ ...editedDoctor, lastName: e.target.value })}
 									/>
-									<TextField
-										label="Phone Number"
-										value={editedDoctor.phoneNumber}
-										size="small"
+									<PhoneNumberInput
+										value={phoneNumber}
+										onChange={(value) => {
+											setPhoneNumber(value);
+											setEditedDoctor({ ...editedDoctor, phoneNumber: value });
+										}}
+										ref={phoneNumberInputRef}
 										sx={{ mb: 2 }}
-										onChange={(e) =>
-											setEditedDoctor({ ...editedDoctor, phoneNumber: e.target.value })
-										}
+										size="small"
 									/>
 									<Box display="flex" justifyContent="space-between">
 										<Button

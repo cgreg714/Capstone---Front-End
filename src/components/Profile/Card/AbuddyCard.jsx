@@ -70,6 +70,8 @@ const ABuddyCard = () => {
 							marginTop: 2,
 							marginBottom: 1,
 							backgroundColor: theme.palette.third.main,
+							boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
+							borderRadius: 4,
 						}}
 					>
 						<CardContent>

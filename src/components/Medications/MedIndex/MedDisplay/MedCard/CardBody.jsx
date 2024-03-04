@@ -31,14 +31,22 @@ function CardBody({
 	associatedDrug,
 }) {
 	const { updateMedication, deleteMedication, addQuantity } = useContext(MedicationContext);
-	const trueFrequencies = Object.keys(frequency).filter((key) => frequency[key] === true);
+	const trueFrequencies = Object.keys(frequency)
+		.filter((key) => frequency[key] === true || key === 'customFrequency')
+		.map((key) => {
+			if (key === 'customFrequency' && typeof frequency[key] === 'string') {
+				return frequency[key];
+			} else {
+				return key.replace(/./, (char) => char.toUpperCase());
+			}
+		});
 	const time = new Date(frequency.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 	const theme = useTheme();
 
 	const [refillOpen, setRefillOpen] = useState(false);
 	const [refillAmount, setRefillAmount] = useState('');
 	const [deleteOpen, setDeleteOpen] = useState(false);
-	
+
 	/* eslint-disable */
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedName, setEditedName] = useState(name);
@@ -105,7 +113,14 @@ function CardBody({
 
 	return (
 		<Box>
-			<Card sx={{ m: 4, minWidth: 275, borderRadius: 4, boxShadow: theme.palette.mode === 'dark' ? '0 6px 10px white' : '0 6px 10px black' }}>
+			<Card
+				sx={{
+					m: 4,
+					minWidth: 275,
+					borderRadius: 4,
+					boxShadow: theme.palette.mode === 'dark' ? '0 6px 10px white' : '0 6px 10px black',
+				}}
+			>
 				<CardContent>
 					<Typography variant="h5" component="div">
 						{name}
