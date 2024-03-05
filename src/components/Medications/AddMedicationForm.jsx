@@ -172,7 +172,7 @@ const AddMedicationForm = ({ handleClose }) => {
 	};
 
 	return (
-		<Card variant="outlined" sx={{ p: 2 }}>
+		<Card sx={{ p: 2 }}>
 			<Box component="form" onSubmit={handleSubmit} noValidate>
 				<Grid container spacing={2}>
 					<Grid item xs={6}>

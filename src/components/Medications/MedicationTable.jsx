@@ -84,7 +84,7 @@ function MedicationTable() {
 	};
 
 	return (
-		<TableContainer component={Paper}>
+		<TableContainer component={Paper} sx={{ border: '2px solid grey' }}>
 			<Table>
 				<TableHead sx={{ backgroundColor: (theme) => theme.palette.secondary.main }}>
 					<TableRow sx={{ backgroundColor: (theme) => theme.palette.third.main }}>
@@ -170,8 +170,9 @@ function MedicationTable() {
 							<TableCell>
 								<Button
 									variant="contained"
-									color="primary"
+									color="fourth"
 									onClick={() => handleRefillOpen(medication._id)}
+									sx={{ color: '#fff' }}
 								>
 									Refill
 								</Button>
@@ -179,8 +180,9 @@ function MedicationTable() {
 							<TableCell>
 								<Button
 									variant="contained"
-									color="primary"
+									color="fifth"
 									onClick={() => handleClickOpen(medication._id)}
+									sx={{ color: '#fff' }}
 								>
 									Add Intake
 								</Button>

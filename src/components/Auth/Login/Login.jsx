@@ -105,9 +105,8 @@ function Login() {
 	return (
 		<div className="container">
 			<Card sx={{ margin: '50px', borderRadius: '10px', boxShadow: '-10px 10px 10px rgba(0, 0, 0, 0.15)' }}>
-				{' '}
 				<CardContent>
-					<div className="medication">
+					<div className="medication" style={{ marginTop: '30px' }}>
 						<img src={medication} alt="medication" />
 					</div>
 					<Typography variant="h4" mt={4}>
@@ -197,8 +196,12 @@ function Login() {
 								Login
 							</button>
 
-							<div className={action === 'Login' ? 'submit' : 'submit'} onClick={handleSignUp}>
-								Go To Sign Up
+							<div
+								className={action === 'Login' ? 'submit' : 'submit'}
+								onClick={handleSignUp}
+								style={{ backgroundColor: theme.palette.third.main }}
+							>
+								Sign Up
 							</div>
 						</div>
 					</Box>

@@ -41,7 +41,7 @@ const lightTheme = createTheme({
 			main: '#8DBFB3',
 		},
 		fourth: {
-			main: '#424874',
+			main: '#59619B',
 		},
 		fifth: {
 			main: '#62A66A',

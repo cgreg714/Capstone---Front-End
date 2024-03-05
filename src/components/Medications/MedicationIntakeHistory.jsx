@@ -13,10 +13,12 @@ import {
 	Button,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useTheme } from '@mui/material/styles';
 
 const MedicationHistory = () => {
 	// eslint-disable-next-line
 	const { medications, updateIntake, deleteIntake } = useContext(MedicationContext);
+	const theme = useTheme();
 
 	// Flatten medications and intakes into a single array
 	const flattenedMedications = medications.flatMap((medication) =>
@@ -51,14 +53,14 @@ const MedicationHistory = () => {
 	}, {});
 
 	return (
-		<Card>
+		<Card sx={{ border: '2px solid grey' }}>
 			<CardHeader title="Medication Intakes" />
 			<CardContent>
 				<Box>
 					{Object.entries(groupedMedications).map(([month, days]) => {
 						const [year, monthIndex] = month.split('-');
 						return (
-							<Accordion key={month} sx={{ bgcolor: '#717171' }}>
+							<Accordion key={month} sx={{ bgcolor: theme.palette.third.main }}>
 								<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 									<Typography variant="h5">
 										{new Date(year, monthIndex - 1).toLocaleDateString(undefined, {
@@ -97,7 +99,7 @@ const MedicationHistory = () => {
 																	<Typography variant="body2" color="text.secondary">
 																		{medication.dose} mg -{' '}
 																		{medication.intakeQuantity}{' '}
-																		{medication.intakeQuantity > 1 
+																		{medication.intakeQuantity > 1
 																			? 'Pills'
 																			: 'Pill'}{' '}
 																		-{' '}

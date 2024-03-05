@@ -130,7 +130,9 @@ function CardBody({
 					</Typography>
 					<List>
 						<ListItem>
-							{associatedDrug.name} - {dose} {unitOfMeasurement}{' '}
+							{associatedDrug
+								? `${associatedDrug.name} - ${dose} ${unitOfMeasurement} `
+								: 'No associated drug'}
 						</ListItem>
 						<ListItem>Doctor: {doctor}</ListItem>
 						<ListItem>Pharmacy: {pharmacy}</ListItem>

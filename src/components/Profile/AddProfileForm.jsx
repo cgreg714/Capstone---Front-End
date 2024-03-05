@@ -69,13 +69,40 @@ const AddProfileForm = ({ onProfileCreated }) => {
 				<Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
 					<Grid container spacing={2}>
 						<Grid item xs={6}>
-							<TextField label="First Name" inputRef={firstNameRef} fullWidth />
+							<TextField
+								label="First Name"
+								inputRef={firstNameRef}
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={6}>
-							<TextField label="Last Name" inputRef={lastNameRef} fullWidth />
+							<TextField
+								label="Last Name"
+								inputRef={lastNameRef}
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField label="Email" inputRef={emailRef} fullWidth />
+							<TextField
+								label="Email"
+								inputRef={emailRef}
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={12}>
 							<Box display="flex" justifyContent="center" alignItems="center">

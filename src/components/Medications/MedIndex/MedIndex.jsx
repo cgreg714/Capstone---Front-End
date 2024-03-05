@@ -18,7 +18,7 @@ function MedIndex() {
 	};
 
 	return (
-		<Card sx={{ border: '3px solid black', borderRadius: 2, maxWidth: 1000 }}>
+		<Card sx={{ border: '2px solid grey', borderRadius: 2, maxWidth: 1000 }}>
 			<Tabs
 				value={page}
 				onChange={handleChange}
@@ -29,11 +29,11 @@ function MedIndex() {
 				}}
 			>
 				<Tab value="ADD" label="Add Medication" style={{ color: '#000' }} />
-				<Tab value="DISPLAY" label="Medications" style={{ color: '#000' }} />
+				{/* <Tab value="DISPLAY" label="Medications" style={{ color: '#000' }} /> */}
 				<Tab value="EDIT" label="Edit Medications" style={{ color: '#000' }} />
 			</Tabs>
 			{page === 'ADD' && <AddMedicationForm handleClose={handleClose} />}
-			{page === 'DISPLAY' && <MedDisplay />}
+			{/* {page === 'DISPLAY' && <MedDisplay />} */}
 			{page === 'EDIT' && <EditMedications />}
 		</Card>
 	);

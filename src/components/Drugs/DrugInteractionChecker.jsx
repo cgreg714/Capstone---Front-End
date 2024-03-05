@@ -50,9 +50,10 @@ function DrugInteractionChecker() {
 		<>
 			<Card
 				sx={{
-					border: '3px solid #000',
+					border: '2px solid grey',
 					maxHeight: '100vh',
 					overflow: 'auto',
+					boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
 				}}
 			>
 				<CardHeader
@@ -157,10 +158,9 @@ function DrugInteractionChecker() {
 								backgroundColor: (theme) => theme.palette.primary.main,
 								border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
 								zIndex: 1,
-								boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-
+								boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
 								'&:hover': {
-									boxShadow: (theme) => `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
+									boxShadow: (theme) => `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
 								},
 							}}
 						>
@@ -222,19 +222,19 @@ function DrugInteractionChecker() {
 						<Button
 							variant="contained"
 							className="chkBtn"
+							color='fourth'
 							onClick={clearSelection}
 							sx={{
 								border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
 								width: '30%',
-								color: 'black',
+								color: 'white',
 								borderRadius: 5,
 								fontWeight: 'bolder',
 								fontFamily: 'Comfortaa',
-								backgroundColor: (theme) => theme.palette.primary.main,
 								zIndex: 1,
-								boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
+								boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
 								'&:hover': {
-									boxShadow: (theme) => `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
+									boxShadow: (theme) => `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
 								},
 							}}
 						>

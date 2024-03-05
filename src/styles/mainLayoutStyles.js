@@ -80,7 +80,7 @@ export const Styled3DButton = styled(Button)(({ theme }) => ({
 	fontFamily: 'Comfortaa',
 	borderRadius: 20,
 	backgroundColor: theme.palette.fifth.main,
-	boxShadow: `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+	boxShadow: `inset 0 2px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
 	zIndex: 1,
 	'&:hover': {
 		backgroundColor: theme.palette.fifth.main,

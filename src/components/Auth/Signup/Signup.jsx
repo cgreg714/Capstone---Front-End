@@ -158,7 +158,14 @@ function Signup() {
 
 	return (
 		<Container>
-			<Card sx={{ margin: '50px', borderRadius: '10px', boxShadow: '-10px 10px 10px rgba(0, 0, 0, 0.15)' }}>
+			<Card
+				sx={{
+					margin: '50px',
+					borderRadius: '10px',
+					boxShadow: '-10px 10px 10px rgba(0, 0, 0, 0.15)',
+					marginTop: '5px',
+				}}
+			>
 				<Box sx={{ margin: '50px', borderRadius: '10px' }}>
 					<Box sx={{ textAlign: 'center' }}>
 						<img
@@ -453,8 +460,7 @@ function Signup() {
 										{passwordsMatch ? (
 											<p
 												style={{
-													textShadow:
-														'0 0 10px #00ff00, 0 0 10px #00ff00, 0 0 30px #00ff00, 0 0 20px #00ff00',
+													color: 'green'
 												}}
 											>
 												Passwords match{' '}
@@ -466,8 +472,7 @@ function Signup() {
 										) : (
 											<p
 												style={{
-													textShadow:
-														'0 0 10px #ff0000, 0 0 10px #ff0000, 0 0 30px #ff0000, 0 0 20px #ff0000',
+													color: '#bd031d'
 												}}
 											>
 												Passwords do not match{' '}
@@ -483,7 +488,11 @@ function Signup() {
 						</Grid>
 						<Box sx={{ textAlign: 'center' }}>
 							<div className="submit-container">
-								<button className="submit gray hoverable" onClick={handleLogin}>
+								<button
+									className="submit gray hoverable"
+									onClick={handleLogin}
+									style={{ backgroundColor: themes.palette.third.main }}
+								>
 									Go To Login
 								</button>
 
