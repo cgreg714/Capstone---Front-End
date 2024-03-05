@@ -84,7 +84,15 @@ function MedicationTable() {
 	};
 
 	return (
-		<TableContainer component={Paper} sx={{ border: '2px solid grey' }}>
+		<TableContainer
+			component={Paper}
+			sx={{
+				border: '2px solid grey',
+				boxShadow: (theme) =>
+					`0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
+				borderRadius: 4,
+			}}
+		>
 			<Table>
 				<TableHead sx={{ backgroundColor: (theme) => theme.palette.secondary.main }}>
 					<TableRow sx={{ backgroundColor: (theme) => theme.palette.third.main }}>
@@ -99,13 +107,13 @@ function MedicationTable() {
 					</TableRow>
 					<TableRow>
 						<TableCell>Name</TableCell>
-						<TableCell>Drug</TableCell>
-						<TableCell>Date Added</TableCell>
-						<TableCell>Dose</TableCell>
-						<TableCell>Frequency</TableCell>
-						<TableCell>Quantity Left</TableCell>
-						<TableCell>Refill</TableCell>
-						<TableCell>Add Intake</TableCell>
+						<TableCell sx={{ textAlign: 'center' }}>Drug</TableCell>
+						<TableCell sx={{ textAlign: 'center' }}>Date Added</TableCell>
+						<TableCell sx={{ textAlign: 'center' }}>Dose</TableCell>
+						<TableCell sx={{ textAlign: 'center' }}>Frequency</TableCell>
+						<TableCell sx={{ textAlign: 'center' }}>Quantity Remaining</TableCell>
+						<TableCell sx={{ textAlign: 'center' }}>Refill</TableCell>
+						<TableCell sx={{ textAlign: 'center' }}>Add Intake</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -119,7 +127,7 @@ function MedicationTable() {
 							<TableCell
 								sx={{ width: '150px' }}
 							>{`${medication.dose} ${medication.unitOfMeasurement}`}</TableCell>
-							<TableCell sx={{ width: '150px' }}>
+							<TableCell sx={{ width: '200px', textAlign: 'center' }}>
 								{medication.frequency.customFrequency && (
 									<div>{medication.frequency.customFrequency}</div>
 								)}
@@ -164,25 +172,23 @@ function MedicationTable() {
 									</div>
 								)}
 							</TableCell>
-							<TableCell sx={{ paddingLeft: '50px', width: '150px' }}>
+							<TableCell sx={{ paddingLeft: '40px', width: '80px' }}>
 								{isNaN(medication.quantity) ? <s>0</s> : medication.quantity}
 							</TableCell>
 							<TableCell>
 								<Button
 									variant="contained"
-									color="fourth"
+									color="primary"
 									onClick={() => handleRefillOpen(medication._id)}
-									sx={{ color: '#fff' }}
 								>
 									Refill
 								</Button>
 							</TableCell>
-							<TableCell>
+							<TableCell sx={{ width: '275px' }}>
 								<Button
 									variant="contained"
-									color="fifth"
+									color="primary"
 									onClick={() => handleClickOpen(medication._id)}
-									sx={{ color: '#fff' }}
 								>
 									Add Intake
 								</Button>

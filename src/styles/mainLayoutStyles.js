@@ -73,7 +73,7 @@ export const StyledFooter = styled('footer')({
 	width: '100%',
 	height: '2.5rem',
 });
-export const Styled3DButton = styled(Button)(({ theme }) => ({
+export const Styled3DButtonGreen = styled(Button)(({ theme }) => ({
 	width: '50%',
 	color: 'black',
 	fontWeight: 'bolder',
@@ -83,7 +83,69 @@ export const Styled3DButton = styled(Button)(({ theme }) => ({
 	boxShadow: `inset 0 2px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
 	zIndex: 1,
 	'&:hover': {
+        backgroundColor: theme.palette.fourth.main,
+		boxShadow: `inset 0 2px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+    },
+	'&:active': {
 		backgroundColor: theme.palette.fifth.main,
 		boxShadow: `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
 	},
 }));
+
+export const Styled3DButtonBlue = styled(Button)(({ theme }) => ({
+	width: '50%',
+	color: 'black',
+	fontWeight: 'bolder',
+	fontFamily: 'Comfortaa',
+	borderRadius: 20,
+	backgroundColor: theme.palette.fourth.main,
+	boxShadow: `inset 0 2px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+	zIndex: 1,
+	'&:hover': {
+        backgroundColor: theme.palette.third.main,
+		boxShadow: `inset 0 2px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+    },
+	'&:active': {
+		backgroundColor: theme.palette.fourth.main,
+		boxShadow: `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+	},
+}));
+
+export const Styled3DButtonRed = styled(Button)(({ theme }) => ({
+	width: '50%',
+	color: 'black',
+	fontWeight: 'bolder',
+	fontFamily: 'Comfortaa',
+	borderRadius: 20,
+	backgroundColor: theme.palette.primary.main,
+	boxShadow: `inset 0 2px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+	zIndex: 1,
+	'&:hover': {
+        backgroundColor: theme.palette.primary.dark,
+		boxShadow: `inset 0 2px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+    },
+	'&:active': {
+		backgroundColor: theme.palette.primary.main,
+		boxShadow: `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+	},
+}));
+
+export const Styled3DButtonTeal = styled(Button)(({ theme }) => ({
+	width: '50%',
+	color: 'black',
+	fontWeight: 'bolder',
+	fontFamily: 'Comfortaa',
+	borderRadius: 20,
+	backgroundColor: theme.palette.fourth.main,
+	boxShadow: `inset 0 2px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+	zIndex: 1,
+	'&:hover': {
+        backgroundColor: theme.palette.secondary.main,
+		boxShadow: `inset 0 2px 5px ${theme.palette.mode === 'dark' ? 'white' : 'white'}, inset 0 -5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+    },
+	'&:active': {
+		backgroundColor: theme.palette.fourth.main,
+		boxShadow: `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'black' : 'black'}`,
+	},
+}));
+

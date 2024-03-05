@@ -4,7 +4,7 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
 import { useTheme } from '@mui/material/styles';
-import { Styled3DButton } from '../../styles/mainLayoutStyles';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
 function AddDoctorForm() {
 	const firstNameRef = useRef();
@@ -105,9 +105,9 @@ function AddDoctorForm() {
 							/>
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Styled3DButton type="submit" variant="contained" color="secondary">
+							<Styled3DButtonGreen type="submit" variant="contained" color="secondary">
 								Add Doctor
-							</Styled3DButton>
+							</Styled3DButtonGreen>
 						</Grid>
 					</Grid>
 				</Box>

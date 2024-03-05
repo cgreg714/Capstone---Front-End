@@ -23,6 +23,7 @@ import { SnackbarContext } from '../../contexts/SnackbarContext';
 import DrugSearchByNameAutocomplete from '../Drugs/DrugNameSearchAutocomplete';
 import { DrugContext } from '../../contexts/DrugContext';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
 const AddMedicationForm = ({ handleClose }) => {
 	const { createMedication } = useContext(MedicationContext);
@@ -399,28 +400,15 @@ const AddMedicationForm = ({ handleClose }) => {
 						))}
 					</FormGroup>
 				</FormControl> */}
-				<Box display="flex" justifyContent="center">
-					<Button
+				<Box display="flex" justifyContent="center" mt={2}>
+					<Styled3DButtonGreen
 						type="submit"
 						color="fifth"
 						variant="contained"
 						disabled={isSubmitting}
-						sx={{
-							width: '50%',
-							mt: 2,
-							mb: 1,
-							borderRadius: 5,
-							backgroundColor: (theme) => theme.palette.fifth.main,
-							zIndex: 1,
-							boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-							'&:hover': {
-								boxShadow: (theme) =>
-									`inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-							},
-						}}
 					>
 						{isSubmitting ? 'Adding...' : 'Add Medication'}
-					</Button>
+					</Styled3DButtonGreen>
 				</Box>
 			</Box>
 			<Dialog open={openDialog} onClose={() => setOpenDialog(false)}>

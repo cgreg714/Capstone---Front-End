@@ -63,6 +63,7 @@ const darkTheme = createTheme({
 		mode: 'dark',
 		primary: {
 			main: '#F06060',
+			dark: '#D14F4F',
 		},
 		secondary: {
 			main: '#F3B462',
@@ -75,6 +76,7 @@ const darkTheme = createTheme({
 		},
 		fifth: {
 			main: '#62A66A',
+			dark: '#4D8F57',
 		},
 		background: {
 			default: '#363732',

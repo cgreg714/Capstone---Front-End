@@ -5,7 +5,7 @@ import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
 import { states } from '../../helpers/states';
 import { useTheme } from '@mui/material/styles';
-import { Styled3DButton } from '../../styles/mainLayoutStyles';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 function AddPharmacyForm() {
 	const nameRef = useRef();
 	const streetRef = useRef();
@@ -189,9 +189,9 @@ function AddPharmacyForm() {
 							/>
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Styled3DButton type="submit" variant="contained" color="secondary">
+							<Styled3DButtonGreen type="submit" variant="contained" color="secondary">
 								Add Pharmacy
-							</Styled3DButton>
+							</Styled3DButtonGreen>
 						</Grid>
 					</Grid>
 				</Box>

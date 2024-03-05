@@ -55,10 +55,19 @@ const MedicationIntakeForm = ({ medicationId, handleClose }) => {
 	};
 
 	return (
-		<Card>
+		<Card
+			sx={{
+				border: '2px solid grey',
+				marginTop: 2,
+				marginBottom: 1,
+				boxShadow: (theme) =>
+					`0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
+				borderRadius: 4,
+			}}
+		>
 			<CardContent>
 				<form onSubmit={handleSubmit}>
-                <Grid container spacing={2} style={{margin: 0}}>
+					<Grid container spacing={2} style={{ margin: 0 }}>
 						<Grid item xs={4}>
 							<TextField
 								name="quantity"

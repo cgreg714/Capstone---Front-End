@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography, Button, Box, Dialog } from '@mui/material';
 import MedicationIntakeForm from '../Medications/MedicationIntakeForm';
+import { Styled3DButtonRed, Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
 function NotificationCard({ notification, deleteNotification }) {
     const [open, setOpen] = React.useState(false);
@@ -45,13 +46,13 @@ function NotificationCard({ notification, deleteNotification }) {
                     </Typography>
                     <Box>
                         {notification.type === 'missedIntake' && (
-                            <Button variant="contained" color="secondary" onClick={handleOpen}>
+                            <Styled3DButtonGreen variant="contained" color="secondary" onClick={handleOpen}>
                                 Add Intake
-                            </Button>
+                            </Styled3DButtonGreen>
                         )}
-                        <Button variant="contained" color="primary" onClick={() => deleteNotification(notification._id)}>
+                        <Styled3DButtonRed variant="contained" color="primary" onClick={() => deleteNotification(notification._id)}>
                             Dismiss
-                        </Button>
+                        </Styled3DButtonRed>
                     </Box>
                 </Box>
                 <Typography variant="body2" color="textSecondary">

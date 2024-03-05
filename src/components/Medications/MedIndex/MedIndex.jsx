@@ -18,7 +18,15 @@ function MedIndex() {
 	};
 
 	return (
-		<Card sx={{ border: '2px solid grey', borderRadius: 2, maxWidth: 1000 }}>
+		<Card
+			sx={{
+				border: '2px solid grey',
+				maxWidth: 1000,
+				borderRadius: 4,
+				boxShadow: (theme) =>
+					`0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
+			}}
+		>
 			<Tabs
 				value={page}
 				onChange={handleChange}

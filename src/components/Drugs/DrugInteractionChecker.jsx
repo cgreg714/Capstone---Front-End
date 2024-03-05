@@ -4,6 +4,7 @@ import { DrugContext } from '../../contexts/DrugContext';
 import { getInteractionBetweenTwoDrugs } from '../../api/drugAPI';
 import { MedicationContext } from '../../contexts/MedicationContext';
 import { useTheme } from '@mui/material/styles';
+import { Styled3DButtonBlue, Styled3DButtonRed } from '../../styles/mainLayoutStyles';
 
 function DrugInteractionChecker() {
 	const { drugs } = useContext(DrugContext);
@@ -53,6 +54,7 @@ function DrugInteractionChecker() {
 					border: '2px solid grey',
 					maxHeight: '100vh',
 					overflow: 'auto',
+					borderRadius: 4,
 					boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
 				}}
 			>
@@ -145,27 +147,13 @@ function DrugInteractionChecker() {
 							marginTop: 4,
 						}}
 					>
-						<Button
+						<Styled3DButtonRed
 							variant="contained"
 							className="chkBtn"
 							onClick={checkInteraction}
-							sx={{
-								width: '50%',
-								color: 'black',
-								borderRadius: 5,
-								fontWeight: 'bolder',
-								fontFamily: 'Comfortaa',
-								backgroundColor: (theme) => theme.palette.primary.main,
-								border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-								zIndex: 1,
-								boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
-								'&:hover': {
-									boxShadow: (theme) => `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
-								},
-							}}
 						>
 							Check For Interaction
-						</Button>
+						</Styled3DButtonRed>
 					</Box>
 					<Box
 						sx={{
@@ -219,27 +207,13 @@ function DrugInteractionChecker() {
 							marginTop: 4,
 						}}
 					>
-						<Button
+						<Styled3DButtonBlue
 							variant="contained"
 							className="chkBtn"
-							color='fourth'
 							onClick={clearSelection}
-							sx={{
-								border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-								width: '30%',
-								color: 'white',
-								borderRadius: 5,
-								fontWeight: 'bolder',
-								fontFamily: 'Comfortaa',
-								zIndex: 1,
-								boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
-								'&:hover': {
-									boxShadow: (theme) => `inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
-								},
-							}}
 						>
 							Clear Selection
-						</Button>
+						</Styled3DButtonBlue>
 					</Box>
 				</CardContent>
 				<Typography variant="body2" align="center" style={{ marginTop: '20px' }}>
