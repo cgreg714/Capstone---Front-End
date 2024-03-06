@@ -107,10 +107,10 @@ function MedicationTable() {
 					</TableRow>
 					<TableRow>
 						<TableCell>Name</TableCell>
-						<TableCell sx={{ textAlign: 'center' }}>Drug</TableCell>
-						<TableCell sx={{ textAlign: 'center' }}>Date Added</TableCell>
-						<TableCell sx={{ textAlign: 'center' }}>Dose</TableCell>
-						<TableCell sx={{ textAlign: 'center' }}>Frequency</TableCell>
+						<TableCell>Drug</TableCell>
+						<TableCell>Date Added</TableCell>
+						<TableCell>Dose</TableCell>
+						<TableCell>Frequency</TableCell>
 						<TableCell sx={{ textAlign: 'center' }}>Quantity Remaining</TableCell>
 						<TableCell sx={{ textAlign: 'center' }}>Refill</TableCell>
 						<TableCell sx={{ textAlign: 'center' }}>Add Intake</TableCell>

@@ -50,7 +50,7 @@ function NotificationCard({ notification, deleteNotification }) {
                                 Add Intake
                             </Styled3DButtonGreen>
                         )}
-                        <Styled3DButtonRed variant="contained" color="primary" onClick={() => deleteNotification(notification._id)}>
+                        <Styled3DButtonRed variant="contained" color="primary" onClick={() => deleteNotification(notification._id)} style={{ width: '180px' }}>
                             Dismiss
                         </Styled3DButtonRed>
                     </Box>

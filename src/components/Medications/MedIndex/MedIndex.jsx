@@ -40,7 +40,7 @@ function MedIndex() {
 				{/* <Tab value="DISPLAY" label="Medications" style={{ color: '#000' }} /> */}
 				<Tab value="EDIT" label="Edit Medications" style={{ color: '#000' }} />
 			</Tabs>
-			{page === 'ADD' && <AddMedicationForm handleClose={handleClose} />}
+			{page === 'ADD' && <AddMedicationForm />}
 			{/* {page === 'DISPLAY' && <MedDisplay />} */}
 			{page === 'EDIT' && <EditMedications />}
 		</Card>

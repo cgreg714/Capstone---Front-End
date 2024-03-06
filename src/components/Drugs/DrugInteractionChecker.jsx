@@ -211,6 +211,7 @@ function DrugInteractionChecker() {
 							variant="contained"
 							className="chkBtn"
 							onClick={clearSelection}
+							style={{ color: 'white' }}
 						>
 							Clear Selection
 						</Styled3DButtonBlue>

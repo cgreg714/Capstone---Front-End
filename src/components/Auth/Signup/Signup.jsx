@@ -157,7 +157,14 @@ function Signup() {
 	};
 
 	return (
-		<Container>
+		<Container
+			sx={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				height: '100vh',
+			}}
+		>
 			<Card
 				sx={{
 					margin: '50px',
@@ -460,7 +467,7 @@ function Signup() {
 										{passwordsMatch ? (
 											<p
 												style={{
-													color: 'green'
+													color: 'green',
 												}}
 											>
 												Passwords match{' '}
@@ -472,7 +479,7 @@ function Signup() {
 										) : (
 											<p
 												style={{
-													color: '#bd031d'
+													color: '#bd031d',
 												}}
 											>
 												Passwords do not match{' '}

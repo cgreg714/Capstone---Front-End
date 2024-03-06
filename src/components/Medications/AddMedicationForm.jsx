@@ -25,7 +25,7 @@ import { DrugContext } from '../../contexts/DrugContext';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
-const AddMedicationForm = ({ handleClose }) => {
+const AddMedicationForm = () => {
 	const { createMedication } = useContext(MedicationContext);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const { selectedDrugId, setSelectedDrugId } = useContext(DrugContext);
@@ -135,7 +135,7 @@ const AddMedicationForm = ({ handleClose }) => {
 			setOpenSnackbar(true);
 
 			resetForm();
-			handleClose();
+			// handleClose();
 		} catch (error) {
 			setSnackbarMessage(`Error creating medication. ${error.message}`);
 			setSnackbarSeverity('error');

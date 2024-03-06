@@ -196,13 +196,13 @@ function Login() {
 								Login
 							</button>
 
-							<div
+							<button 
 								className={action === 'Login' ? 'submit' : 'submit'}
 								onClick={handleSignUp}
 								style={{ backgroundColor: theme.palette.third.main }}
 							>
 								Sign Up
-							</div>
+							</button>
 						</div>
 					</Box>
 				</CardContent>
