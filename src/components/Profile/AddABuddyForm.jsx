@@ -136,7 +136,7 @@ function AddABuddyForm() {
 							/>
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Styled3DButtonGreen type="submit" variant="contained" color="secondary">
+							<Styled3DButtonGreen type="submit" variant="contained" color="secondary" sx={{ width: '250px'}}>
 								Add Emergency Contact
 							</Styled3DButtonGreen>
 						</Grid>

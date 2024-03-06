@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from 'react';
-import { Card, CardContent, TextField, Typography, Button, Box, Grid } from '@mui/material';
+import { Card, CardContent, TextField, Typography, Box, Grid } from '@mui/material';
 import PharmacyIcon from '@mui/icons-material/LocalPharmacy';
 import PhoneIcon from '@mui/icons-material/Phone';
 import HomeIcon from '@mui/icons-material/Home';
@@ -8,6 +8,7 @@ import { ProfileContext } from '../../../contexts/ProfileContext';
 import { useTheme } from '@mui/material/styles';
 import ConfirmationDialog from './ConfirmationDialog';
 import PhoneNumberInput from '../PhoneNumberInput';
+import { Styled3DButtonRed, Styled3DButtonYellow, Styled3DButtonGreen } from '../../../styles/mainLayoutStyles';
 
 const PharmacyCard = () => {
 	const { pharmacies, updatePharmacy, deletePharmacy } = useContext(ProfileContext);
@@ -105,44 +106,22 @@ const PharmacyCard = () => {
 										</Box>
 									</Box>
 									<Box display="flex" justifyContent="space-between">
-										<Button
+										<Styled3DButtonYellow
 											variant="contained"
-											sx={{
-												width: '50%',
-												color: 'black',
-												fontWeight: 'bolder',
-												fontFamily: 'Comfortaa',
-												borderRadius: 20,
-												zIndex: 1,
-												'&:hover': {
-													backgroundColor: (theme) => theme.palette.hoverGrey,
-												},
-											}}
-											color="secondary"
+											sx={{ width: '40%'}}
 											fullWidth
 											onClick={() => handlePharmacyEdit(pharmacy)}
 										>
 											Edit
-										</Button>
-										<Button
+										</Styled3DButtonYellow>
+										<Styled3DButtonRed
 											variant="contained"
-											sx={{
-												width: '40%',
-												color: 'black',
-												fontWeight: 'bolder',
-												fontFamily: 'Comfortaa',
-												borderRadius: 20,
-												zIndex: 1,
-												'&:hover': {
-													backgroundColor: (theme) => theme.palette.fourth.main,
-												},
-											}}
-											color="primary"
+											sx={{ width: '40%'}}
 											fullWidth
 											onClick={() => handleOpenDialog(pharmacy._id)}
 										>
 											Delete
-										</Button>
+										</Styled3DButtonRed>
 									</Box>
 								</>
 							) : (
@@ -209,44 +188,22 @@ const PharmacyCard = () => {
 									/>
 
 									<Box display="flex" justifyContent="space-between">
-										<Button
+										<Styled3DButtonGreen
 											variant="contained"
-											sx={{
-												width: '45%',
-												color: 'black',
-												fontWeight: 'bolder',
-												fontFamily: 'Comfortaa',
-												borderRadius: 20,
-												zIndex: 1,
-												'&:hover': {
-													backgroundColor: (theme) => theme.palette.hoverGrey,
-												},
-											}}
-											color="fifth"
+											sx={{ width: '40%'}}
 											fullWidth
 											onClick={handlePharmacySave}
 										>
 											Save
-										</Button>
-										<Button
+										</Styled3DButtonGreen>
+										<Styled3DButtonRed
 											variant="contained"
-											sx={{
-												width: '45%',
-												color: 'black',
-												fontWeight: 'bolder',
-												fontFamily: 'Comfortaa',
-												borderRadius: 20,
-												zIndex: 1,
-												'&:hover': {
-													backgroundColor: (theme) => theme.palette.hoverGrey,
-												},
-											}}
-											color="primary"
+											sx={{ width: '40%'}}
 											fullWidth
 											onClick={handlePharmacyCancel}
 										>
 											Cancel
-										</Button>
+										</Styled3DButtonRed>
 									</Box>
 								</>
 							)}

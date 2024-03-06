@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from 'react';
-import { Card, CardContent, TextField, Typography, Button, Box, Grid } from '@mui/material';
+import { Card, CardContent, TextField, Typography, Box, Grid } from '@mui/material';
 import DoctorIcon from '@mui/icons-material/LocalHospital';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { formatPhoneNumber } from '../../../helpers/phoneNumberFormat';
@@ -7,6 +7,7 @@ import { ProfileContext } from '../../../contexts/ProfileContext';
 import { useTheme } from '@mui/material/styles';
 import ConfirmationDialog from './ConfirmationDialog';
 import PhoneNumberInput from '../PhoneNumberInput';
+import { Styled3DButtonRed, Styled3DButtonYellow, Styled3DButtonGreen } from '../../../styles/mainLayoutStyles';
 
 const DoctorCard = () => {
 	const { doctors, updateDoctor, deleteDoctor } = useContext(ProfileContext);
@@ -92,44 +93,22 @@ const DoctorCard = () => {
 										<Box ml={1}>{formatPhoneNumber(doctor.phoneNumber)}</Box>
 									</Box>
 									<Box display="flex" justifyContent="space-between" sx={{ marginBottom: -2 }}>
-										<Button
+										<Styled3DButtonYellow
 											variant="contained"
-											sx={{
-												width: '40%',
-												color: 'black',
-												fontWeight: 'bolder',
-												fontFamily: 'Comfortaa',
-												borderRadius: 20,
-												zIndex: 1,
-												'&:hover': {
-													backgroundColor: (theme) => theme.palette.fourth.main,
-												},
-											}}
-											color="secondary"
+											sx={{ width: '40%'}}
 											fullWidth
 											onClick={() => handleDoctorEdit(doctor)}
 										>
 											Edit
-										</Button>
-										<Button
+										</Styled3DButtonYellow>
+										<Styled3DButtonRed
 											variant="contained"
-											sx={{
-												width: '40%',
-												color: 'black',
-												fontWeight: 'bolder',
-												fontFamily: 'Comfortaa',
-												borderRadius: 20,
-												zIndex: 1,
-												'&:hover': {
-													backgroundColor: (theme) => theme.palette.fourth.main,
-												},
-											}}
-											color="primary"
+											sx={{ width: '40%'}}
 											fullWidth
 											onClick={() => handleOpenDialog(doctor._id)}
 										>
 											Delete
-										</Button>
+										</Styled3DButtonRed>
 									</Box>
 								</>
 							) : (
@@ -161,44 +140,22 @@ const DoctorCard = () => {
 										size="small"
 									/>
 									<Box display="flex" justifyContent="space-between">
-										<Button
+										<Styled3DButtonGreen
 											variant="contained"
-											sx={{
-												width: '45%',
-												color: 'black',
-												fontWeight: 'bolder',
-												fontFamily: 'Comfortaa',
-												borderRadius: 20,
-												zIndex: 1,
-												'&:hover': {
-													backgroundColor: (theme) => theme.palette.hoverGrey,
-												},
-											}}
-											color="fifth"
+											sx={{ width: '45%' }}
 											fullWidth
 											onClick={handleDoctorSave}
 										>
 											Save
-										</Button>
-										<Button
+										</Styled3DButtonGreen>
+										<Styled3DButtonRed
 											variant="contained"
-											sx={{
-												width: '45%',
-												color: 'black',
-												fontWeight: 'bolder',
-												fontFamily: 'Comfortaa',
-												borderRadius: 20,
-												zIndex: 1,
-												'&:hover': {
-													backgroundColor: (theme) => theme.palette.hoverGrey,
-												},
-											}}
-											color="primary"
+											sx={{ width: '45%' }}
 											fullWidth
 											onClick={handleDoctorCancel}
 										>
 											Cancel
-										</Button>
+										</Styled3DButtonRed>
 									</Box>
 								</>
 							)}

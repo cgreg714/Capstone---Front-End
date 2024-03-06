@@ -15,7 +15,7 @@ import {
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import { ProfileContext } from '../contexts/ProfileContext';
 import NotificationCard from '../components/Notifications/NotificationCard';
-import { Styled3DButtonRed } from '../styles/mainLayoutStyles';
+import { Styled3DButtonRed, Styled3DButtonYellow } from '../styles/mainLayoutStyles';
 
 function NotificationsPage() {
 	const { notifications, deleteNotification, getAllNotifications, deleteAllNotifications } =
@@ -142,12 +142,14 @@ function NotificationsPage() {
 							</DialogContentText>
 						</DialogContent>
 						<DialogActions>
-							<Button variant="contained" onClick={handleClose} color="secondary">
-								Cancel
-							</Button>
-							<Button variant="contained" onClick={handleDeleteAll} color="primary" autoFocus>
-								Yes, Dismiss All
-							</Button>
+							<Box display="flex" justifyContent="space-between" width="100%">
+								<Styled3DButtonYellow variant="contained" onClick={handleClose} sx={{ width: '45%'}}>
+									Cancel
+								</Styled3DButtonYellow>
+								<Styled3DButtonRed variant="contained" onClick={handleDeleteAll} autoFocus sx={{ width: '45%'}}>
+									Yes, Dismiss All
+								</Styled3DButtonRed>
+							</Box>
 						</DialogActions>
 					</Dialog>
 				</Card>

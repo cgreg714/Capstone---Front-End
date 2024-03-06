@@ -8,7 +8,6 @@ import BuddyIcon from '@mui/icons-material/People';
 import HomeIcon from '@mui/icons-material/Home';
 import Avatar from '@mui/material/Avatar';
 import { FaPersonHalfDress } from 'react-icons/fa6';
-
 import { ProfileContext } from '../../../contexts/ProfileContext';
 import { formatPhoneNumber } from '../../../helpers/phoneNumberFormat';
 import { useTheme } from '@mui/material/styles';

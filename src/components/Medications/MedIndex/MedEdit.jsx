@@ -81,12 +81,14 @@ function EditMedications() {
 			values[index].frequency.time = '';
 		} else {
 			const timeParts = event.target.value.split(':');
-			const hours = parseInt(timeParts[0]);
-			const minutes = parseInt(timeParts[1]);
-			const time = new Date(values[index].frequency.time);
-			time.setHours(hours);
-			time.setMinutes(minutes);
-			values[index].frequency.time = time.toISOString();
+			if (timeParts.length === 2 && !isNaN(timeParts[0]) && !isNaN(timeParts[1])) {
+				const hours = parseInt(timeParts[0]);
+				const minutes = parseInt(timeParts[1]);
+				const time = new Date();
+				time.setHours(hours);
+				time.setMinutes(minutes);
+				values[index].frequency.time = time.toISOString();
+			}
 		}
 		setEditedMedications(values);
 	};
@@ -174,16 +176,23 @@ function EditMedications() {
 									<TextField
 										name="time"
 										label="Time"
+										type="time"
 										value={
 											medication.frequency.time
 												? new Date(medication.frequency.time).toLocaleTimeString('en-US', {
 														hour: '2-digit',
 														minute: '2-digit',
-														hour12: true,
-												  })
+														hour12: false,
+													})
 												: ''
 										}
 										onChange={(event) => handleTimeChange(index, event)}
+										InputLabelProps={{
+											shrink: true,
+										}}
+										inputProps={{
+											step: 300, // 5 min
+										}}
 									/>
 								</Box>
 							</Grid>

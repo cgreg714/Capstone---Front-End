@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Typography, Button, Box, Dialog } from '@mui/material';
+import { Card, CardContent, Typography, Box, Dialog } from '@mui/material';
 import MedicationIntakeForm from '../Medications/MedicationIntakeForm';
 import { Styled3DButtonRed, Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
@@ -44,20 +44,20 @@ function NotificationCard({ notification, deleteNotification }) {
                     <Typography variant="body1" component="p">
                         {notification.text}
                     </Typography>
-                    <Box>
-                        {notification.type === 'missedIntake' && (
-                            <Styled3DButtonGreen variant="contained" color="secondary" onClick={handleOpen}>
-                                Add Intake
-                            </Styled3DButtonGreen>
-                        )}
-                        <Styled3DButtonRed variant="contained" color="primary" onClick={() => deleteNotification(notification._id)} style={{ width: '180px' }}>
-                            Dismiss
-                        </Styled3DButtonRed>
-                    </Box>
+                    {notification.type === 'missed_medication' && (
+                        <Styled3DButtonGreen variant="contained" color="secondary" onClick={handleOpen} style={{ width: '200px', height: '80%' }}>
+                            Add Intake
+                        </Styled3DButtonGreen>
+                    )}
                 </Box>
-                <Typography variant="body2" color="textSecondary">
-                    Created at: {new Date(notification.createdAt).toLocaleString()}
-                </Typography>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <Typography variant="body2" color="textSecondary">
+                        Created at: {new Date(notification.createdAt).toLocaleString()}
+                    </Typography>
+                    <Styled3DButtonRed variant="contained" color="primary" onClick={() => deleteNotification(notification._id)} style={{ width: '180px' }}>
+                        Dismiss
+                    </Styled3DButtonRed>
+                </Box>
             </CardContent>
             <Dialog open={open} onClose={handleClose}>
                 <MedicationIntakeForm medicationId={notification.medicationId} handleClose={handleClose} />

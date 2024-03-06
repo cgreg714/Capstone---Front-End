@@ -8,19 +8,19 @@ import {
 	TableRow,
 	Paper,
 	Typography,
-	Button,
 	Dialog,
 	DialogTitle,
 	DialogContent,
 	TextField,
 	Box,
-	Divider,
 } from '@mui/material';
 import { MedicationContext } from '../../contexts/MedicationContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import MedicationIntakeForm from './MedicationIntakeForm';
 import AddMedicationForm from './AddMedicationForm';
 import { useTheme } from '@mui/material/styles';
+import { Styled3DButtonGreen, Styled3DButtonYellow } from '../../styles/mainLayoutStyles';
+
 
 function MedicationTable() {
 	const { medications, getAllMedications, addQuantity } = useContext(MedicationContext);
@@ -99,9 +99,9 @@ function MedicationTable() {
 						<TableCell colSpan={8}>
 							<Box display="flex" justifyContent="space-between" alignItems="center">
 								<Typography variant="h6">Medications</Typography>
-								<Button variant="contained" color="secondary" onClick={handleAddMedicationOpen}>
+								<Styled3DButtonYellow variant="contained" onClick={handleAddMedicationOpen} sx={{ width: '200px' }}>
 									Add Medication
-								</Button>
+								</Styled3DButtonYellow>
 							</Box>
 						</TableCell>
 					</TableRow>
@@ -176,22 +176,22 @@ function MedicationTable() {
 								{isNaN(medication.quantity) ? <s>0</s> : medication.quantity}
 							</TableCell>
 							<TableCell>
-								<Button
+								<Styled3DButtonGreen
 									variant="contained"
-									color="primary"
 									onClick={() => handleRefillOpen(medication._id)}
+									sx={{ width: '100px' }}
 								>
 									Refill
-								</Button>
+								</Styled3DButtonGreen>
 							</TableCell>
-							<TableCell sx={{ width: '275px' }}>
-								<Button
+							<TableCell>
+								<Styled3DButtonGreen
 									variant="contained"
-									color="primary"
 									onClick={() => handleClickOpen(medication._id)}
+									sx={{ width: '150px' }}
 								>
 									Add Intake
-								</Button>
+								</Styled3DButtonGreen>
 							</TableCell>
 						</TableRow>
 					))}
@@ -209,9 +209,11 @@ function MedicationTable() {
 						value={refillAmount}
 						onChange={(e) => setRefillAmount(e.target.value)}
 					/>
-					<Button onClick={handleRefillSubmit} color="primary">
-						Submit
-					</Button>
+					<Box display="flex" justifyContent="center" alignItems="center" mt={2}>
+						<Styled3DButtonGreen type="submit" variant="contained" onClick={handleRefillSubmit}>
+							Submit
+						</Styled3DButtonGreen>
+					</Box>
 				</DialogContent>
 			</Dialog>
 			<Dialog open={open} onClose={handleClose}>

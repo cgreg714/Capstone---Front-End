@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { MedicationContext } from '../../contexts/MedicationContext';
-import { Card, CardContent, TextField, Button, InputAdornment, IconButton, Grid, Box } from '@mui/material';
+import { Card, CardContent, TextField, InputAdornment, IconButton, Grid, Box } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
 const MedicationIntakeForm = ({ medicationId, handleClose }) => {
 	const { createIntake, getAllMedications, getMedication } = useContext(MedicationContext);
@@ -101,25 +102,10 @@ const MedicationIntakeForm = ({ medicationId, handleClose }) => {
 							/>
 						</Grid>
 					</Grid>
-					<Box display="flex" justifyContent="center" mt={2}>
-						<Button
-							type="submit"
-							color="primary"
-							variant="contained"
-							sx={{
-								width: '45%',
-								color: 'black',
-								fontWeight: 'bolder',
-								fontFamily: 'Comfortaa',
-								borderRadius: 20,
-								zIndex: 1,
-								'&:hover': {
-									backgroundColor: (theme) => theme.palette.hoverGrey,
-								},
-							}}
-						>
+					<Box display="flex" justifyContent="center" alignItems="center" mt={2}>
+						<Styled3DButtonGreen type="submit" variant="contained">
 							Submit
-						</Button>
+						</Styled3DButtonGreen>
 					</Box>
 				</form>
 			</CardContent>
