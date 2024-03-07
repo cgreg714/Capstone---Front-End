@@ -1,19 +1,24 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Avatar, TextField, Button, Grid, Box, Card, CardContent } from '@mui/material';
+import { Avatar, TextField, Grid, Box, CardContent, Card, CardHeader } from '@mui/material';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
+import { useTheme } from '@mui/material/styles';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
 const avatarContext = require.context('../../assets/Avatars', false, /\.png$/);
 
 const avatarImages = avatarContext.keys().map(avatarContext);
 
-const AddProfileForm = () => {
+const AddProfileForm = ({ onProfileCreated }) => {
 	const firstNameRef = useRef();
 	const lastNameRef = useRef();
 	const emailRef = useRef();
 
 	const { createProfile } = useContext(ProfileContext);
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext); // Use SnackbarContext
 
 	const [selectedAvatar, setSelectedAvatar] = useState(null);
+	const theme = useTheme();
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -29,7 +34,21 @@ const AddProfileForm = () => {
 			avatar: selectedAvatar,
 		};
 
-		await createProfile(profile);
+		try {
+			await createProfile(profile);
+
+			if (onProfileCreated) {
+				onProfileCreated(profile);
+			}
+
+			setSnackbarMessage('Profile created successfully');
+			setSnackbarSeverity('success');
+			setOpenSnackbar(true);
+		} catch (error) {
+			setSnackbarMessage('An error occurred while creating the profile');
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
+		}
 
 		firstNameRef.current.value = '';
 		lastNameRef.current.value = '';
@@ -37,18 +56,53 @@ const AddProfileForm = () => {
 	};
 
 	return (
-		<Card sx={{ maxWidth: 600 }}>
+		<Card
+			sx={{
+				maxWidth: 1000,
+				backgroundColor: theme.palette.secondary.main,
+				boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
+				borderRadius: 4,
+			}}
+		>
+			<CardHeader title="Add Profile" titleTypographyProps={{ align: 'center' }} />{' '}
 			<CardContent>
 				<Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
 					<Grid container spacing={2}>
 						<Grid item xs={6}>
-							<TextField label="First Name" inputRef={firstNameRef} fullWidth />
+							<TextField
+								label="First Name"
+								inputRef={firstNameRef}
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={6}>
-							<TextField label="Last Name" inputRef={lastNameRef} fullWidth />
+							<TextField
+								label="Last Name"
+								inputRef={lastNameRef}
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
-						<Grid item xs={6}>
-							<TextField label="Email" inputRef={emailRef} fullWidth />
+						<Grid item xs={12}>
+							<TextField
+								label="Email"
+								inputRef={emailRef}
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={12}>
 							<Box display="flex" justifyContent="center" alignItems="center">
@@ -85,10 +139,10 @@ const AddProfileForm = () => {
 								))}
 							</Box>
 						</Grid>
-						<Grid item xs={12}>
-							<Button type="submit" variant="contained" color="primary" fullWidth>
+						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+							<Styled3DButtonGreen type="submit" variant="contained" color="secondary">
 								Add Profile
-							</Button>
+							</Styled3DButtonGreen>
 						</Grid>
 					</Grid>
 				</Box>

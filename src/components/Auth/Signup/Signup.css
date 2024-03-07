@@ -1,0 +1,27 @@
+.error-message {
+	color: red;
+	margin: 10px 0;
+}
+
+.hoverable:hover {
+	background-color: #6E6FAA;
+	color: #000;
+	transition: background-color 0.3s ease;
+}
+
+.submit:hover {
+	background-color: #6E6FAA;
+	color: #000;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+	.medication {
+		animation: spin infinite 7s linear;
+	}
+}
+
+@keyframes medication-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

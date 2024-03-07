@@ -5,7 +5,7 @@ import { StyledFooter } from '../../styles/mainLayoutStyles';
 function Footer() {
     return (
         <StyledFooter>
-            <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 6 }}>
+            <Typography variant="body2" color="text.secondary" align="center">
                 {'Copyright © '}
                 {new Date().getFullYear()}
             </Typography>

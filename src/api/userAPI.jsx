@@ -5,16 +5,24 @@ export const getOneUser = async (userId) => {
         const response = await api.get(`/user/${userId}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
 export const updateUser = async (userId, user) => {
     try {
-        const response = await api.put(`/user/${userId}`, user);
+        const response = await api.patch(`/user/${userId}`, user);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -23,7 +31,11 @@ export const deleteUser = async (userId) => {
         const response = await api.delete(`/user/${userId}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -32,7 +44,11 @@ export const getAllUsers = async () => {
         const response = await api.get(`/user`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -41,7 +57,11 @@ export const changeUserRole = async (userId, role) => {
         const response = await api.patch(`/user/${userId}`, role);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -50,7 +70,11 @@ export const addProfileToUser = async (userId, profileId) => {
         const response = await api.post(`/user/${userId}/addProfile/${profileId}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -59,6 +83,10 @@ export const removeProfileFromUser = async (userId, profileId) => {
         const response = await api.post(`/user/${userId}/removeProfile/${profileId}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };

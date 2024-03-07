@@ -1,91 +1,116 @@
 import React, { useState, useContext } from 'react';
 import { MedicationContext } from '../../contexts/MedicationContext';
-import { Card, CardHeader, CardContent, TextField, Button, InputAdornment, IconButton } from '@mui/material';
+import { Card, CardContent, TextField, InputAdornment, IconButton, Grid, Box } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
-const MedicationIntakeForm = ({ medicationId }) => {
-    const { createIntake } = useContext(MedicationContext);
-    const [intake, setIntake] = useState({
-        quantity: '',
-        takenAt: new Date().toISOString().substring(0, 16),
-    });
+const MedicationIntakeForm = ({ medicationId, handleClose }) => {
+	const { createIntake, getAllMedications, getMedication } = useContext(MedicationContext);
+	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 
-    const handleChange = (event) => {
-        setIntake({
-            ...intake,
-            [event.target.name]: event.target.value,
-        });
-    };
+	const [intake, setIntake] = useState({
+		quantity: '1',
+		takenAt: new Date().toLocaleString('sv-SE').replace(' ', 'T').substring(0, 16),
+	});
 
-    const handleTimeIconClick = () => {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
+	const handleChange = (event) => {
+		setIntake({
+			...intake,
+			[event.target.name]: event.target.value,
+		});
+	};
 
-        const localDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+	const handleTimeIconClick = () => {
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = String(now.getMonth() + 1).padStart(2, '0');
+		const day = String(now.getDate()).padStart(2, '0');
+		const hours = String(now.getHours()).padStart(2, '0');
+		const minutes = String(now.getMinutes()).padStart(2, '0');
 
-        setIntake({
-            ...intake,
-            takenAt: localDateTime,
-        });
-    };
+		const localDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            await createIntake(medicationId, intake);
-            setIntake({
-                quantity: '',
-                takenAt: new Date().toISOString().substring(0, 16),
-            });
-        } catch (error) {
-            console.error('Failed to submit medication intake:', error);
-        }
-    };
+		setIntake({
+			...intake,
+			takenAt: localDateTime,
+		});
+	};
 
-    return (
-        <Card>
-            <CardHeader title="Add Medication Intake" />
-            <CardContent>
-                <form onSubmit={handleSubmit}>
-                    <TextField
-                        name="quantity"
-                        label="Quantity"
-                        type="number"
-                        value={intake.quantity}
-                        onChange={handleChange}
-                        required
-                    />
-                    <TextField
-                        name="takenAt"
-                        label="Taken At"
-                        type="datetime-local"
-                        value={intake.takenAt}
-                        onChange={handleChange}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton onClick={handleTimeIconClick}>
-                                        <AccessTimeIcon />
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        required
-                    />
-                    <Button type="submit" color="primary">
-                        Submit
-                    </Button>
-                </form>
-            </CardContent>
-        </Card>
-    );
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		try {
+			await createIntake(medicationId, intake);
+			await getMedication(medicationId);
+			setIntake({
+				quantity: '',
+				takenAt: new Date().toISOString().substring(0, 16),
+			});
+			getAllMedications();
+			handleClose();
+		} catch (error) {
+			setSnackbarMessage('Failed to submit medication intake');
+			setSnackbarSeverity('error');
+			setOpenSnackbar(true);
+		}
+	};
+
+	return (
+		<Card
+			sx={{
+				border: '2px solid grey',
+				marginTop: 2,
+				marginBottom: 1,
+				boxShadow: (theme) =>
+					`0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
+				borderRadius: 4,
+			}}
+		>
+			<CardContent>
+				<form onSubmit={handleSubmit}>
+					<Grid container spacing={2} style={{ margin: 0 }}>
+						<Grid item xs={4}>
+							<TextField
+								name="quantity"
+								label="Quantity"
+								type="number"
+								value={intake.quantity}
+								onChange={handleChange}
+								required
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<TextField
+								name="takenAt"
+								label="Taken At"
+								type="datetime-local"
+								value={intake.takenAt}
+								onChange={handleChange}
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<IconButton onClick={handleTimeIconClick}>
+												<AccessTimeIcon />
+											</IconButton>
+										</InputAdornment>
+									),
+								}}
+								InputLabelProps={{
+									shrink: true,
+								}}
+								required
+							/>
+						</Grid>
+					</Grid>
+					<Box display="flex" justifyContent="center" alignItems="center" mt={2}>
+						<Styled3DButtonGreen type="submit" variant="contained">
+							Submit
+						</Styled3DButtonGreen>
+					</Box>
+				</form>
+			</CardContent>
+		</Card>
+	);
 };
 
 export default MedicationIntakeForm;

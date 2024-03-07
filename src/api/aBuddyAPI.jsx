@@ -5,7 +5,11 @@ export const createABuddy = async (userId, profileId, aBuddy) => {
         const response = await api.post(`/user/${userId}/profile/${profileId}/aBuddy`, aBuddy);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -14,7 +18,11 @@ export const getAllABuddies = async (userId, profileId) => {
         const response = await api.get(`/user/${userId}/profile/${profileId}/aBuddy`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -23,7 +31,11 @@ export const getABuddy = async (userId, profileId, aBuddyId) => {
         const response = await api.get(`/user/${userId}/profile/${profileId}/aBuddy/${aBuddyId}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -32,7 +44,11 @@ export const updateABuddy = async (userId, profileId, aBuddyId, updatedABuddy) =
         const response = await api.patch(`/user/${userId}/profile/${profileId}/aBuddy/${aBuddyId}`, updatedABuddy);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
 
@@ -41,6 +57,10 @@ export const deleteABuddy = async (userId, profileId, aBuddyId) => {
         const response = await api.delete(`/user/${userId}/profile/${profileId}/aBuddy/${aBuddyId}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw error;
+        }
     }
 };
