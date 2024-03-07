@@ -4,6 +4,7 @@ import { TextField, Button, Checkbox, FormControlLabel, Box, Grid, Typography } 
 import { useTheme } from '@mui/material/styles';
 import DrugSearchByNameAutocomplete from '../../Drugs/DrugNameSearchAutocomplete';
 import { DrugContext } from '../../../contexts/DrugContext';
+import { Styled3DButtonTeal, Styled3DButtonRed } from '../../../styles/mainLayoutStyles';
 
 function EditMedications() {
 	const { medications, updateMedication, deleteMedication } = useContext(MedicationContext);
@@ -80,12 +81,14 @@ function EditMedications() {
 			values[index].frequency.time = '';
 		} else {
 			const timeParts = event.target.value.split(':');
-			const hours = parseInt(timeParts[0]);
-			const minutes = parseInt(timeParts[1]);
-			const time = new Date(values[index].frequency.time);
-			time.setHours(hours);
-			time.setMinutes(minutes);
-			values[index].frequency.time = time.toISOString();
+			if (timeParts.length === 2 && !isNaN(timeParts[0]) && !isNaN(timeParts[1])) {
+				const hours = parseInt(timeParts[0]);
+				const minutes = parseInt(timeParts[1]);
+				const time = new Date();
+				time.setHours(hours);
+				time.setMinutes(minutes);
+				values[index].frequency.time = time.toISOString();
+			}
 		}
 		setEditedMedications(values);
 	};
@@ -173,16 +176,23 @@ function EditMedications() {
 									<TextField
 										name="time"
 										label="Time"
+										type="time"
 										value={
 											medication.frequency.time
 												? new Date(medication.frequency.time).toLocaleTimeString('en-US', {
 														hour: '2-digit',
 														minute: '2-digit',
-														hour12: true,
-												  })
+														hour12: false,
+													})
 												: ''
 										}
 										onChange={(event) => handleTimeChange(index, event)}
+										InputLabelProps={{
+											shrink: true,
+										}}
+										inputProps={{
+											step: 300, // 5 min
+										}}
 									/>
 								</Box>
 							</Grid>
@@ -384,24 +394,25 @@ function EditMedications() {
 						<Grid container spacing={2} justifyContent={'space-between'}>
 							<Grid item>
 								<Box mt={2}>
-									<Button
+									<Styled3DButtonTeal
 										type="submit"
 										variant="contained"
-										sx={{ backgroundColor: theme.palette.third.main, color: '#fff' }}
+										sx={{ color: '#fff', width: '125px' }}
 									>
 										Update
-									</Button>
+									</Styled3DButtonTeal>
 								</Box>
 							</Grid>
 							<Grid item>
 								<Box mt={2}>
-									<Button
+									<Styled3DButtonRed
 										variant="contained"
-										sx={{ backgroundColor: theme.palette.primary.main }}
 										onClick={() => handleDelete(index)}
+										sx={{ width: '125px' }}
+
 									>
 										Delete
-									</Button>
+									</Styled3DButtonRed>
 								</Box>
 							</Grid>
 						</Grid>

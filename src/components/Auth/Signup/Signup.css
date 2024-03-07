@@ -4,13 +4,13 @@
 }
 
 .hoverable:hover {
-	background-color: #F06060;
+	background-color: #6E6FAA;
 	color: #000;
 	transition: background-color 0.3s ease;
 }
 
 .submit:hover {
-	background-color: #F06060;
+	background-color: #6E6FAA;
 	color: #000;
 }
 

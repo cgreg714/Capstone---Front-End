@@ -85,7 +85,7 @@ const sortedMedications = useMemo(() => {
 								dose={medication.dose}
 								unitOfMeasurement={medication.unitOfMeasurement}
 								doctor={`${medication.doctor.firstName} ${medication.doctor.lastName}`}
-								pharmacy={medication.pharmacy.name}
+                pharmacy={medication.pharmacy ? medication.pharmacy.name : 'No pharmacy'}
 								frequency={medication.frequency}
 								quantity={medication.quantity}
 								dateAdded={medication.dateAdded}

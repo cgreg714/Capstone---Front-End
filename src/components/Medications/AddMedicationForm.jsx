@@ -23,8 +23,9 @@ import { SnackbarContext } from '../../contexts/SnackbarContext';
 import DrugSearchByNameAutocomplete from '../Drugs/DrugNameSearchAutocomplete';
 import { DrugContext } from '../../contexts/DrugContext';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
-const AddMedicationForm = ({ handleClose }) => {
+const AddMedicationForm = () => {
 	const { createMedication } = useContext(MedicationContext);
 	const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } = useContext(SnackbarContext);
 	const { selectedDrugId, setSelectedDrugId } = useContext(DrugContext);
@@ -134,7 +135,7 @@ const AddMedicationForm = ({ handleClose }) => {
 			setOpenSnackbar(true);
 
 			resetForm();
-			handleClose();
+			// handleClose();
 		} catch (error) {
 			setSnackbarMessage(`Error creating medication. ${error.message}`);
 			setSnackbarSeverity('error');
@@ -172,7 +173,7 @@ const AddMedicationForm = ({ handleClose }) => {
 	};
 
 	return (
-		<Card variant="outlined" sx={{ p: 2 }}>
+		<Card sx={{ p: 2 }}>
 			<Box component="form" onSubmit={handleSubmit} noValidate>
 				<Grid container spacing={2}>
 					<Grid item xs={6}>
@@ -399,28 +400,15 @@ const AddMedicationForm = ({ handleClose }) => {
 						))}
 					</FormGroup>
 				</FormControl> */}
-				<Box display="flex" justifyContent="center">
-					<Button
+				<Box display="flex" justifyContent="center" mt={2}>
+					<Styled3DButtonGreen
 						type="submit"
 						color="fifth"
 						variant="contained"
 						disabled={isSubmitting}
-						sx={{
-							width: '50%',
-							mt: 2,
-							mb: 1,
-							borderRadius: 5,
-							backgroundColor: (theme) => theme.palette.fifth.main,
-							zIndex: 1,
-							boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-							'&:hover': {
-								boxShadow: (theme) =>
-									`inset 0 5px 5px ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
-							},
-						}}
 					>
 						{isSubmitting ? 'Adding...' : 'Add Medication'}
-					</Button>
+					</Styled3DButtonGreen>
 				</Box>
 			</Box>
 			<Dialog open={openDialog} onClose={() => setOpenDialog(false)}>

@@ -3,7 +3,7 @@ import { Avatar, TextField, Grid, Box, CardContent, Card, CardHeader } from '@mu
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import { useTheme } from '@mui/material/styles';
-import { Styled3DButton } from '../../styles/mainLayoutStyles';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
 const avatarContext = require.context('../../assets/Avatars', false, /\.png$/);
 
@@ -69,13 +69,40 @@ const AddProfileForm = ({ onProfileCreated }) => {
 				<Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
 					<Grid container spacing={2}>
 						<Grid item xs={6}>
-							<TextField label="First Name" inputRef={firstNameRef} fullWidth />
+							<TextField
+								label="First Name"
+								inputRef={firstNameRef}
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={6}>
-							<TextField label="Last Name" inputRef={lastNameRef} fullWidth />
+							<TextField
+								label="Last Name"
+								inputRef={lastNameRef}
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField label="Email" inputRef={emailRef} fullWidth />
+							<TextField
+								label="Email"
+								inputRef={emailRef}
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={12}>
 							<Box display="flex" justifyContent="center" alignItems="center">
@@ -113,9 +140,9 @@ const AddProfileForm = ({ onProfileCreated }) => {
 							</Box>
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Styled3DButton type="submit" variant="contained" color="secondary">
+							<Styled3DButtonGreen type="submit" variant="contained" color="secondary">
 								Add Profile
-							</Styled3DButton>
+							</Styled3DButtonGreen>
 						</Grid>
 					</Grid>
 				</Box>

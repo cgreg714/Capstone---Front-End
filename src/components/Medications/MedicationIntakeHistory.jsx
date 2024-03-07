@@ -10,13 +10,15 @@ import {
 	Accordion,
 	AccordionSummary,
 	AccordionDetails,
-	Button,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useTheme } from '@mui/material/styles';
+import { Styled3DButtonRed } from '../../styles/mainLayoutStyles';
 
 const MedicationHistory = () => {
 	// eslint-disable-next-line
 	const { medications, updateIntake, deleteIntake } = useContext(MedicationContext);
+	const theme = useTheme();
 
 	// Flatten medications and intakes into a single array
 	const flattenedMedications = medications.flatMap((medication) =>
@@ -51,14 +53,21 @@ const MedicationHistory = () => {
 	}, {});
 
 	return (
-		<Card>
+		<Card
+			sx={{
+				border: '2px solid grey',
+				borderRadius: 4,
+				boxShadow: (theme) =>
+					`0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
+			}}
+		>
 			<CardHeader title="Medication Intakes" />
 			<CardContent>
 				<Box>
 					{Object.entries(groupedMedications).map(([month, days]) => {
 						const [year, monthIndex] = month.split('-');
 						return (
-							<Accordion key={month} sx={{ bgcolor: '#717171' }}>
+							<Accordion key={month} sx={{ bgcolor: theme.palette.third.main, mb: 2 }}>
 								<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 									<Typography variant="h5">
 										{new Date(year, monthIndex - 1).toLocaleDateString(undefined, {
@@ -82,51 +91,40 @@ const MedicationHistory = () => {
 												<Box key={`${medication.intakeId}-${index}`} mb={2}>
 													<Card>
 														<CardContent>
-															<Box
-																display="flex"
-																justifyContent="space-between"
-																alignItems="center"
-															>
-																<Box flexGrow={1}>
+															<Box flexDirection="column">
+																<Box display="flex" justifyContent="space-between" alignItems="center">
 																	<Typography variant="h6">
 																		{medication.name} -{' '}
-																		{medication.associatedDrug
-																			? medication.associatedDrug.name
-																			: 'No Drug'}
+																		{medication.associatedDrug ? medication.associatedDrug.name : 'No Drug'}
 																	</Typography>
+																</Box>
+																<Box display="flex" justifyContent="space-between" alignItems="center">
 																	<Typography variant="body2" color="text.secondary">
 																		{medication.dose} mg -{' '}
 																		{medication.intakeQuantity}{' '}
-																		{medication.intakeQuantity > 1 
-																			? 'Pills'
-																			: 'Pill'}{' '}
+																		{medication.intakeQuantity > 1 ? 'Pills' : 'Pill'}{' '}
 																		-{' '}
-																		{new Date(
-																			medication.takenAt
-																		).toLocaleTimeString([], {
+																		{new Date(medication.takenAt).toLocaleTimeString([], {
 																			hour: '2-digit',
 																			minute: '2-digit',
 																		})}
 																	</Typography>
+																	<Styled3DButtonRed
+																		variant="contained"
+																		sx={{ width: '40%' }}
+																		onClick={() => {
+																			if (
+																				window.confirm(
+																					'Are you sure you want to delete this intake?'
+																				)
+																			) {
+																				deleteIntake(medication._id, medication.intakeId);
+																			}
+																		}}
+																	>
+																		Delete
+																	</Styled3DButtonRed>
 																</Box>
-																<Button
-																	variant="contained"
-																	color="primary"
-																	onClick={() => {
-																		if (
-																			window.confirm(
-																				'Are you sure you want to delete this intake?'
-																			)
-																		) {
-																			deleteIntake(
-																				medication._id,
-																				medication.intakeId
-																			);
-																		}
-																	}}
-																>
-																	Delete
-																</Button>
 															</Box>
 														</CardContent>
 													</Card>

@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { MedicationContext } from '../../contexts/MedicationContext';
-import { Card, CardContent, TextField, Button, InputAdornment, IconButton, Grid, Box } from '@mui/material';
+import { Card, CardContent, TextField, InputAdornment, IconButton, Grid, Box } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
 const MedicationIntakeForm = ({ medicationId, handleClose }) => {
 	const { createIntake, getAllMedications, getMedication } = useContext(MedicationContext);
@@ -55,10 +56,19 @@ const MedicationIntakeForm = ({ medicationId, handleClose }) => {
 	};
 
 	return (
-		<Card>
+		<Card
+			sx={{
+				border: '2px solid grey',
+				marginTop: 2,
+				marginBottom: 1,
+				boxShadow: (theme) =>
+					`0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
+				borderRadius: 4,
+			}}
+		>
 			<CardContent>
 				<form onSubmit={handleSubmit}>
-                <Grid container spacing={2} style={{margin: 0}}>
+					<Grid container spacing={2} style={{ margin: 0 }}>
 						<Grid item xs={4}>
 							<TextField
 								name="quantity"
@@ -92,25 +102,10 @@ const MedicationIntakeForm = ({ medicationId, handleClose }) => {
 							/>
 						</Grid>
 					</Grid>
-					<Box display="flex" justifyContent="center" mt={2}>
-						<Button
-							type="submit"
-							color="primary"
-							variant="contained"
-							sx={{
-								width: '45%',
-								color: 'black',
-								fontWeight: 'bolder',
-								fontFamily: 'Comfortaa',
-								borderRadius: 20,
-								zIndex: 1,
-								'&:hover': {
-									backgroundColor: (theme) => theme.palette.hoverGrey,
-								},
-							}}
-						>
+					<Box display="flex" justifyContent="center" alignItems="center" mt={2}>
+						<Styled3DButtonGreen type="submit" variant="contained">
 							Submit
-						</Button>
+						</Styled3DButtonGreen>
 					</Box>
 				</form>
 			</CardContent>

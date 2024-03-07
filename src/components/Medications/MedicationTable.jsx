@@ -8,19 +8,19 @@ import {
 	TableRow,
 	Paper,
 	Typography,
-	Button,
 	Dialog,
 	DialogTitle,
 	DialogContent,
 	TextField,
 	Box,
-	Divider,
 } from '@mui/material';
 import { MedicationContext } from '../../contexts/MedicationContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import MedicationIntakeForm from './MedicationIntakeForm';
 import AddMedicationForm from './AddMedicationForm';
 import { useTheme } from '@mui/material/styles';
+import { Styled3DButtonGreen, Styled3DButtonYellow } from '../../styles/mainLayoutStyles';
+
 
 function MedicationTable() {
 	const { medications, getAllMedications, addQuantity } = useContext(MedicationContext);
@@ -84,16 +84,24 @@ function MedicationTable() {
 	};
 
 	return (
-		<TableContainer component={Paper}>
+		<TableContainer
+			component={Paper}
+			sx={{
+				border: '2px solid grey',
+				boxShadow: (theme) =>
+					`0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
+				borderRadius: 4,
+			}}
+		>
 			<Table>
 				<TableHead sx={{ backgroundColor: (theme) => theme.palette.secondary.main }}>
 					<TableRow sx={{ backgroundColor: (theme) => theme.palette.third.main }}>
 						<TableCell colSpan={8}>
 							<Box display="flex" justifyContent="space-between" alignItems="center">
 								<Typography variant="h6">Medications</Typography>
-								<Button variant="contained" color="secondary" onClick={handleAddMedicationOpen}>
+								<Styled3DButtonYellow variant="contained" onClick={handleAddMedicationOpen} sx={{ width: '200px' }}>
 									Add Medication
-								</Button>
+								</Styled3DButtonYellow>
 							</Box>
 						</TableCell>
 					</TableRow>
@@ -103,9 +111,9 @@ function MedicationTable() {
 						<TableCell>Date Added</TableCell>
 						<TableCell>Dose</TableCell>
 						<TableCell>Frequency</TableCell>
-						<TableCell>Quantity Left</TableCell>
-						<TableCell>Refill</TableCell>
-						<TableCell>Add Intake</TableCell>
+						<TableCell sx={{ textAlign: 'center' }}>Quantity Remaining</TableCell>
+						<TableCell sx={{ textAlign: 'center' }}>Refill</TableCell>
+						<TableCell sx={{ textAlign: 'center' }}>Add Intake</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -119,7 +127,7 @@ function MedicationTable() {
 							<TableCell
 								sx={{ width: '150px' }}
 							>{`${medication.dose} ${medication.unitOfMeasurement}`}</TableCell>
-							<TableCell sx={{ width: '150px' }}>
+							<TableCell sx={{ width: '200px', textAlign: 'center' }}>
 								{medication.frequency.customFrequency && (
 									<div>{medication.frequency.customFrequency}</div>
 								)}
@@ -164,26 +172,26 @@ function MedicationTable() {
 									</div>
 								)}
 							</TableCell>
-							<TableCell sx={{ paddingLeft: '50px', width: '150px' }}>
+							<TableCell sx={{ paddingLeft: '40px', width: '80px' }}>
 								{isNaN(medication.quantity) ? <s>0</s> : medication.quantity}
 							</TableCell>
 							<TableCell>
-								<Button
+								<Styled3DButtonGreen
 									variant="contained"
-									color="primary"
 									onClick={() => handleRefillOpen(medication._id)}
+									sx={{ width: '100px' }}
 								>
 									Refill
-								</Button>
+								</Styled3DButtonGreen>
 							</TableCell>
 							<TableCell>
-								<Button
+								<Styled3DButtonGreen
 									variant="contained"
-									color="primary"
 									onClick={() => handleClickOpen(medication._id)}
+									sx={{ width: '150px' }}
 								>
 									Add Intake
-								</Button>
+								</Styled3DButtonGreen>
 							</TableCell>
 						</TableRow>
 					))}
@@ -201,9 +209,11 @@ function MedicationTable() {
 						value={refillAmount}
 						onChange={(e) => setRefillAmount(e.target.value)}
 					/>
-					<Button onClick={handleRefillSubmit} color="primary">
-						Submit
-					</Button>
+					<Box display="flex" justifyContent="center" alignItems="center" mt={2}>
+						<Styled3DButtonGreen type="submit" variant="contained" onClick={handleRefillSubmit}>
+							Submit
+						</Styled3DButtonGreen>
+					</Box>
 				</DialogContent>
 			</Dialog>
 			<Dialog open={open} onClose={handleClose}>

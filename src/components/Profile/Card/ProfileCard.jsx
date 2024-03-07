@@ -8,7 +8,6 @@ import BuddyIcon from '@mui/icons-material/People';
 import HomeIcon from '@mui/icons-material/Home';
 import Avatar from '@mui/material/Avatar';
 import { FaPersonHalfDress } from 'react-icons/fa6';
-
 import { ProfileContext } from '../../../contexts/ProfileContext';
 import { formatPhoneNumber } from '../../../helpers/phoneNumberFormat';
 import { useTheme } from '@mui/material/styles';
@@ -22,11 +21,14 @@ const ProfileCard = () => {
 	useEffect(() => {
 		const profile = profiles.find((profile) => profile._id === profileId);
 		if (profile) {
-			profile.doctors = doctors;
-			profile.abuddies = abuddies;
-			profile.pharmacy = pharmacies;
+			const updatedProfile = {
+				...profile,
+				doctors: doctors,
+				abuddies: abuddies,
+				pharmacy: pharmacies,
+			};
+			setCurrentProfile(updatedProfile);
 		}
-		setCurrentProfile(profile);
 	}, [profiles, profileId, doctors, abuddies, pharmacies]);
 
 	return (
@@ -36,12 +38,11 @@ const ProfileCard = () => {
 					sx={{
 						marginTop: 2,
 						marginBottom: 1,
-						backgroundColor: theme.palette.primary.main,
 						boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
 						borderRadius: 4,
 					}}
 				>
-					<AppBar position="static" style={{ backgroundColor: theme.palette.third.main }}>
+					<AppBar position="sticky" style={{ backgroundColor: theme.palette.third.main,borderRadius: 4 }} elevation={4}>
 						<Toolbar>
 							<Box sx={{ flexGrow: 1 }}>
 								<Typography variant="h6" component="div" color="#000">
@@ -62,7 +63,7 @@ const ProfileCard = () => {
 						</Toolbar>
 					</AppBar>
 					<Box position="relative">
-						<CardContent>
+						<CardContent sx={{ backgroundColor: 'white' }}>
 							{currentProfile && (
 								<Grid container>
 									<Grid item xs={5}>

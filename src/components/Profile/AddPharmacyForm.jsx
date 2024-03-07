@@ -5,7 +5,7 @@ import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
 import { states } from '../../helpers/states';
 import { useTheme } from '@mui/material/styles';
-import { Styled3DButton } from '../../styles/mainLayoutStyles';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 function AddPharmacyForm() {
 	const nameRef = useRef();
 	const streetRef = useRef();
@@ -66,7 +66,7 @@ function AddPharmacyForm() {
 	return (
 		<Card
 			sx={{
-				maxWidth: 500,
+				maxWidth: 550,
 				backgroundColor: theme.palette.secondary.main,
 				boxShadow: '-5px 5px 15px rgba(0, 0, 0, 0.8)',
 				borderRadius: 4,
@@ -77,16 +77,55 @@ function AddPharmacyForm() {
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 					<Grid container spacing={2}>
 						<Grid item xs={6}>
-							<TextField inputRef={nameRef} label="Name" required fullWidth />
+							<TextField
+								inputRef={nameRef}
+								label="Name"
+								required
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={6}>
-							<PhoneNumberInput ref={phoneNumberRef} value={phoneNumber} onChange={setPhoneNumber} />
+							<PhoneNumberInput
+								ref={phoneNumberRef}
+								value={phoneNumber}
+								onChange={setPhoneNumber}
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField inputRef={streetRef} label="Street" required fullWidth />
+							<TextField
+								inputRef={streetRef}
+								label="Street"
+								required
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={5}>
-							<TextField inputRef={cityRef} label="City" required fullWidth />
+							<TextField
+								inputRef={cityRef}
+								label="City"
+								required
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={5}>
 							<Autocomplete
@@ -94,11 +133,36 @@ function AddPharmacyForm() {
 								options={states}
 								autoHighlight
 								autoSelect
+								sx={{
+									'& .MuiAutocomplete-root': {
+										backgroundColor: '#f9c47f',
+									},
+									'& .MuiInputBase-root': {
+										backgroundColor: '#f9c47f',
+									},
+									'& .MuiAutocomplete-inputRoot[class*="MuiInput-root"]': {
+										backgroundColor: '#f9c47f',
+									},
+									'& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input': {
+										backgroundColor: '#f9c47f',
+									},
+									'& .MuiAutocomplete-listbox': {
+										backgroundColor: '#f9c47f',
+									},
+									'& .MuiAutocomplete-option': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
 								getOptionLabel={(option) => option.name}
 								onInputChange={(event, newValue) => {
 									setState(newValue);
 								}}
-								renderInput={(params) => <TextField {...params} label="State" />}
+								renderInput={(params) => (
+									<TextField
+										{...params}
+										label="State"
+									/>
+								)}
 							/>
 						</Grid>
 						<Grid item xs={2}>
@@ -107,6 +171,11 @@ function AddPharmacyForm() {
 								label="Zip"
 								required
 								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
 								inputProps={{
 									inputMode: 'numeric',
 									maxLength: 5,
@@ -120,9 +189,9 @@ function AddPharmacyForm() {
 							/>
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Styled3DButton type="submit" variant="contained" color="secondary">
+							<Styled3DButtonGreen type="submit" variant="contained" color="secondary">
 								Add Pharmacy
-							</Styled3DButton>
+							</Styled3DButtonGreen>
 						</Grid>
 					</Grid>
 				</Box>

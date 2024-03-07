@@ -15,6 +15,7 @@ import {
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import { ProfileContext } from '../contexts/ProfileContext';
 import NotificationCard from '../components/Notifications/NotificationCard';
+import { Styled3DButtonRed, Styled3DButtonYellow } from '../styles/mainLayoutStyles';
 
 function NotificationsPage() {
 	const { notifications, deleteNotification, getAllNotifications, deleteAllNotifications } =
@@ -67,7 +68,15 @@ function NotificationsPage() {
 	return (
 		<Grid container rowSpacing={3} columnSpacing={3}>
 			<Grid item xs={6}>
-				<Card>
+				<Card
+					sx={{
+						border: '2px solid grey',
+						marginTop: 2,
+						marginBottom: 1,
+						boxShadow: (theme) => `0 5px 5px ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'}`,
+						borderRadius: 4,
+					}}
+				>
 					<CardContent>
 						<Typography variant="h4" component="h1" gutterBottom>
 							Notifications
@@ -105,9 +114,9 @@ function NotificationsPage() {
 									/>
 								</Button>
 							</Box>
-							<Button variant="contained" color="primary" onClick={handleOpen}>
+							<Styled3DButtonRed variant="contained" onClick={handleOpen} sx={{ width: '150px' }}>
 								Dismiss All
-							</Button>
+							</Styled3DButtonRed>
 						</Box>
 						<Grid container rowSpacing={3} columnSpacing={3}>
 							{sortedNotifications.map((notification) => (
@@ -133,12 +142,14 @@ function NotificationsPage() {
 							</DialogContentText>
 						</DialogContent>
 						<DialogActions>
-							<Button variant="contained" onClick={handleClose} color="secondary">
-								Cancel
-							</Button>
-							<Button variant="contained" onClick={handleDeleteAll} color="primary" autoFocus>
-								Yes, Dismiss All
-							</Button>
+							<Box display="flex" justifyContent="space-between" width="100%">
+								<Styled3DButtonYellow variant="contained" onClick={handleClose} sx={{ width: '45%'}}>
+									Cancel
+								</Styled3DButtonYellow>
+								<Styled3DButtonRed variant="contained" onClick={handleDeleteAll} autoFocus sx={{ width: '45%'}}>
+									Yes, Dismiss All
+								</Styled3DButtonRed>
+							</Box>
 						</DialogActions>
 					</Dialog>
 				</Card>

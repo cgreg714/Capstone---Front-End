@@ -76,7 +76,7 @@ function Profile() {
 	return (
 		<Grid container rowSpacing={3}>
 			<Grid item xs={12}>
-				<Card sx={{ border: '3px solid black', borderRadius: 4 }}>
+				<Card sx={{ border: '2px solid grey', borderRadius: 4 }}>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 						<Tabs
 							value={value}
@@ -88,11 +88,11 @@ function Profile() {
 								borderBottom: '2px solid black',
 							}}
 						>
-							<Tab label="Profile" />
-							<Tab label="Doctors" />
-							<Tab label="Pharmacies" />
-							<Tab label="Emergency Contacts" />
-							<Tab label="Add Profile" />
+							<Tab label="Profile" style={{ color: '#000', fontWeight: 'bold' }} />
+							<Tab label="Doctors" style={{ color: '#000', fontWeight: 'bold' }} />
+							<Tab label="Pharmacies" style={{ color: '#000', fontWeight: 'bold' }} />
+							<Tab label="Emergency Contacts" style={{ color: '#000', fontWeight: 'bold' }} />
+							<Tab label="Add Profile" style={{ color: '#000', fontWeight: 'bold' }} />
 						</Tabs>
 					</Box>
 					<TabPanel value={value} index={0}>

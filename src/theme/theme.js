@@ -33,18 +33,23 @@ const lightTheme = createTheme({
 	palette: {
 		primary: {
 			main: '#F06060',
+			dark: '#903A3A',
 		},
 		secondary: {
 			main: '#F3B462',
+			dark: '#916C3A',
 		},
 		third: {
 			main: '#8DBFB3',
+			dark: '#55736C',
 		},
 		fourth: {
-			main: '#424874',
+			main: '#59619B',
+			dark: '#3E446D',
 		},
 		fifth: {
 			main: '#62A66A',
+			dark: '#3B633F',
 		},
 		background: {
 			default: '#E5E5E5',
@@ -63,18 +68,23 @@ const darkTheme = createTheme({
 		mode: 'dark',
 		primary: {
 			main: '#F06060',
+			dark: '#903A3A',
 		},
 		secondary: {
 			main: '#F3B462',
+			dark: '#916C3A',
 		},
 		third: {
 			main: '#42766A',
+			dark: '#27463F',
 		},
 		fourth: {
 			main: '#59619B',
+			dark: '#3E446D',
 		},
 		fifth: {
 			main: '#62A66A',
+			dark: '#3B633F',
 		},
 		background: {
 			default: '#363732',

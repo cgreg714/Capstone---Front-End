@@ -4,7 +4,7 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import PhoneNumberInput from '../Profile/PhoneNumberInput';
 import { useTheme } from '@mui/material/styles';
-import { Styled3DButton } from '../../styles/mainLayoutStyles';
+import { Styled3DButtonGreen } from '../../styles/mainLayoutStyles';
 
 function AddDoctorForm() {
 	const firstNameRef = useRef();
@@ -67,18 +67,47 @@ function AddDoctorForm() {
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 					<Grid container spacing={2}>
 						<Grid item xs={6}>
-							<TextField inputRef={firstNameRef} label="First Name" required fullWidth />
+							<TextField
+								inputRef={firstNameRef}
+								label="First Name"
+								required
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={6}>
-							<TextField inputRef={lastNameRef} label="Last Name" required fullWidth />
+							<TextField
+								inputRef={lastNameRef}
+								label="Last Name"
+								required
+								fullWidth
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={12}>
-							<PhoneNumberInput ref={phoneNumberRef} value={phoneNumber} onChange={setPhoneNumber} />
+							<PhoneNumberInput
+								ref={phoneNumberRef}
+								value={phoneNumber}
+								onChange={setPhoneNumber}
+								sx={{
+									'& .MuiInputBase-input': {
+										backgroundColor: '#f9c47f',
+									},
+								}}
+							/>
 						</Grid>
 						<Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-							<Styled3DButton type="submit" variant="contained" color="secondary">
+							<Styled3DButtonGreen type="submit" variant="contained" color="secondary">
 								Add Doctor
-							</Styled3DButton>
+							</Styled3DButtonGreen>
 						</Grid>
 					</Grid>
 				</Box>

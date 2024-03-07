@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import { Styled3DButtonRed, Styled3DButtonGreen } from '../../../styles/mainLayoutStyles';
 
 const ConfirmationDialog = ({ open, handleClose, handleConfirm, title, message }) => {
 	return (
@@ -14,12 +15,12 @@ const ConfirmationDialog = ({ open, handleClose, handleConfirm, title, message }
 				<DialogContentText id="alert-dialog-description">{message}</DialogContentText>
 			</DialogContent>
 			<DialogActions sx={{ justifyContent: 'space-between' }}>
-				<Button variant="contained" onClick={handleClose} color="third">
+				<Styled3DButtonRed variant="contained" onClick={handleClose}>
 					Cancel
-				</Button>
-				<Button variant="contained" onClick={handleConfirm} color="primary" autoFocus>
+				</Styled3DButtonRed>
+				<Styled3DButtonGreen variant="contained" onClick={handleConfirm} autoFocus>
 					Confirm
-				</Button>
+				</Styled3DButtonGreen>
 			</DialogActions>
 		</Dialog>
 	);
